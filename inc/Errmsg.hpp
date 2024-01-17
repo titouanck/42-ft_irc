@@ -6,17 +6,17 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 12:11:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/17 12:45:25 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/17 13:59:05 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERRMSG_HPP
 	#define ERRMSG_HPP
 	
-	#include <cerrno>
 	#include <string>
 	#include <iostream>
 	#include <sstream>
+	#include <cerrno>
 	#include <map>
 
 /* ************************************************************************** */
@@ -34,12 +34,11 @@
 
 	/* bind() *************************************************************** */
 	
-	#define BIND_EACCES			"The address is protected, and the user is not the superuser."
+	#define BIND_EACCES			"The address is protected, and the user is not the superuser. / Search permission is denied on a component of the path prefix."
 	#define BIND_EADDRINUSE		"The given address is already in use."
 	#define BIND_EBADF			"sockfd is not a valid file descriptor."
 	#define BIND_EINVAL			"The socket is already bound to an address. / addrlen is wrong, or addr is not a valid address for this socket's domain."
 	#define BIND_ENOTSOCK		"The file descriptor sockfd does not refer to a socket."
-	#define BIND_EACCESS		"Search permission is denied on a component of the path prefix.  (See also  path_resolution(7).)"
 	#define BIND_EADDRNOTAVAIL	"A nonexistent interface was requested or the requested address was not local."
 	#define BIND_EFAULT			"addr points outside the user's accessible address space."
 	#define BIND_ELOOP			"Too many symbolic links were encountered in resolving addr."
