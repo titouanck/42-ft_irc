@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:28 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/17 12:00:19 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/17 18:07:36 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 /* ************************************************************************** */
 
+void			checkArgs(int argc);
 unsigned int	portParsing(std::string str);
 std::string		passwordParsing(std::string str);
 
