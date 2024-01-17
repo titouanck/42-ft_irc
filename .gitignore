@@ -3,4 +3,4 @@ objs/
 *.o
 
 # Executable
-ft_irc
+ircserv
