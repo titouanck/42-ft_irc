@@ -30,7 +30,7 @@ ${NAME}:  ${OBJS_FILES}
 
 ${OBJS_FILES}: ${OBJS_PATH}/%.o: %.cpp ${DEPENDENCIES}
 	@mkdir -p ${OBJS_PATH}
-	@${CC} ${CFLAGS} -c $< -o $@ -I ${INC_PATH}
+	@${CC} ${CFLAGS} -c $< -o $@ -I ${INC_PATH} -D EXECUTABLE=\"$(NAME)\"
 
 # ********************************************************************** #
 
