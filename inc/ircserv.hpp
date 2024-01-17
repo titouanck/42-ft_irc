@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:14:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/17 15:24:59 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/17 21:12:50 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 	#include <unistd.h>
 	#include <netdb.h>
 
+	typedef struct sockaddr_storage SOCKADDR_STORAGE;
 	typedef struct sockaddr_in SOCKADDR_IN;
-	typedef struct sockaddr SOCKADDR;
+	typedef struct sockaddr_in6 SOCKADDR_IN6;
 	typedef struct in_addr IN_ADDR;
 
 /* ************************************************************************** */
