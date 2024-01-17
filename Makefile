@@ -10,6 +10,7 @@ SRCS_FILES = $(shell find srcs/ -name '*.cpp' -exec basename {} \;)
 INC_PATH = inc/
 HPP_FILES = $(shell find inc/ -name '*.hpp' -exec basename {} \;)
 TPP_FILES = $(shell find inc/ -name '*.tpp' -exec basename {} \;)
+H___FILES = $(shell find inc/ -name '*.h'   -exec basename {} \;)
 
 OBJS_PATH = objs/
 OBJS_FILES = ${patsubst %.cpp, ${OBJS_PATH}/%.o, ${SRCS_FILES}}
@@ -17,6 +18,7 @@ OBJS_FILES = ${patsubst %.cpp, ${OBJS_PATH}/%.o, ${SRCS_FILES}}
 DEPENDENCIES = Makefile
 DEPENDENCIES += $(shell echo ${HPP_FILES} | sed 's/[^ ]* */inc\/&/g')
 DEPENDENCIES += $(shell echo ${TPP_FILES} | sed 's/[^ ]* */inc\/&/g')
+DEPENDENCIES += $(shell echo ${H___FILES} | sed 's/[^ ]* */inc\/&/g')
 
 vpath %.cpp ${SRCS_PATH}
 

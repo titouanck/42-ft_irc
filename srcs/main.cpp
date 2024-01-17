@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/17 11:31:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/17 17:55:01 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,10 @@ int	main(int argc, char **argv)
 	unsigned int	port;
 	std::string		password;
 
-	if (argc != 3)
-	{
-		std::cerr << "usage: ./" << EXECUTABLE << " <port> <password>" << '\n';
-		return 1;
-	}
-
 	try
 	{
-		port	 = portParsing(argv[1]);
+		checkArgs(argc);
+		port = portParsing(argv[1]);
 		password = passwordParsing(argv[2]);
 		ircserv(port, password);
 	}
@@ -41,14 +36,20 @@ int	main(int argc, char **argv)
 
 /* ************************************************************************** */
 
+void	checkArgs(int argc)
+{
+	if (argc != 3)
+		throw std::runtime_error(static_cast<std::string>("usage: ./") + EXECUTABLE + " <port> <password>");
+}
+
 unsigned int	portParsing(std::string str)
 {
 	int		nbr;
 	char	*ptr;
 
 	nbr = std::strtod(str.c_str(), &ptr);
-	if (nbr < 0 || nbr > 65535 || ptr != (str.c_str() + str.length()))
-		throw std::runtime_error("Error: invalid port. [0 - 65535]");
+	if (nbr < 1024 || nbr > 65535 || ptr != (str.c_str() + str.length()))
+		throw std::runtime_error("Error: invalid port. [1024 - 65535]");
 	return static_cast<unsigned int>(nbr);	
 }
 
