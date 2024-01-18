@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:49:28 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/17 21:43:11 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/18 14:05:41 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,14 @@
 
 Socket::Socket(unsigned int port, std::string password) : _port(port), _password(password)
 {
-	this->_sinIPv4.sin_family = AF_INET;
-	this->_sinIPv4.sin_addr.s_addr = INADDR_ANY;
-	this->_sinIPv4.sin_port = htons(port);
+	this->_sin6.sin6_family = AF_INET6;
+	this->_sin6.sin6_addr = in6addr_any;
+	this->_sin6.sin6_port = htons(port);
 
-	this->_sinIPv6.sin6_family = AF_INET6;
-	this->_sinIPv6.sin6_addr = in6addr_any;
-	this->_sinIPv6.sin6_port = htons(port + 1);
-
-	this->_sockfdIPv4 = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	this->_sockfdIPv6 = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
-
-	try
+	if (!this->initSocket() || !this->initBind() || !this->initListen())
 	{
-		this->s_socket();	
-		this->s_bind();	
-	}
-	catch (...)
-	{
-		throw ;
+		this->closeAll();
+		throw std::runtime_error(std::strerror(errno));
 	}
 }
 
@@ -44,53 +33,36 @@ Socket::~Socket()
 
 /* ************************************************************************** */
 
-void	Socket::s_socket()
+bool	Socket::initSocket()
 {
-	std::string	errmsg;
+	this->_sockfd = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
+	if (this->_sockfd == -1)
+		return false;
 
-	this->_sockfdIPv4 = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (this->_sockfdIPv4 == -1)
-	{
-		errmsg = "socket() IPv4: ";
-		throw std::runtime_error(errmsg + std::strerror(errno));
-	}
-	this->_sockfdIPv6 = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
-	if (this->_sockfdIPv6 == -1)
-	{
-		errmsg = "socket() IPv6: ";
-		close(this->_sockfdIPv4);
-		throw std::runtime_error(errmsg + std::strerror(errno));
-	}
+	return true;
 }
 
-void	Socket::s_bind()
+bool	Socket::initBind()
 {
-	std::string	errmsg;
-
-	if (bind(this->_sockfdIPv4, (SOCKADDR *)&(this->_sinIPv4), sizeof(this->_sinIPv4)) == -1)
-		errmsg = "bind() IPv4: ";
-	else if (bind(this->_sockfdIPv6, (SOCKADDR *)&(this->_sinIPv6), sizeof(this->_sinIPv6)) == -1)
-		errmsg = "bind() IPv6: ";
-	else
-		return ;
-	close(this->_sockfdIPv4);
-	close(this->_sockfdIPv6);
-	throw std::runtime_error(errmsg + std::strerror(errno));
+	if (this->_sockfd == -1 || bind(this->_sockfd, (SOCKADDR *)&(this->_sin6), sizeof(this->_sin6)) == -1)
+		return false;
+	return true;
 }
 
-void	Socket::s_listen()
+bool	Socket::initListen()
 {
-	std::string	errmsg;
+	if (this->_sockfd == -1 || listen(this->_sockfd, 2) == -1)
+		return false;
+	return true;
+}
 
-	if (listen(this->_sockfdIPv4, 2) == -1)
-		errmsg = "listen() IPv4:";
-	else if (listen(this->_sockfdIPv6, 2) == -1)
-		errmsg = "listen() IPv6:";
-	else
-		return ;
-	close(this->_sockfdIPv4);
-	close(this->_sockfdIPv6);
-	throw std::runtime_error(errmsg + std::strerror(errno));
+/* ************************************************************************** */
+
+void	Socket::closeSocket()
+{
+	if (this->_sockfd != -1)
+		close(this->_sockfd);
+	this->_sockfd = -1;
 }
 
 /* PRIVATE ****************************************************************** */
