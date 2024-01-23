@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:42:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/18 14:04:19 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/23 11:44:42 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Socket
 		Socket(unsigned int port, std::string password);
 		~Socket();
 
+		bool	init();
 		bool	initSocket();
 		bool	initBind();
 		bool	initListen();
