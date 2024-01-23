@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:13:48 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/23 15:13:20 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/23 15:15:21 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	ircserv(unsigned int port, std::string password)
 				std::cout << "Client disconnected" << '\n';
 				break ;
 			}
-			std::cout << buffer << '\n';
+			std::cout << buffer;
 			send(clientSocket, buffer, bytesReceived + 1, 0);
 		}
 		close(clientSocket);
