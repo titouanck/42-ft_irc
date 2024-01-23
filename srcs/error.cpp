@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ircserv.hpp                                        :+:      :+:    :+:   */
+/*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/17 10:14:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/23 20:19:06 by titouanck        ###   ########.fr       */
+/*   Created: 2024/01/23 19:46:00 by titouanck         #+#    #+#             */
+/*   Updated: 2024/01/23 19:51:50 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRCSERV_HPP
-	#define IRCSERV_HPP
-	#include <errno.h>
-	#include <arpa/inet.h>
-	#include <cstring>
-	#include <string>
-	#include <iostream>
-	#include <sstream>
-	#include <sys/types.h>
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
-	#include <unistd.h>
-	#include <netdb.h>
+#include "error.hpp"
 
 /* ************************************************************************** */
 
-bool		ircserv(unsigned int port, std::string password);
+void	printError(std::string str)
+{
+	std::cout << "Error in " << str << ": " << std::strerror(errno) << '\n';
+}
+
+void	errorWith(std::string str)
+{
+	std::cout << "Error with " << str << ": " << std::strerror(errno) << '\n';
+}
 
 /* ************************************************************************** */
-
-#endif

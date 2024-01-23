@@ -6,68 +6,100 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:13:48 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/23 15:15:21 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/23 20:52:05 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Socket.hpp"
+#include "Server.hpp"
 #include "ircserv.hpp"
 #include <stdio.h>
-#include "get_next_line.h"
+
+#define MAX_CLIENTS 10
+#define BUFFER_SIZE 4096
 
 /* ************************************************************************** */
 
-bool	ircserv(unsigned int port, std::string password)
+void	handleConnection(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&clients)[MAX_CLIENTS])
 {
-	Socket		sock(port, password);
-	int			clientSocket;
-	socklen_t	addrlen;
+	SOCKET		clientSocket;
+	Sockaddr_in	clientAddr;
+	socklen_t	clientLen;
+	int 		i;
 
-	if (!sock.init())
-		return false;
-	while (true)
+	if (pollfds[0].revents != POLLIN)
+		return ;
+	clientLen = sizeof(clientAddr);
+	clientSocket = accept(server.getSocket(), (Sockaddr *)&clientAddr, &clientLen);
+	if (clientSocket == -1)
+		return printError("accept"), static_cast<void>(0);
+	for (i = 0; i < MAX_CLIENTS; ++i)
 	{
-		clientSocket = accept(sock._sockfd, (SOCKADDR *)&sock._sin6, &addrlen);
-	
-		/* ********************************************************************** */
-	
-		char		host[NI_MAXHOST];
-		char		serv[NI_MAXSERV];
-		
-		bzero(host, NI_MAXHOST);
-		bzero(serv, NI_MAXSERV);
-		if (getnameinfo((SOCKADDR *)&sock._sin6, addrlen, host, NI_MAXHOST, serv, NI_MAXSERV, 0) == 0)
-			std::cout << host << " connected on port " << serv << '\n';
-		else
+		if (clients[i].fd == 0)
 		{
-			inet_ntop(AF_INET6, &sock._sin6.sin6_addr, host, NI_MAXHOST);
-			std::cout << host << " connected on the port " << ntohs(sock._sin6.sin6_port) << '\n';
+			clients[i].fd = clientSocket;
+			std::cout << "New client connection on socket " << clientSocket << '\n';
+			break;
 		}
-		
-		/* ********************************************************************** */
-		
-		char	buffer[4096];
-		ssize_t	bytesReceived;
-
-		while (true)
-		{
-			bzero(buffer, 4096);
-			bytesReceived = recv(clientSocket, buffer, 4096, 0);
-			if (bytesReceived == -1)
-			{
-				std::cerr << "Error in bytesReceived: " << std::strerror(errno) << '\n';
-				break ;
-			}
-			else if (bytesReceived == 0)
-			{
-				std::cout << "Client disconnected" << '\n';
-				break ;
-			}
-			std::cout << buffer;
-			send(clientSocket, buffer, bytesReceived + 1, 0);
-		}
+	}
+	if (i == MAX_CLIENTS)
+	{
+		std::cout << "Too many clients. Disconnecting socket " << clientSocket << '\n';
 		close(clientSocket);
 	}
+	pollfds[i + 1].fd = clientSocket;
+	pollfds[i + 1].events = POLLIN;
+}
+
+void	readSocket(Pollfd (&pollfds)[MAX_CLIENTS + 1], int i)
+{
+	ssize_t bytesRead;
+	char 	buffer[BUFFER_SIZE];
+
+	bytesRead = read(pollfds[i].fd, buffer, sizeof(buffer));
+	if (bytesRead <= 0)
+	{
+		std::cout << "Client disconnected from socket " << pollfds[i].fd << '\n';
+		close(pollfds[i].fd);
+		pollfds[i].fd = 0;
+		return ;
+	}
+	buffer[bytesRead] = '\0';
+	std::cout << "Message from socket client " << pollfds[i].fd << " : " << buffer;
+	for (int j = 1; j <= MAX_CLIENTS; ++j)
+	{
+		if (pollfds[j].fd != pollfds[i].fd && pollfds[j].fd != 0)
+			write(pollfds[j].fd, buffer, static_cast<std::string>(buffer).length());
+	}
+}
+
+bool	ircserv(unsigned int port, std::string password)
+{
+	Server	server(port, password);
+	Pollfd	pollfds[MAX_CLIENTS + 1];
+	Client	clients[MAX_CLIENTS];
+	int		result;
+
+	if (!server.init())
+		return false;
+    bzero(pollfds, sizeof(pollfds));
+    bzero(clients, sizeof(clients));
+	pollfds[0].fd = server.getSocket();
+    pollfds[0].events = POLLIN;
+
+	while (true)
+	{
+		result = poll(pollfds, MAX_CLIENTS + 1, -1);
+        if (result == -1)
+			return printError("poll"), false;
+		handleConnection(server, pollfds, clients);
+		for (int i = 1; i <= MAX_CLIENTS; ++i)
+		{
+            if (pollfds[i].revents != POLLIN)
+				continue ;
+			readSocket(pollfds, i);
+		}
+	}
+	close(server.getSocket());
 	return true;
 }
 

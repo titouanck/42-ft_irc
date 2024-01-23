@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ircserv.hpp                                        :+:      :+:    :+:   */
+/*   error.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/17 10:14:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/23 20:19:06 by titouanck        ###   ########.fr       */
+/*   Created: 2024/01/23 19:48:31 by titouanck         #+#    #+#             */
+/*   Updated: 2024/01/23 19:51:50 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRCSERV_HPP
-	#define IRCSERV_HPP
-	#include <errno.h>
-	#include <arpa/inet.h>
-	#include <cstring>
+#ifndef ERROR_HPP
+	#define ERROR_HPP
 	#include <string>
 	#include <iostream>
-	#include <sstream>
-	#include <sys/types.h>
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
-	#include <unistd.h>
-	#include <netdb.h>
+	#include <errno.h>
+	#include <cstring>
 
 /* ************************************************************************** */
 
-bool		ircserv(unsigned int port, std::string password);
+void	printError(std::string str);
+void	errorWith(std::string str);
 
 /* ************************************************************************** */
 
