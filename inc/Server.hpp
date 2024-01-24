@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:42:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 08:57:30 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 11:13:53 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 
 	typedef struct s_Client
 	{
-		SOCKET	fd;
-		char	NICKNAME[10];
-	}			Client;
+		SOCKET			fd;
+		Sockaddr_in6	addr;
+		socklen_t		len;
+		char			nickname[10];
+	}					Client;
 
 /* ************************************************************************** */
 

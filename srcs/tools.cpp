@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:46:00 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 11:03:26 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 11:09:04 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ std::string	getHostInfo(Sockaddr_in6 addr)
 	{
 		if (ip.length() >= 7 && ip.substr(0, 7) == "::ffff:")
 			ip = ip.substr(7);
-		oss << name << " (" << ip << ")";
+		oss << name;
+		// oss << name << " (" << ip << ")";
 	}
 	else
 	{
