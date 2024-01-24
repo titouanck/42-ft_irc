@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:13:48 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 09:41:41 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 10:57:03 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ void	handleConnection(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client
 		if (clients[i].fd == 0)
 		{
 			clients[i].fd = clientSocket;
-			std::cout << "New client connection on socket " << clientSocket << '\n';
-			std::cout << getHostIPv6(clientAddress) << '\n';
-			std::cout << getHostName(clientAddress) << '\n';
+			std::cout << "New client connection from " << getHostInfo(clientAddress) << " on socket " << clientSocket << '\n';
 			break;
 		}
 	}

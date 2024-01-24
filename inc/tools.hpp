@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:48:31 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 09:41:52 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 11:00:34 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@
 	#include <arpa/inet.h>
 	#include <unistd.h>
 	#include <netdb.h>
+	#include <iostream>
+	#include <algorithm>
+	#include <cctype>
+	#include <string>
+
+	#define RED "\033[0;31m"
+	#define BLUE "\033[0;34m"
+	#define NC "\033[0m"
 
 	typedef int					SOCKET;
 	typedef struct sockaddr 	Sockaddr;
@@ -36,9 +44,10 @@
 /* ************************************************************************** */
 
 void			printError(std::string str);
-std::string		getHostIPv6(Sockaddr_in6 clientAddress);
+std::string		getHostIp(Sockaddr_in6 clientAddress);
 std::string		getHostName(Sockaddr_in6 address);
-void *get_in_addr(struct sockaddr *sa);
+std::string		getHostInfo(Sockaddr_in6 addr);
+void 			*get_in_addr(struct sockaddr *sa);
 
 /* ************************************************************************** */
 
