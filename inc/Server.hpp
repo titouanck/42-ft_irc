@@ -6,21 +6,13 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:42:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 11:13:53 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 21:17:01 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 	#define SERVER_HPP
 	#include "tools.hpp"
-
-	typedef struct s_Client
-	{
-		SOCKET			fd;
-		Sockaddr_in6	addr;
-		socklen_t		len;
-		char			nickname[10];
-	}					Client;
 
 /* ************************************************************************** */
 

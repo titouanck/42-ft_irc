@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.hpp                                          :+:      :+:    :+:   */
+/*   connections.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 19:48:31 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 21:36:15 by titouanck        ###   ########.fr       */
+/*   Created: 2024/01/24 14:53:26 by titouanck         #+#    #+#             */
+/*   Updated: 2024/01/24 16:16:27 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOOLS_HPP
-	#define TOOLS_HPP
-	#include "Client.hpp"
+#ifndef CONNECTIONS_HPP
+	#define CONNECTIONS_HPP
+	
+	#include "tools.hpp"
+	#include "Server.hpp"
 
-	#define RED "\033[0;31m"
-	#define GREEN "\033[0;32m"
-	#define ORANGE "\033[0;33m"
-	#define BLUE "\033[0;34m"
-	#define NC "\033[0m"
-
-	#define MAX_CLIENTS 2
+	typedef unsigned char	connStatus;
 
 /* ************************************************************************** */
 
-void			printError(std::string str);
+void	removeConn(Pollfd &pollfd, Client &client, int nbr);
+void	handleConn(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&clients)[MAX_CLIENTS + 1]);
 
 /* ************************************************************************** */
 

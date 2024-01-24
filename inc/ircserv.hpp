@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:14:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/23 20:19:06 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 14:58:06 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 	#include <arpa/inet.h>
 	#include <unistd.h>
 	#include <netdb.h>
+	#include "connections.hpp"
 
 /* ************************************************************************** */
 
