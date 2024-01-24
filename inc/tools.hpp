@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:48:31 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 08:47:14 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 09:41:52 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,18 @@
 	#include <unistd.h>
 	#include <netdb.h>
 
+	typedef int					SOCKET;
+	typedef struct sockaddr 	Sockaddr;
+	typedef struct sockaddr_in6	Sockaddr_in6;
+	typedef struct sockaddr_in	Sockaddr_in;
+	typedef struct pollfd		Pollfd;
+
 /* ************************************************************************** */
 
-void		printError(std::string str);
-std::string	getHostName(const sockaddr *addr, socklen_t addrlen);
+void			printError(std::string str);
+std::string		getHostIPv6(Sockaddr_in6 clientAddress);
+std::string		getHostName(Sockaddr_in6 address);
+void *get_in_addr(struct sockaddr *sa);
 
 /* ************************************************************************** */
 

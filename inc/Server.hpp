@@ -6,19 +6,13 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:42:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 08:47:09 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 08:57:30 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 	#define SERVER_HPP
 	#include "tools.hpp"
-	
-	typedef int					SOCKET;
-	typedef struct sockaddr 	Sockaddr;
-	typedef struct sockaddr_in6	Sockaddr_in6;
-	typedef struct sockaddr_in	Sockaddr_in;
-	typedef struct pollfd		Pollfd;
 
 	typedef struct s_Client
 	{

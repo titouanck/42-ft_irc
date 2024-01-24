@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:13:48 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 08:52:33 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 09:41:41 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 
 void	handleConnection(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&clients)[MAX_CLIENTS])
 {
-	SOCKET		clientSocket;
-	Sockaddr_in	clientAddr;
-	socklen_t	clientLen;
-	int 		i;
+	SOCKET			clientSocket;
+	Sockaddr_in6	clientAddress;
+	socklen_t		clientLen;
+	int 			i;
 
-	clientLen = sizeof(clientAddr);
-	clientSocket = accept(server.getSocket(), (Sockaddr *)&clientAddr, &clientLen);
+	clientLen = sizeof(clientAddress);
+	clientSocket = accept(server.getSocket(), (Sockaddr *)&clientAddress, &clientLen);
 	if (clientSocket == -1)
 		return printError("accept"), static_cast<void>(0);
 	for (i = 0; i < MAX_CLIENTS; ++i)
@@ -36,7 +36,8 @@ void	handleConnection(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client
 		{
 			clients[i].fd = clientSocket;
 			std::cout << "New client connection on socket " << clientSocket << '\n';
-			std::cout << "client hostname [" << getHostName((sockaddr *)&clientAddr, clientLen) << "]" << '\n';
+			std::cout << getHostIPv6(clientAddress) << '\n';
+			std::cout << getHostName(clientAddress) << '\n';
 			break;
 		}
 	}
