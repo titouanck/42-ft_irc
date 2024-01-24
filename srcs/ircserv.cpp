@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:13:48 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/23 20:52:05 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 08:47:47 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	handleConnection(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client
 	socklen_t	clientLen;
 	int 		i;
 
-	if (pollfds[0].revents != POLLIN)
-		return ;
 	clientLen = sizeof(clientAddr);
 	clientSocket = accept(server.getSocket(), (Sockaddr *)&clientAddr, &clientLen);
 	if (clientSocket == -1)
@@ -38,6 +36,7 @@ void	handleConnection(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client
 		{
 			clients[i].fd = clientSocket;
 			std::cout << "New client connection on socket " << clientSocket << '\n';
+			std::cout << "client hostname [" << getHostName((sockaddr *)&server.getSin6(), clientLen) << "]" << '\n';
 			break;
 		}
 	}
@@ -72,12 +71,32 @@ void	readSocket(Pollfd (&pollfds)[MAX_CLIENTS + 1], int i)
 	}
 }
 
+bool routine(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&clients)[MAX_CLIENTS])
+{
+	int		result;
+
+	while (true)
+	{
+		result = poll(pollfds, MAX_CLIENTS + 1, -1);
+        if (result == -1)
+			return printError("poll"), false;
+		else if (pollfds[0].revents == POLLIN)
+			handleConnection(server, pollfds, clients);
+		for (int i = 1; i <= MAX_CLIENTS; ++i)
+		{
+            if (pollfds[i].revents != POLLIN)
+				continue ;
+			readSocket(pollfds, i);
+		}
+	}
+}
+
 bool	ircserv(unsigned int port, std::string password)
 {
 	Server	server(port, password);
 	Pollfd	pollfds[MAX_CLIENTS + 1];
 	Client	clients[MAX_CLIENTS];
-	int		result;
+	bool	status;
 
 	if (!server.init())
 		return false;
@@ -86,21 +105,9 @@ bool	ircserv(unsigned int port, std::string password)
 	pollfds[0].fd = server.getSocket();
     pollfds[0].events = POLLIN;
 
-	while (true)
-	{
-		result = poll(pollfds, MAX_CLIENTS + 1, -1);
-        if (result == -1)
-			return printError("poll"), false;
-		handleConnection(server, pollfds, clients);
-		for (int i = 1; i <= MAX_CLIENTS; ++i)
-		{
-            if (pollfds[i].revents != POLLIN)
-				continue ;
-			readSocket(pollfds, i);
-		}
-	}
+	status = routine(server, pollfds, clients);
 	close(server.getSocket());
-	return true;
+	return status;
 }
 
 /* ************************************************************************** */

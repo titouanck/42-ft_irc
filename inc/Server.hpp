@@ -6,23 +6,13 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:42:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/23 20:24:47 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/24 08:47:09 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 	#define SERVER_HPP
-	#include "error.hpp"
-	#include <arpa/inet.h>
-	#include <poll.h>
-	#include <string>
-	#include <sstream>
-	#include <sys/types.h>
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
-	#include <unistd.h>
-	#include <netdb.h>
+	#include "tools.hpp"
 	
 	typedef int					SOCKET;
 	typedef struct sockaddr 	Sockaddr;
