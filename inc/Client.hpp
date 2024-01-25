@@ -6,13 +6,12 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 15:15:31 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 16:19:50 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 	#define CLIENT_HPP
-	
 	#include <string>
 	#include <iostream>
 	#include <errno.h>
@@ -28,14 +27,7 @@
 	#include <algorithm>
 	#include <cctype>
 	#include <ctime>
-	
-	typedef int					SOCKET;
-	typedef struct sockaddr 	Sockaddr;
-	typedef struct sockaddr_in6	Sockaddr_in6;
-	typedef struct sockaddr_in	Sockaddr_in;
-	typedef struct pollfd		Pollfd;
-
-	#define TIMEOUTSEC 50
+	#include "typedef.hpp"
 
 	class Server;
 
@@ -51,36 +43,36 @@ class Client
 
 		void			setIndex(unsigned int index);
 		void			setIdentity();
-		void			setNickname(std::string nickname);
-		void			setUsername(std::string username);
+		void			setNickname(string_t nickname);
+		void			setUsername(string_t username);
 		void			setOperator(bool isOp);
-		void			beAuthenticated(std::string passphrase);
+		void			beAuthenticated(string_t passphrase);
 		void			lockMutex();
 		void			unlockMutex();
 
 		unsigned int	getIndex() const;
-		std::string		getIp() const;
-		std::string		getName() const;
-		std::string		getIdentity() const;
-		std::string		getNickname() const;
-		std::string		getUsername() const;
+		string_t		getIp() const;
+		string_t		getName() const;
+		string_t		getIdentity() const;
+		string_t		getNickname() const;
+		string_t		getUsername() const;
 		std::time_t 	getPingTime() const;
 		bool			isPinged() const;
 		bool			isOperator() const;
 		bool			isAuthenticated() const;
 
 		static Server	*server;
-		static Pollfd	*pollfds;
-		Sockaddr_in6	addr;
+		static pollfd_t	*pollfds;
+		sockaddr_in6_t	addr;
 		socklen_t		len;
 
 	private:
 		unsigned int	_index;
 		char			_ip[INET6_ADDRSTRLEN];
 		char			_name[NI_MAXHOST];
-		std::string		_identity;
-		std::string		_nickname;
-		std::string		_username;
+		string_t		_identity;
+		string_t		_nickname;
+		string_t		_username;
 		std::time_t 	_pingTime;
 		bool			_pinged;
 		bool			_operator;

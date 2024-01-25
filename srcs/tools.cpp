@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:46:00 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 20:45:43 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 16:02:40 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* ************************************************************************** */
 
-void	printError(std::string str)
+void	printError(string_t str)
 {
 	std::cout << "Error in " << str << ": " << std::strerror(errno) << '\n';
 }

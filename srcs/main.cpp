@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/23 20:44:13 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 16:02:40 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	main(int argc, char **argv)
 {
 	int				port;
-	std::string		password;
+	string_t		password;
 
 	if (argc != 3)
 		return std::cerr << "Usage: ./" << EXECUTABLE << " <port> <password>" << '\n', 1;
@@ -32,7 +32,7 @@ int	main(int argc, char **argv)
 
 /* ************************************************************************** */
 
-int	portParsing(std::string str)
+int	portParsing(string_t str)
 {
 	int		nbr;
 	char	*ptr;

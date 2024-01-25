@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:14:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 10:16:03 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 16:17:20 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,9 @@
 	#include <unistd.h>
 	#include "connections.hpp"
 
-	#ifndef EXECUTABLE
-		#define EXECUTABLE "ircserv"
-	#endif
-
 /* ************************************************************************** */
 
-bool	ircserv(unsigned int port, std::string password);
+bool	ircserv(unsigned int port, string_t password);
 
 /* ************************************************************************** */
 

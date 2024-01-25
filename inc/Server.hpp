@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:42:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 15:03:57 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 16:19:23 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,27 @@
 class Server
 {
 	public:
-		Server(unsigned int port, std::string password);
+		Server(unsigned int port, string_t password);
 		~Server();
 
-		bool	init();
-		void	closeSocket();
-		
-		std::string			getPassword() const;
-		SOCKET				&getSocket();
-		Sockaddr_in6		&getSin6();
+		bool				init();
+		void				closeSocket();
+		string_t			getPassword() const;
 
+		socket_t			sock;
+		sockaddr_in6_t		sin6;
+	
 	private:
-		Server();
-		Server(const Server &copy);
-		Server	&operator=(const Server &copy);
-
 		bool				initSocket();
 		bool				initBind();
 		bool				initListen();
 
 		const unsigned int	_port;
-		const std::string	_password;
-		SOCKET				_socket;
-		Sockaddr_in6		_sin6;
+		const string_t	_password;
+
+		Server();
+		Server(const Server &copy);
+		Server	&operator=(const Server &copy);
 };
 
 /* ************************************************************************** */

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:13:48 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 15:15:58 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 17:04:28 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,11 @@
 
 #define BUFFER_SIZE 4096
 
-typedef struct s_data
-{
-	Server	&server;
-	Pollfd	(&pollfds)[MAX_CLIENTS + 1];
-	Client	(&clients)[MAX_CLIENTS + 1];
-}	Data;
-
-typedef struct s_message
-{
-	std::string	command;
-	std::string	content;
-}	Message;
-
 /* ************************************************************************** */
 
 void	*timeoutThread(void *arg)
 {
-	Data	*data = reinterpret_cast<Data *>(arg);
-	Pollfd	(&pollfds)[MAX_CLIENTS + 1] = data->pollfds;
-	Client	(&clients)[MAX_CLIENTS + 1] = data->clients;
+	Client	*clients = (static_cast<Client (*)>(arg));
 
 	while (true)
 	{
@@ -47,7 +32,7 @@ void	*timeoutThread(void *arg)
 			if (clients[i].getIdentity().length() != 0)
 			{
 				if (clients[i].isPinged() == true && clients[i].getPingTime() + TIMEOUTSEC < std::time(0))
-					removeConn(pollfds[i], clients[i], i);
+					removeConn(clients[i]);
 			}
 			clients[i].unlockMutex();
 		}
@@ -55,7 +40,7 @@ void	*timeoutThread(void *arg)
 	pthread_exit(NULL);
 }
 
-bool endsWith(const std::string &str, const std::string &suffix)
+bool endsWith(const string_t &str, const string_t &suffix)
 {
     if (str.length() < suffix.length())
         return false;
@@ -63,14 +48,14 @@ bool endsWith(const std::string &str, const std::string &suffix)
 	    return str.substr(str.length() - suffix.length()) == suffix;
 }
 
-Message	parseMessage(std::string line)
+Message	parseMessage(string_t line)
 {
 	Message		message;
 	size_t		pos;
 	
 	bzero(&message, sizeof(message));
 	pos = line.find_first_of(" \t");
-	if (pos != std::string::npos)
+	if (pos != string_t::npos)
 	{
 		message.command = line.substr(0, pos);
 		message.content = line.substr(pos);
@@ -82,7 +67,7 @@ Message	parseMessage(std::string line)
 	return message;
 }
 
-void	handleClientMessage(Pollfd (&pollfds)[MAX_CLIENTS + 1], Client &client, int i, std::string rawMessage)
+void	handleClientMessage(Client &client, string_t rawMessage)
 {
 	size_t	pos;
 	Message	message;
@@ -92,49 +77,45 @@ void	handleClientMessage(Pollfd (&pollfds)[MAX_CLIENTS + 1], Client &client, int
 	if (rawMessage.length() <= 0)
 		return ;
 	pos = rawMessage.find("\r\n");
-	if (pos != std::string::npos)
+	if (pos != string_t::npos)
 	{
-		handleClientMessage(pollfds, client, i, rawMessage.substr(0, pos));
-		handleClientMessage(pollfds, client, i, rawMessage.substr(pos + 2));
+		handleClientMessage(client, rawMessage.substr(0, pos));
+		handleClientMessage(client, rawMessage.substr(pos + 2));
 		return ;
 	}
-
 	message = parseMessage(rawMessage);
 	if (message.command.compare("PASS") == 0)
-	{
-		if (client.isAuthenticated())
-			return (removeConn(pollfds[i], client, i));
 		client.beAuthenticated(message.content);
-	}
 }
 
-void	readSocket(Pollfd (&pollfds)[MAX_CLIENTS + 1], Client &client, int i)
+void	readSocket(Client &client)
 {
 	ssize_t bytesRead;
 	char 	buffer[BUFFER_SIZE];
+	int		index;
 
-	bytesRead = read(pollfds[i].fd, buffer, sizeof(buffer));
+	index = client.getIndex();
+	bytesRead = read(Client::pollfds[index].fd, buffer, sizeof(buffer));
 	if (bytesRead <= 0)
-		return (removeConn(pollfds[i], client, i));
+		return (removeConn(client));
 	buffer[bytesRead] = '\0';
-	handleClientMessage(pollfds, client, i, buffer);
+	handleClientMessage(client, buffer);
 }
 
-bool routine(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&clients)[MAX_CLIENTS + 1])
+bool routine(pollfd_t *pollfds, Client *clients)
 {
-	Data		data = {server, pollfds, clients};
-	int			result;
 	int			threadResult;
+	int			pollResult;
 	pthread_t	thread;
 	char 		buffer[BUFFER_SIZE];(void)buffer;
 
-	threadResult = pthread_create(&thread, NULL, timeoutThread, &data);
+	threadResult = pthread_create(&thread, NULL, timeoutThread, &clients);
 	if (threadResult != 0)
     	return printError("pthread_create"), false;
 	while (true)
 	{
-		result = poll(pollfds, MAX_CLIENTS + 2, 250);
-        if (result == -1)
+		pollResult = poll(pollfds, MAX_CLIENTS + 2, 250);
+        if (pollResult == -1)
 			return printError("poll"), pthread_join(thread, NULL), false;
 		for (int i = 0; i <= MAX_CLIENTS; ++i)
 		{
@@ -142,9 +123,9 @@ bool routine(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&client
             if (pollfds[i].revents == POLLIN)
 			{
 				if (i == 0)
-					handleConn(server, pollfds, clients);
+					handleConn(clients);
 				else
-					readSocket(pollfds, clients[i], i);
+					readSocket(clients[i]);
 			}
 			clients[i].unlockMutex();
 		}
@@ -152,23 +133,24 @@ bool routine(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&client
 	threadResult = pthread_join(thread, NULL);
 }
 
-bool	ircserv(unsigned int port, std::string password)
+bool	ircserv(unsigned int port, string_t password)
 {
-	Server	server(port, password);
-	Pollfd	pollfds[MAX_CLIENTS + 1];
-	Client	clients[MAX_CLIENTS + 1];
-	bool	status;
-
-	Client::server  = &server;
-	Client::pollfds = pollfds;
+	Server		server(port, password);
+	pollfd_t	pollfds[MAX_CLIENTS + 1];
+	Client		clients[MAX_CLIENTS + 1];
+	bool		status;
+	
 	if (!server.init())
 		return false;
     bzero(pollfds, sizeof(pollfds));
     bzero(clients, sizeof(clients));
-
-	pollfds[0].fd = server.getSocket();
+	pollfds[0].fd = server.sock;
     pollfds[0].events = POLLIN;
-	status = routine(server, pollfds, clients);
+
+	Client::server  = &server;
+	Client::pollfds = pollfds;
+	status = routine(pollfds, clients);
+	
 	server.closeSocket();
 	return status;
 }

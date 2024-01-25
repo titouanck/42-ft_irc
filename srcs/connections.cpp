@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 11:28:26 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 17:03:26 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 /* ************************************************************************** */
 
-static void	printConn(connStatus status, const Client &client, int nbr)
+static void	printConn(unsigned char connStatus, const Client &client)
 {
-	switch (status)
+	switch (connStatus)
 	{
 		case '+':
-			std::cout << GREEN	<< "[+] client " << nbr << " (" << client.getIdentity() << ")" NC << '\n';
+			std::cout << GREEN	<< "[+] client " << client.getIndex() << " (" << client.getIdentity() << ")" NC << '\n';
 			break ;
 		case '-':
-			std::cout << RED	<< "[-] client " << nbr << " (" << client.getIdentity() << ")" NC << '\n';
+			std::cout << RED	<< "[-] client " << client.getIndex() << " (" << client.getIdentity() << ")" NC << '\n';
 			break ;
 		case '!':
 			std::cout << ORANGE	<< "[!] Cannot connect with " << client.getIdentity() << ", too many clients (see MAX_CLIENTS)" NC << '\n';
@@ -32,55 +32,59 @@ static void	printConn(connStatus status, const Client &client, int nbr)
 
 /* ************************************************************************** */
 
-void	removeConn(Pollfd &pollfd, Client &client, int nbr)
+void	removeConn(Client &client)
 {
+	pollfd_t	&pollfd = Client::pollfds[client.getIndex()];
+
 	close(pollfd.fd);
 	bzero(&pollfd, sizeof(pollfd));
-	printConn('-', client, nbr);
+	printConn('-', client);
 	bzero(&client, sizeof(client));
 }
 
 /* ************************************************************************** */
 
-static void	rejectConn(Server &server)
+static void	rejectConn(Server *server)
 {
-	Client	client;
-	SOCKET	clientFd;
+	Client		client;
+	socket_t	clientFd;
 
 	client.len = sizeof(client.addr);
-	clientFd = accept(server.getSocket(), reinterpret_cast<Sockaddr *>(&client.addr), &client.len);
+	clientFd = accept(server->sock, reinterpret_cast<sockaddr_t *>(&client.addr), &client.len);
 	if (clientFd == -1)
-		return printError("accept"), static_cast<void>(0);
+		return printError("accept");
 	client.setIdentity();
-	printConn('!', client, MAX_CLIENTS + 1);
+	printConn('!', client);
 	close(clientFd);
 }
 
-static void	acceptConn(Server &server, Pollfd &pollfd, Client &client, int i)
+static void	acceptConn(Client &client, int index)
 {
+	Server		*server = Client::server;
+	pollfd_t	&pollfd = Client::pollfds[index];
+
 	client.len = sizeof(client.addr);
-	pollfd.fd = accept(server.getSocket(), (Sockaddr *)&(client.addr), &(client.len));
+	pollfd.fd = accept(server->sock, (sockaddr_t *)&(client.addr), &(client.len));
 	if (pollfd.fd == -1)
-	{
-		printError("accept");
-		return ;
-	}
+		return printError("accept");
 	pollfd.events = POLLIN;
-	client.setIndex(i);
+	client.setIndex(index);
 	client.setIdentity();
-	printConn('+', client, i);
+	printConn('+', client);
 }
 
-void	handleConn(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&clients)[MAX_CLIENTS + 1])
+void	handleConn(Client *clients)
 {
-	int i;
+	Server		*server  = Client::server;
+	pollfd_t	*pollfds = Client::pollfds;
+	int 		index;
 
-	for (i = 1; i < MAX_CLIENTS + 1; ++i)
+	for (index = 1; index < MAX_CLIENTS + 1; ++index)
 	{
-		if (pollfds[i].fd == 0)
-			return acceptConn(server, pollfds[i], clients[i], i), static_cast<void>(0);
+		if (pollfds[index].fd == 0)
+			return acceptConn(clients[index], index);
 	}
-	if (i == MAX_CLIENTS + 1)
+	if (index == MAX_CLIENTS + 1)
 		rejectConn(server);
 }
 

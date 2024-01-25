@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:26 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 11:28:06 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 17:03:40 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@
 	#include "tools.hpp"
 	#include "Server.hpp"
 
-	typedef unsigned char	connStatus;
-
 /* ************************************************************************** */
 
-void	removeConn(Pollfd &pollfd, Client &client, int nbr);
-void	handleConn(Server &server, Pollfd (&pollfds)[MAX_CLIENTS + 1], Client (&clients)[MAX_CLIENTS + 1]);
+void	removeConn(Client &client);
+void	handleConn(Client *clients);
 
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 15:15:12 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 16:53:02 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "connections.hpp"
 
 Server*	Client::server = 0;
-Pollfd*	Client::pollfds = 0;
+pollfd_t*	Client::pollfds = 0;
 
 /* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
 
@@ -56,8 +56,8 @@ void	Client::setIndex(unsigned int index)
 void	Client::setIdentity()
 {
 	std::ostringstream	oss;
-	std::string			ip;
-	std::string			name;
+	string_t			ip;
+	string_t			name;
 
 	inet_ntop(AF_INET6, &(this->addr.sin6_addr), this->_ip, INET6_ADDRSTRLEN);
 	if (getnameinfo((struct sockaddr*)&addr, sizeof(addr), this->_name, NI_MAXHOST, NULL, 0, 0) != 0)
@@ -81,14 +81,14 @@ void	Client::setIdentity()
 	this->_identity = oss.str();
 }
 
-void	Client::setNickname(std::string nickname)
+void	Client::setNickname(string_t nickname)
 {
 	if (nickname.length() > 9)
 		throw std::runtime_error("nickname too long");
 	this->_nickname = nickname;
 }
 
-void	Client::setUsername(std::string username)
+void	Client::setUsername(string_t username)
 {
 	this->_username = username;
 }
@@ -98,12 +98,12 @@ void	Client::setOperator(bool isOp)
 	this->_operator = isOp;
 }
 
-void	Client::beAuthenticated(std::string passphrase)
+void	Client::beAuthenticated(string_t passphrase)
 {
-	if (passphrase.compare(Client::server->getPassword()) == 0)
-		this->_authenticated = true;
+	if (this->_authenticated || passphrase.compare(Client::server->getPassword()) != 0)
+		removeConn(*this);
 	else
-		removeConn(Client::pollfds[this->_index], *this, this->_index);
+		this->_authenticated = true;
 }
 
 void	Client::lockMutex()
@@ -123,17 +123,17 @@ unsigned int	Client::getIndex() const
 	return this->_index;
 }
 
-std::string	Client::getIp() const
+string_t	Client::getIp() const
 {
 	return this->_ip;
 }
 
-std::string	Client::getName() const
+string_t	Client::getName() const
 {
 	return this->_name;
 }
 
-std::string	Client::getIdentity() const
+string_t	Client::getIdentity() const
 {
 	return this->_identity;
 }
@@ -143,12 +143,12 @@ std::time_t Client::getPingTime() const
 	return this->_pingTime;
 }
 
-std::string	Client::getNickname() const
+string_t	Client::getNickname() const
 {
 	return this->_nickname;
 }
 
-std::string	Client::getUsername() const
+string_t	Client::getUsername() const
 {
 	return this->_username;
 }
