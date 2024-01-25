@@ -6,27 +6,12 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 16:19:50 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 18:10:14 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 	#define CLIENT_HPP
-	#include <string>
-	#include <iostream>
-	#include <errno.h>
-	#include <cstring>
-	#include <sys/types.h>
-	#include <arpa/inet.h>
-	#include <poll.h>
-	#include <sstream>
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <unistd.h>
-	#include <netdb.h>
-	#include <algorithm>
-	#include <cctype>
-	#include <ctime>
 	#include "typedef.hpp"
 
 	class Server;

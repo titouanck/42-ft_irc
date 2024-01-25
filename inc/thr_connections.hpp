@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.hpp                                          :+:      :+:    :+:   */
+/*   thr_connections.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 19:48:31 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 17:58:10 by titouanck        ###   ########.fr       */
+/*   Created: 2024/01/17 10:14:09 by titouanck         #+#    #+#             */
+/*   Updated: 2024/01/25 18:16:49 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOOLS_HPP
-	#define TOOLS_HPP
-	#include "Client.hpp"
+#ifndef THR_CONNECTIONS_HPP
+	#define THR_CONNECTIONS_HPP
+	#include "typedef.hpp"
+	#include "connections.hpp"
 
 /* ************************************************************************** */
 
-void	printError(string_t str);
-bool 	endsWith(const string_t &str, const string_t &suffix);
+bool 	thr_connections(pollfd_t *pollfds, Client *clients);
 
 /* ************************************************************************** */
 

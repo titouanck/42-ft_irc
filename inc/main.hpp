@@ -6,17 +6,13 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:28 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 16:02:40 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 18:17:20 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_HPP
 	#define MAIN_HPP
-	#include <string>
-	#include <iostream>
-	#include <stdexcept>
-	#include <cstdlib>
-	#include "ircserv.hpp"
+	#include "thr_connections.hpp"
 	#include "tools.hpp"
 
 /* ************************************************************************** */

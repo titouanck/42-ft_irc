@@ -6,13 +6,31 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 15:54:14 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 16:20:35 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 18:10:40 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPEDEF_HPP
 	#define TYPEDEF_HPP
+	
 	#include <string>
+	#include <iostream>
+	#include <errno.h>
+	#include <cstring>
+	#include <sys/types.h>
+	#include <arpa/inet.h>
+	#include <poll.h>
+	#include <sstream>
+	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <unistd.h>
+	#include <netdb.h>
+	#include <algorithm>
+	#include <cctype>
+	#include <ctime>
+	#include <sys/time.h>
+	#include <stdexcept>
+	#include <cstdlib>
 
 /* ************************************************************************** */
 

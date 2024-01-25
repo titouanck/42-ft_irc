@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.cpp                                          :+:      :+:    :+:   */
+/*   thr_timeout.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 19:46:00 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 17:57:54 by titouanck        ###   ########.fr       */
+/*   Created: 2024/01/25 17:59:13 by titouanck         #+#    #+#             */
+/*   Updated: 2024/01/25 18:12:14 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tools.hpp"
+#include "thr_timeout.hpp"
 
 /* ************************************************************************** */
 
-void	printError(string_t str)
+void	*thr_timeout(void *arg)
 {
-	std::cout << "Error in " << str << ": " << std::strerror(errno) << '\n';
-}
+	Client	*clients = (static_cast<Client (*)>(arg));
 
-bool endsWith(const string_t &str, const string_t &suffix)
-{
-    if (str.length() < suffix.length())
-        return false;
-    else
-	    return str.substr(str.length() - suffix.length()) == suffix;
+	while (true)
+	{
+		for (int i = 0; i <= MAX_CLIENTS; i++)
+		{
+			clients[i].lockMutex();
+			if (clients[i].getIdentity().length() != 0)
+			{
+				if (clients[i].isPinged() == true && clients[i].getPingTime() + TIMEOUTSEC < std::time(0))
+					removeConn(clients[i]);
+			}
+			clients[i].unlockMutex();
+		}
+	}
+	pthread_exit(NULL);
 }
 
 /* ************************************************************************** */
