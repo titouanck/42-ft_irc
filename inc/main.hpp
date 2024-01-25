@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:28 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 14:08:30 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 10:15:59 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 	#include <cstdlib>
 	#include "ircserv.hpp"
 	#include "tools.hpp"
-
-	#ifndef EXECUTABLE
-		#define EXECUTABLE ircserv
-	#endif
 
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 17:18:20 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 11:28:26 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,15 @@ static void	rejectConn(Server &server)
 
 static void	acceptConn(Server &server, Pollfd &pollfd, Client &client, int i)
 {
-	bzero(&(client), sizeof(client));
 	client.len = sizeof(client.addr);
 	pollfd.fd = accept(server.getSocket(), (Sockaddr *)&(client.addr), &(client.len));
 	if (pollfd.fd == -1)
 	{
-		pollfd.events = 0;
 		printError("accept");
 		return ;
 	}
 	pollfd.events = POLLIN;
+	client.setIndex(i);
 	client.setIdentity();
 	printConn('+', client, i);
 }

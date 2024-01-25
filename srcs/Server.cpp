@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:49:28 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 21:17:04 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 15:03:51 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ void	Server::closeSocket()
 }
 
 /* GETTERS ****************************************************************** */
+	
+std::string	Server::getPassword() const
+{
+	return this->_password;
+}
 	
 SOCKET	&Server::getSocket()
 {

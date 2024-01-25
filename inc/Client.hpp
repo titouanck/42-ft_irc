@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/24 21:35:52 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 15:15:31 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@
 	typedef struct sockaddr_in	Sockaddr_in;
 	typedef struct pollfd		Pollfd;
 
-	#define TIMEOUTSEC 10
+	#define TIMEOUTSEC 50
+
+	class Server;
 
 /* ************************************************************************** */
 
@@ -47,24 +49,43 @@ class Client
 		Client &operator=(const Client &copy);
 		~Client();
 
-		void		setIdentity();
-		void		setNickname(std::string nickname);
-		std::string	getIp() const;
-		std::string	getName() const;
-		std::string	getIdentity() const;
-		std::time_t getPingTime() const;
-		bool		isPinged() const;
+		void			setIndex(unsigned int index);
+		void			setIdentity();
+		void			setNickname(std::string nickname);
+		void			setUsername(std::string username);
+		void			setOperator(bool isOp);
+		void			beAuthenticated(std::string passphrase);
+		void			lockMutex();
+		void			unlockMutex();
 
+		unsigned int	getIndex() const;
+		std::string		getIp() const;
+		std::string		getName() const;
+		std::string		getIdentity() const;
+		std::string		getNickname() const;
+		std::string		getUsername() const;
+		std::time_t 	getPingTime() const;
+		bool			isPinged() const;
+		bool			isOperator() const;
+		bool			isAuthenticated() const;
+
+		static Server	*server;
+		static Pollfd	*pollfds;
 		Sockaddr_in6	addr;
 		socklen_t		len;
 
 	private:
+		unsigned int	_index;
 		char			_ip[INET6_ADDRSTRLEN];
 		char			_name[NI_MAXHOST];
 		std::string		_identity;
 		std::string		_nickname;
+		std::string		_username;
 		std::time_t 	_pingTime;
 		bool			_pinged;
+		bool			_operator;
+		bool			_authenticated;
+		pthread_mutex_t	_mutex;
 };
 
 /* ************************************************************************** */
