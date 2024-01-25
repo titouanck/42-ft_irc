@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:13:48 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 17:04:28 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/25 17:52:31 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,14 @@ void	readSocket(Client &client)
 
 bool routine(pollfd_t *pollfds, Client *clients)
 {
-	int			threadResult;
 	int			pollResult;
 	pthread_t	thread;
-	char 		buffer[BUFFER_SIZE];(void)buffer;
 
-	threadResult = pthread_create(&thread, NULL, timeoutThread, &clients);
-	if (threadResult != 0)
+	if (pthread_create(&thread, NULL, timeoutThread, &clients) != 0)
     	return printError("pthread_create"), false;
 	while (true)
 	{
-		pollResult = poll(pollfds, MAX_CLIENTS + 2, 250);
+		pollResult = poll(pollfds, MAX_CLIENTS + 1, 250);
         if (pollResult == -1)
 			return printError("poll"), pthread_join(thread, NULL), false;
 		for (int i = 0; i <= MAX_CLIENTS; ++i)
@@ -130,7 +127,7 @@ bool routine(pollfd_t *pollfds, Client *clients)
 			clients[i].unlockMutex();
 		}
 	}
-	threadResult = pthread_join(thread, NULL);
+	pthread_join(thread, NULL);
 }
 
 bool	ircserv(unsigned int port, string_t password)
