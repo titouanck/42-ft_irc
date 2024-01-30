@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 17:03:26 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/30 16:24:01 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	printConn(unsigned char connStatus, const Client &client)
 
 void	removeConn(Client &client)
 {
-	pollfd_t	&pollfd = Client::pollfds[client.getIndex()];
+	pollfd_t	&pollfd = IRC::pollfds[client.getIndex()];
 
 	close(pollfd.fd);
 	bzero(&pollfd, sizeof(pollfd));
@@ -60,8 +60,8 @@ static void	rejectConn(Server *server)
 
 static void	acceptConn(Client &client, int index)
 {
-	Server		*server = Client::server;
-	pollfd_t	&pollfd = Client::pollfds[index];
+	Server		*server = IRC::server;
+	pollfd_t	&pollfd = IRC::pollfds[index];
 
 	client.len = sizeof(client.addr);
 	pollfd.fd = accept(server->sock, (sockaddr_t *)&(client.addr), &(client.len));
@@ -75,8 +75,8 @@ static void	acceptConn(Client &client, int index)
 
 void	handleConn(Client *clients)
 {
-	Server		*server  = Client::server;
-	pollfd_t	*pollfds = Client::pollfds;
+	Server		*server  = IRC::server;
+	pollfd_t	*pollfds = IRC::pollfds;
 	int 		index;
 
 	for (index = 1; index < MAX_CLIENTS + 1; ++index)

@@ -12,7 +12,7 @@
 
 #ifndef THR_CONNECTIONS_HPP
 	#define THR_CONNECTIONS_HPP
-	#include "typedef.hpp"
+	#include "IRC.hpp"
 	#include "connections.hpp"
 
 /* ************************************************************************** */

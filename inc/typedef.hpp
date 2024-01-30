@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 15:54:14 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 18:10:40 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/30 16:01:16 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@
 		string_t	command;
 		string_t	content;
 	}	Message;
+
+	extern bool 			EOP;
+	extern pthread_mutex_t	EOP_mutex;
 
 /* ************************************************************************** */
 

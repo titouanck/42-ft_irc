@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:59:13 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 18:12:14 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/30 16:07:35 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,12 @@ void	*thr_timeout(void *arg)
 			}
 			clients[i].unlockMutex();
 		}
+		pthread_mutex_lock(&EOP_mutex);
+		if (EOP)
+			break ;
+		pthread_mutex_unlock(&EOP_mutex);
 	}
+	pthread_mutex_unlock(&EOP_mutex);
 	pthread_exit(NULL);
 }
 

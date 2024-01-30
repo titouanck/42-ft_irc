@@ -6,11 +6,12 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 18:16:24 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/30 16:26:42 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
+#include "thr_timeout.hpp"
 
 /* ************************************************************************** */
 
@@ -19,6 +20,8 @@ bool	irc_serv(unsigned int port, string_t password)
 	Server		server(port, password);
 	pollfd_t	pollfds[MAX_CLIENTS + 1];
 	Client		clients[MAX_CLIENTS + 1];
+	pthread_t	thread_timeout;
+	pthread_t	thread_connections;
 	
 	if (!server.init())
 		return false;
@@ -27,8 +30,14 @@ bool	irc_serv(unsigned int port, string_t password)
 	pollfds[0].fd = server.sock;
     pollfds[0].events = POLLIN;
 
-	Client::server  = &server;
-	Client::pollfds = pollfds;
+	IRC::server  = &server;
+	IRC::pollfds = pollfds;
+	IRC::clients = clients;
+	
+	if (pthread_create(&thread_timeout, NULL, thr_timeout, &clients) != 0)
+    	return printError("pthread_create(&thread_timeout, ...)"), false;
+	if (pthread_create(&thread_connections, NULL, thr_connections, &clients) != 0)
+    	return printError("pthread_create(&thread_connections, ...)"), false;
 	thr_connections(pollfds, clients);
 	
 	server.closeSocket();
@@ -63,5 +72,10 @@ int	portParsing(string_t str)
 		return -1;
 	return nbr;	
 }
+
+/* ************************************************************************** */
+
+bool 			EOP = false;
+pthread_mutex_t	EOP_mutex;
 
 /* ************************************************************************** */

@@ -18,7 +18,7 @@
 
 /* ************************************************************************** */
 
-Message	parseMessage(string_t line)
+Message	parseInput(string_t line)
 {
 	Message		message;
 	size_t		pos;
@@ -37,23 +37,26 @@ Message	parseMessage(string_t line)
 	return message;
 }
 
-void	handleClientMessage(Client &client, string_t rawMessage)
+void	handleClientInput(Client &client, string_t input)
 {
+	// RECURSIVITY WITH EACH LINE OF THE CLIENT INPUT
 	size_t	pos;
 	Message	message;
 
-	if (endsWith(rawMessage, "\r\n"))
-		rawMessage = rawMessage.substr(0, rawMessage.length() - 2);
-	if (rawMessage.length() <= 0)
+	if (endsWith(input, "\r\n"))
+		input = input.substr(0, input.length() - 2);
+	if (input.length() <= 0)
 		return ;
-	pos = rawMessage.find("\r\n");
+	pos = input.find("\r\n");
 	if (pos != string_t::npos)
 	{
-		handleClientMessage(client, rawMessage.substr(0, pos));
-		handleClientMessage(client, rawMessage.substr(pos + 2));
+		handleClientInput(client, input.substr(0, pos));
+		handleClientInput(client, input.substr(pos + 2));
 		return ;
 	}
-	message = parseMessage(rawMessage);
+	message = parseInput(input);
+
+	// HANDLE MESSAGE
 	if (message.command.compare("PASS") == 0)
 		client.beAuthenticated(message.content);
 }
@@ -65,25 +68,30 @@ void	readSocket(Client &client)
 	int		index;
 
 	index = client.getIndex();
-	bytesRead = read(Client::pollfds[index].fd, buffer, sizeof(buffer));
+	bytesRead = read(IRC::pollfds[index].fd, buffer, sizeof(buffer));
 	if (bytesRead <= 0)
 		return (removeConn(client));
 	buffer[bytesRead] = '\0';
-	handleClientMessage(client, buffer);
+	handleClientInput(client, buffer);
 }
 
-bool thr_connections(pollfd_t *pollfds, Client *clients)
+void	*thr_connections(void *arg)
 {
+	int			rval = true;
 	int			pollResult;
-	pthread_t	thread;
+	pthread_t	thread_timeout;
 
-	if (pthread_create(&thread, NULL, thr_timeout, &clients) != 0)
-    	return printError("pthread_create"), false;
+	if (pthread_create(&thread_timeout, NULL, thr_timeout, &clients) != 0)
+    	return printError("pthread_create(&thread_timeout, ...)"), false;
 	while (true)
 	{
 		pollResult = poll(pollfds, MAX_CLIENTS + 1, 250);
         if (pollResult == -1)
-			return printError("poll"), pthread_join(thread, NULL), false;
+		{
+			printError("poll");
+			rval = false;
+			break ;
+		}
 		for (int i = 0; i <= MAX_CLIENTS; ++i)
 		{
 			clients[i].lockMutex();
@@ -97,7 +105,11 @@ bool thr_connections(pollfd_t *pollfds, Client *clients)
 			clients[i].unlockMutex();
 		}
 	}
-	pthread_join(thread, NULL);
+	pthread_mutex_lock(&EOP_mutex);
+	EOP = true;
+	pthread_mutex_unlock(&EOP_mutex);
+	pthread_join(thread_timeout, NULL);
+	return rval;
 }
 
 /* ************************************************************************** */

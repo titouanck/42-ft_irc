@@ -6,13 +6,13 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 18:10:14 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/30 16:26:02 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 	#define CLIENT_HPP
-	#include "typedef.hpp"
+	#include "IRC.hpp"
 
 	class Server;
 

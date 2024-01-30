@@ -6,16 +6,13 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 16:53:02 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/01/30 16:23:52 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 #include "Server.hpp"
 #include "connections.hpp"
-
-Server*	Client::server = 0;
-pollfd_t*	Client::pollfds = 0;
 
 /* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
 
@@ -100,7 +97,7 @@ void	Client::setOperator(bool isOp)
 
 void	Client::beAuthenticated(string_t passphrase)
 {
-	if (this->_authenticated || passphrase.compare(Client::server->getPassword()) != 0)
+	if (this->_authenticated || passphrase.compare(IRC::server->getPassword()) != 0)
 		removeConn(*this);
 	else
 		this->_authenticated = true;
