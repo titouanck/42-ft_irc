@@ -45,6 +45,7 @@
 	#endif
 	#define TIMEOUTSEC 30
 	#define MAX_CLIENTS 2
+	#define GUEST "anonymous"
 
 /* COLORS ******************************************************************* */
 

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:12 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/13 17:57:32 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/13 21:53:40 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,16 @@ IrcReference	RPL_ENDOFMOTD()
 // 	return (IrcReference){"422", "<>"};
 // }
 
+// 432
+IrcReference	ERR_ERRONEUSNICKNAME()
+{
+	return (IrcReference){"432", "Nickname reserved, or containing invalid characters. Please stick to these : [A-Z, a-z, -, _]"};
+}
+
 // 433
 IrcReference	ERR_NICKNAMEINUSE()
 {
-	return (IrcReference){"451", "Nickname already in use, choose another one"};
+	return (IrcReference){"433", "Nickname already in use, choose another one"};
 }
 
 // 451

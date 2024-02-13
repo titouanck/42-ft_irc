@@ -35,6 +35,8 @@ void	handleMessage(Client &client, Message message)
 		client.JOIN(message.content);
 	else if (message.command.compare("LEAVE") == 0)
 		client.LEAVE(message.content);
+	else if (message.command.compare("QUIT") == 0)
+		client.disconnect();
 }
 
 /* ************************************************************************** */

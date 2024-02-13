@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:43:41 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/13 17:57:44 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/13 21:53:56 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ IrcReference	RPL_MOTDSTART();
 IrcReference	RPL_ENDOFMOTD();
 IrcReference	ERR_NOTREGISTERED();
 IrcReference	ERR_NICKNAMEINUSE();
+IrcReference	ERR_ERRONEUSNICKNAME();
 
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:46:00 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/13 13:33:52 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:47:02 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,17 @@ string_t	getMyHostname()
     return "";
 }
 
-	/* ************************************************************************** */
+bool	checkStrValidity(string_t str)
+{
+	size_t	len;
+
+	len = str.length();
+	for (size_t i = 0; i < len; i++)
+	{
+		if (!isalnum(str[i]) && str[i] != '-' && str[i] != '_')
+			return false;
+	}
+	return true;
+}
+
+/* ************************************************************************** */

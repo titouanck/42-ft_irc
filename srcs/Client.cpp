@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/13 19:01:04 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/13 21:56:31 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,12 @@ void	Client::NICK(string_t nickname)
 
 	sendWelcomeBurst = false;
 	transform(nickname.begin(), nickname.end(), nickname.begin(), tolower);
-	if (!this->isAuthenticated() || this->_nickname.compare(nickname) == 0)
+	if (!this->isAuthenticated())
+		return this->sendMessage(formatReference(GUEST, ERR_NOTREGISTERED()));
+	else if (this->_nickname.compare(nickname) == 0)
 		return ;
+	else if (!checkStrValidity(nickname) || nickname.compare(GUEST) == 0)
+		return this->sendMessage(formatReference(GUEST, ERR_ERRONEUSNICKNAME()));
 	pthread_mutex_lock(&Client::nicknames_mutex);
 	if (Client::nicknames.find(nickname) == Client::nicknames.end())
 	{
@@ -86,7 +90,7 @@ void	Client::NICK(string_t nickname)
 		}
 	}
 	else
-		this->sendMessage(formatReference("GUEST", ERR_NICKNAMEINUSE()));
+		this->sendMessage(formatReference(GUEST, ERR_NICKNAMEINUSE()));
 	pthread_mutex_unlock(&Client::nicknames_mutex);
 }
 
