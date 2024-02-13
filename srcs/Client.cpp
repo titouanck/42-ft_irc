@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/30 16:23:52 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/13 02:31:40 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,30 +78,72 @@ void	Client::setIdentity()
 	this->_identity = oss.str();
 }
 
-void	Client::setNickname(string_t nickname)
-{
-	if (nickname.length() > 9)
-		throw std::runtime_error("nickname too long");
-	this->_nickname = nickname;
-}
-
-void	Client::setUsername(string_t username)
-{
-	this->_username = username;
-}
-
 void	Client::setOperator(bool isOp)
 {
 	this->_operator = isOp;
 }
 
-void	Client::beAuthenticated(string_t passphrase)
+void	Client::PASS(string_t passphrase)
 {
 	if (this->_authenticated || passphrase.compare(IRC::server->getPassword()) != 0)
 		removeConn(*this);
 	else
+	{
 		this->_authenticated = true;
+		this->_pinged = false;
+	}
 }
+
+void	Client::NICK(string_t nickname)
+{
+	if (!this->isAuthenticated() || this->_nickname.compare(nickname) == 0)
+		return ;
+	pthread_mutex_lock(&IRC::nickLst_mutex);
+	if (IRC::nickLst.find(nickname) == IRC::nickLst.end())
+	{
+		if (this->_nickname.length() != 0)
+			IRC::nickLst.erase(this->_nickname);
+		IRC::nickLst.insert(IRC::nickLst.end(), nickname);
+		this->_nickname = nickname;
+	}
+	pthread_mutex_unlock(&IRC::nickLst_mutex);
+	this->_nickname = nickname;
+}
+
+void	Client::USER(string_t content)
+{
+	string_t			username;
+	string_t			realname;
+	size_t				pos;
+
+	pos = content.find_first_of(" \t");
+	if (pos == std::string::npos)
+		return ;
+	username = content.substr(0, pos);
+	content = lTrim(content.substr(pos));
+
+	pos = content.find_first_of(" \t");
+	if (pos == std::string::npos)
+		return ;
+	// hostname = content.substr(0, pos);
+	content = lTrim(content.substr(pos));
+
+	pos = content.find_first_of(" \t");
+	if (pos == std::string::npos)
+		return ;
+	// servname = content.substr(0, pos);
+	content = lTrim(content.substr(pos));
+
+	if (content.c_str()[0] != ':')
+		return ;
+	realname = rTrim(content.substr(1));
+	if (!!realname.length())
+		return ;
+	this->_username = username;
+	this->_realname = realname;
+}
+
+/* ************************************************************************** */
 
 void	Client::lockMutex()
 {
@@ -140,16 +182,6 @@ std::time_t Client::getPingTime() const
 	return this->_pingTime;
 }
 
-string_t	Client::getNickname() const
-{
-	return this->_nickname;
-}
-
-string_t	Client::getUsername() const
-{
-	return this->_username;
-}
-
 bool	Client::isPinged() const
 {
 	return this->_pinged;
@@ -164,5 +196,21 @@ bool	Client::isAuthenticated() const
 {
 	return this->_authenticated;
 }
+
+string_t	Client::getNickname() const
+{
+	return this->_nickname;
+}
+
+string_t	Client::getUsername() const
+{
+	return this->_username;
+}
+
+string_t	Client::getRealname() const
+{
+	return this->_realname;
+}
+
 
 /* ************************************************************************** */

@@ -18,6 +18,18 @@
 
 /* ************************************************************************** */
 
+void	handleMessage(Client &client, Message message)
+{
+	if (message.command.compare("PASS") == 0)
+		client.PASS(message.content);
+	else if (message.command.compare("NICK") == 0)
+		client.NICK(message.content);
+	else if (message.command.compare("USER") == 0)
+		client.USER(message.content);
+}
+
+/* ************************************************************************** */
+
 Message	parseInput(string_t line)
 {
 	Message		message;
@@ -54,11 +66,7 @@ void	handleClientInput(Client &client, string_t input)
 		handleClientInput(client, input.substr(pos + 2));
 		return ;
 	}
-	message = parseInput(input);
-
-	// HANDLE MESSAGE
-	if (message.command.compare("PASS") == 0)
-		client.beAuthenticated(message.content);
+	handleMessage(client, parseInput(input));
 }
 
 void	readSocket(Client &client)
@@ -72,24 +80,30 @@ void	readSocket(Client &client)
 	if (bytesRead <= 0)
 		return (removeConn(client));
 	buffer[bytesRead] = '\0';
+
+	std::cout << "/* ****************************************** */" << '\n';
+	std::cout << RED << "[CLIENT " << client.getIndex() << "]" << NC << '\n';
+	std::cout << "nickname: " << client.getNickname() << '\n';
+	std::cout << "username: " << client.getUsername() << '\n';
+	std::cout << "realname: " << client.getRealname() << '\n';
+	std::cout << RED << "[" << buffer << "]" << NC << '\n';
+	std::cout << "/* ****************************************** */\n" << '\n';
+
 	handleClientInput(client, buffer);
 }
 
 void	*thr_connections(void *arg)
 {
-	int			rval = true;
+	Client		*clients = (static_cast<Client (*)>(arg));
+	pollfd_t	*pollfds = IRC::pollfds;
 	int			pollResult;
-	pthread_t	thread_timeout;
 
-	if (pthread_create(&thread_timeout, NULL, thr_timeout, &clients) != 0)
-    	return printError("pthread_create(&thread_timeout, ...)"), false;
 	while (true)
 	{
 		pollResult = poll(pollfds, MAX_CLIENTS + 1, 250);
         if (pollResult == -1)
 		{
 			printError("poll");
-			rval = false;
 			break ;
 		}
 		for (int i = 0; i <= MAX_CLIENTS; ++i)
@@ -105,11 +119,10 @@ void	*thr_connections(void *arg)
 			clients[i].unlockMutex();
 		}
 	}
-	pthread_mutex_lock(&EOP_mutex);
-	EOP = true;
-	pthread_mutex_unlock(&EOP_mutex);
-	pthread_join(thread_timeout, NULL);
-	return rval;
+	pthread_mutex_lock(&endOfProgram_mutex);
+	endOfProgram = true;
+	pthread_mutex_unlock(&endOfProgram_mutex);
+	pthread_exit(NULL);
 }
 
 /* ************************************************************************** */

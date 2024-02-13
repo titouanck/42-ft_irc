@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IRC.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:19:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/30 16:25:12 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/12 15:03:43 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 /* STATIC VARIABLES ********************************************************* */
 
-Server*		IRC::server		= 0;
-pollfd_t*	IRC::pollfds	= 0;
-Client*		IRC::clients	= 0;
+Server*				IRC::server		= 0;
+pollfd_t*			IRC::pollfds	= 0;
+Client*				IRC::clients	= 0;
+
+std::set<string_t>	IRC::nickLst;
+pthread_mutex_t		IRC::nickLst_mutex;
 
 /* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
 

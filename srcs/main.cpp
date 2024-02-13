@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/30 16:26:42 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/12 15:15:48 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
+#include "tools.hpp"
 #include "thr_timeout.hpp"
 
 /* ************************************************************************** */
@@ -38,8 +39,12 @@ bool	irc_serv(unsigned int port, string_t password)
     	return printError("pthread_create(&thread_timeout, ...)"), false;
 	if (pthread_create(&thread_connections, NULL, thr_connections, &clients) != 0)
     	return printError("pthread_create(&thread_connections, ...)"), false;
-	thr_connections(pollfds, clients);
-	
+
+	std::cout << "Port: " << port << '\n';
+	std::cout << "Password: " << password << '\n';
+	std::cout << "Server started" << '\n';
+	pthread_join(thread_connections, NULL);
+	pthread_join(thread_timeout, NULL);
 	server.closeSocket();
 	return true;
 }
@@ -75,7 +80,7 @@ int	portParsing(string_t str)
 
 /* ************************************************************************** */
 
-bool 			EOP = false;
-pthread_mutex_t	EOP_mutex;
+bool 			endOfProgram = false;
+pthread_mutex_t	endOfProgram_mutex;
 
 /* ************************************************************************** */

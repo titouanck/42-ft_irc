@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   typedef.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 15:54:14 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/30 16:01:16 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/12 14:58:04 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@
 		string_t	content;
 	}	Message;
 
-	extern bool 			EOP;
-	extern pthread_mutex_t	EOP_mutex;
+	extern bool 			endOfProgram;
+	extern pthread_mutex_t	endOfProgram_mutex;
 
 /* ************************************************************************** */
 
