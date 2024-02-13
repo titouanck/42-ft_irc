@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/12 14:18:17 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/13 19:01:09 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 	#define CLIENT_HPP
-	#include "IRC.hpp"
+	#include "types.hpp"
+	#include <set>
 
 	class Server;
 
@@ -27,18 +28,23 @@ class Client
 		~Client();
 
 		void			PASS(string_t passphrase);
+		void			NICK(string_t nickname);
+		void			USER(string_t content);
+		void			CAP(string_t content);
+		void			PONG(string_t content);
+		void			JOIN(string_t content);
+		void			LEAVE(string_t content);
+		
+		void			sendMessage(string_t content);
+		void			disconnect();
+
 		void			setIndex(unsigned int index);
 		void			setIdentity();
 		void			setOperator(bool isOp);
-		void			NICK(string_t nickname);
-		void			USER(string_t content);
-		// void			setUsername(string_t username);
-		// void			setRealname(string_t realname);
-		// void			setHostname(string_t hostname);
+		void			setPingContent(string_t content);
+
 		void			lockMutex();
 		void			unlockMutex();
-
-		
 
 		unsigned int	getIndex() const;
 		string_t		getIp() const;
@@ -51,11 +57,13 @@ class Client
 		string_t		getNickname() const;
 		string_t		getUsername() const;
 		string_t		getRealname() const;
+		string_t		getPingContent() const;
 
-		static Server	*server;
-		static pollfd_t	*pollfds;
 		sockaddr_in6_t	addr;
 		socklen_t		len;
+
+		static std::map<string_t, Client *>	nicknames;
+		static pthread_mutex_t				nicknames_mutex;
 
 	private:
 		unsigned int	_index;
@@ -64,6 +72,7 @@ class Client
 		string_t		_identity;
 		std::time_t 	_pingTime;
 		bool			_pinged;
+		string_t		_pingContent;
 		bool			_operator;
 		bool			_authenticated;
 		string_t		_nickname;

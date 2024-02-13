@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   typedef.hpp                                        :+:      :+:    :+:   */
+/*   types.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPEDEF_HPP
-	#define TYPEDEF_HPP
+#ifndef TYPES_HPP
+	#define TYPES_HPP
 	
+/* INCLUDES ***************************************************************** */
+
 	#include <string>
 	#include <iostream>
 	#include <errno.h>
@@ -31,21 +33,31 @@
 	#include <sys/time.h>
 	#include <stdexcept>
 	#include <cstdlib>
+	#include <bits/stdc++.h> 
 
-/* ************************************************************************** */
+	class Server;
+	class Client;
+
+/* DEFINES ****************************************************************** */
 
 	#ifndef EXECUTABLE
 		#define EXECUTABLE "ircserv"
 	#endif
-	#define TIMEOUTSEC 50
+	#define TIMEOUTSEC 30
 	#define MAX_CLIENTS 2
+
+/* COLORS ******************************************************************* */
+
 	#define RED "\033[0;31m"
 	#define GREEN "\033[0;32m"
 	#define ORANGE "\033[0;33m"
 	#define BLUE "\033[0;34m"
+	#define MAGENTA "\033[35m"
+	#define CYAN "\033[36m"
+	#define BOLD "\033[1m"
 	#define NC "\033[0m"
 
-/* ************************************************************************** */
+/* TYPEDEFS ***************************************************************** */
 
 	typedef struct sockaddr 	sockaddr_t;
 	typedef struct sockaddr_in6	sockaddr_in6_t;
@@ -54,17 +66,7 @@
 	typedef int					socket_t;
 	typedef	std::string			string_t;
 
-/* ************************************************************************** */
-
-	class Server;
-	class Client;
-
-	typedef struct s_data
-	{
-		Server		&server;
-		Client		(&clients)[MAX_CLIENTS + 1];
-		pollfd_t	(&pollfds)[MAX_CLIENTS + 1];
-	}	Data;
+/* STRUCTURES *************************************************************** */
 
 	typedef struct s_message
 	{
@@ -72,8 +74,22 @@
 		string_t	content;
 	}	Message;
 
-	extern bool 			endOfProgram;
-	extern pthread_mutex_t	endOfProgram_mutex;
+	typedef struct s_ircReference
+	{
+		string_t	numeric;
+		string_t	content;
+	}	IrcReference;
+
+/* GLOBALS ****************************************************************** */
+
+	extern Server			*g_server;
+	extern Client			*g_clients;
+	extern pollfd_t			*g_pollfds;
+
+	extern string_t			g_servername;
+	extern string_t			g_serversion;
+	extern bool 			g_endOfProgram;
+	extern pthread_mutex_t	g_endOfProgram_mutex;
 
 /* ************************************************************************** */
 

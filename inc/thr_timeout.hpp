@@ -6,16 +6,16 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:58:38 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/30 16:26:02 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/13 15:53:08 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef THR_TIMEOUT_HPP
 	#define THR_TIMEOUT_HPP
 
-	#include "IRC.hpp"
+	#include "types.hpp"
 	#include "Client.hpp"
-	#include "connections.hpp"
+	#include "newConn.hpp"
 
 /* ************************************************************************** */
 

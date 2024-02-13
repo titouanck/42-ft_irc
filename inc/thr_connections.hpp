@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thr_connections.hpp                                       :+:      :+:    :+:   */
+/*   thr_newConn.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,8 +12,8 @@
 
 #ifndef THR_CONNECTIONS_HPP
 	#define THR_CONNECTIONS_HPP
-	#include "IRC.hpp"
-	#include "connections.hpp"
+	#include "types.hpp"
+	#include "newConn.hpp"
 
 /* ************************************************************************** */
 

@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   connections.hpp                                    :+:      :+:    :+:   */
+/*   numericReferences.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 14:53:26 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 17:03:40 by titouanck        ###   ########.fr       */
+/*   Created: 2024/02/13 13:43:41 by tchevrie          #+#    #+#             */
+/*   Updated: 2024/02/13 17:57:44 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONNECTIONS_HPP
-	#define CONNECTIONS_HPP
-	
+#ifndef NUMERICREFERENCES_HPP
+	#define NUMERICREFERENCES_HPP
+	#include "types.hpp"
 	#include "tools.hpp"
-	#include "Server.hpp"
+	#include "Client.hpp"
 
 /* ************************************************************************** */
 
-void	removeConn(Client &client);
-void	handleConn(Client *clients);
+string_t		formatReference(string_t nickname, IrcReference ref);
+string_t		welcomeBurst(Client &client);
+IrcReference	RPL_WELCOME(Client &client);
+IrcReference	RPL_YOURHOST();
+IrcReference	RPL_CREATED();
+IrcReference	RPL_MYINFO();
+IrcReference	RPL_MOTD();
+IrcReference	RPL_MOTDSTART();
+IrcReference	RPL_ENDOFMOTD();
+IrcReference	ERR_NOTREGISTERED();
+IrcReference	ERR_NICKNAMEINUSE();
 
 /* ************************************************************************** */
 

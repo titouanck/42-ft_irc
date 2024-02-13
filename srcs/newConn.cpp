@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   connections.cpp                                    :+:      :+:    :+:   */
+/*   newConn.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/30 16:24:01 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/13 18:15:03 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "connections.hpp"
+#include "newConn.hpp"
+#include "numericReferences.hpp"
 
 /* ************************************************************************** */
 
-static void	printConn(unsigned char connStatus, const Client &client)
+void	printConn(unsigned char connStatus, const Client &client)
 {
 	switch (connStatus)
 	{
@@ -27,19 +28,10 @@ static void	printConn(unsigned char connStatus, const Client &client)
 		case '!':
 			std::cout << ORANGE	<< "[!] Cannot connect with " << client.getIdentity() << ", too many clients (see MAX_CLIENTS)" NC << '\n';
 			break ;
+		default:
+			return ;
 	}
-}
-
-/* ************************************************************************** */
-
-void	removeConn(Client &client)
-{
-	pollfd_t	&pollfd = IRC::pollfds[client.getIndex()];
-
-	close(pollfd.fd);
-	bzero(&pollfd, sizeof(pollfd));
-	printConn('-', client);
-	bzero(&client, sizeof(client));
+	std::cout << "----------------------------------------" << '\n';
 }
 
 /* ************************************************************************** */
@@ -60,8 +52,8 @@ static void	rejectConn(Server *server)
 
 static void	acceptConn(Client &client, int index)
 {
-	Server		*server = IRC::server;
-	pollfd_t	&pollfd = IRC::pollfds[index];
+	Server		*server = g_server;
+	pollfd_t	&pollfd = g_pollfds[index];
 
 	client.len = sizeof(client.addr);
 	pollfd.fd = accept(server->sock, (sockaddr_t *)&(client.addr), &(client.len));
@@ -75,8 +67,8 @@ static void	acceptConn(Client &client, int index)
 
 void	handleConn(Client *clients)
 {
-	Server		*server  = IRC::server;
-	pollfd_t	*pollfds = IRC::pollfds;
+	Server		*server  = g_server;
+	pollfd_t	*pollfds = g_pollfds;
 	int 		index;
 
 	for (index = 1; index < MAX_CLIENTS + 1; ++index)

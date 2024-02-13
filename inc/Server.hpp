@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:42:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 16:19:23 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/13 13:22:22 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,23 @@ class Server
 		bool				init();
 		void				closeSocket();
 		string_t			getPassword() const;
+		std::time_t			getLaunchTime() const;
 
 		socket_t			sock;
 		sockaddr_in6_t		sin6;
 	
 	private:
+		Server();
+		Server(const Server &copy);
+		Server &operator=(const Server &copy);
+
 		bool				initSocket();
 		bool				initBind();
 		bool				initListen();
 
 		const unsigned int	_port;
-		const string_t	_password;
-
-		Server();
-		Server(const Server &copy);
-		Server	&operator=(const Server &copy);
+		const string_t		_password;
+		const std::time_t	_launchTime;
 };
 
 /* ************************************************************************** */

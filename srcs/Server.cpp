@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:49:28 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 16:19:13 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/13 13:22:44 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 /* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
 
-Server::Server() : _port(0), _password("")
+Server::Server() : _port(0), _password(""), _launchTime(0)
 {	/* PRIVATE */
 }
 
-Server::Server(const Server &copy) : _port(0), _password("")
+Server::Server(const Server &copy) : _port(0), _password(""), _launchTime(0)
 {	/* PRIVATE */
 	*this = copy;
 }
@@ -36,7 +36,7 @@ Server::~Server()
 
 /* ADDITIONNAL CONSTRUCTORS ************************************************* */
 
-Server::Server(unsigned int port, string_t password) : _port(port), _password(password)
+Server::Server(unsigned int port, string_t password) : _port(port), _password(password), _launchTime(std::time(0))
 {
 	this->sin6.sin6_family = AF_INET6;
 	this->sin6.sin6_addr = in6addr_any;
@@ -68,6 +68,11 @@ void	Server::closeSocket()
 string_t	Server::getPassword() const
 {
 	return this->_password;
+}
+
+std::time_t	Server::getLaunchTime() const
+{
+	return this->_launchTime;
 }
 
 /* INITIALISERS ************************************************************* */

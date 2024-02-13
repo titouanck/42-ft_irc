@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IRC.hpp                                            :+:      :+:    :+:   */
+/*   newConn.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/30 16:17:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/12 15:16:09 by tchevrie         ###   ########.fr       */
+/*   Created: 2024/01/24 14:53:26 by titouanck         #+#    #+#             */
+/*   Updated: 2024/01/25 17:03:40 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRC_HPP
-	#define IRC_HPP
-	#include "typedef.hpp"
-	#include <set>
+#ifndef NEWCONN_HPP
+	#define NEWCONN_HPP
+	
+	#include "tools.hpp"
+	#include "Server.hpp"
 
 /* ************************************************************************** */
 
-class IRC
-{
-	public:
-		static Server				*server;
-		static pollfd_t				*pollfds;
-		static Client				*clients;
-		static std::set<string_t>	nickLst;
-		static pthread_mutex_t		nickLst_mutex;
-
-	private:
-		IRC();
-		IRC(const IRC &copy);
-		IRC &operator=(const IRC &copy);
-		~IRC();
-};
+void	handleConn(Client *clients);
+void	printConn(unsigned char connStatus, const Client &client);
 
 /* ************************************************************************** */
 
