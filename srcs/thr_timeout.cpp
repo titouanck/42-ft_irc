@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:59:13 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/13 18:49:22 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/14 01:32:31 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	*thr_timeout(void *arg)
 					switch (std::time(0) % 2)
 					{
 						case 0:
-							clients[i].setPingContent(":" + g_servername);
+							clients[i].setPingContent(g_servername);
 							clients[i].sendMessage("PING :" + g_servername + "\n");
 							break ;
 						default:
-							clients[i].setPingContent(":" + g_serversion);
+							clients[i].setPingContent(g_serversion);
 							clients[i].sendMessage("PING :" + g_serversion + "\n");
 							break ;
 					}

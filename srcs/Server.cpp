@@ -3,100 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:49:28 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/13 13:22:44 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:41:49 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-/* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
+/* STATIC VARIABLES ********************************************************* */
 
-Server::Server() : _port(0), _password(""), _launchTime(0)
-{	/* PRIVATE */
-}
+const std::time_t	Server::launchTime = std::time(0);
+uint16_t			Server::port;
+string_t			Server::password;
+socket_t			Server::sock;
+sockaddr_in6_t		Server::sin6;
 
-Server::Server(const Server &copy) : _port(0), _password(""), _launchTime(0)
-{	/* PRIVATE */
-	*this = copy;
-}
+/* INITIALISATION *********************************************************** */
 
-Server	&Server::operator=(const Server &copy)
-{	/* PRIVATE */
-	(void)	copy;
-	return	*this;
-}
-
-Server::~Server()
+bool	Server::init(uint16_t port_, string_t password_)
 {
-	this->closeSocket();
-}
-
-/* ADDITIONNAL CONSTRUCTORS ************************************************* */
-
-Server::Server(unsigned int port, string_t password) : _port(port), _password(password), _launchTime(std::time(0))
-{
-	this->sin6.sin6_family = AF_INET6;
-	this->sin6.sin6_addr = in6addr_any;
-	this->sin6.sin6_port = htons(this->_port);
-	this->sock = -1;
-}
-
-/* OTHER ******************************************************************** */
-
-bool	Server::init()
-{
-	if (!this->initSocket() || !this->initBind() || !this->initListen())
+	if (port_ == 0)
+		port = MIN_PORT;
+	else
+		port = port_;
+	password = password_;
+	sin6.sin6_family = AF_INET6;
+	sin6.sin6_addr = in6addr_any;
+	sin6.sin6_port = htons(port);
+	sock = -1;
+	if (!initSocket() || !initBind(!port_) || !initListen())
 	{
-		this->closeSocket(); 
+		closeSocket(); 
 		return false;
 	}
 	return true;
 }
 
-void	Server::closeSocket()
-{
-	if (this->sock != -1)
-		close(this->sock);
-	this->sock = -1;
-}
-
-/* GETTERS ****************************************************************** */
-	
-string_t	Server::getPassword() const
-{
-	return this->_password;
-}
-
-std::time_t	Server::getLaunchTime() const
-{
-	return this->_launchTime;
-}
-
-/* INITIALISERS ************************************************************* */
-
 bool	Server::initSocket()
-{	/* PRIVATE */
-	this->sock = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
-	if (this->sock == -1)
+{
+	sock = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
+	if (sock == -1)
 		return printError("socket"), false;
 	return true;
 }
 
-bool	Server::initBind()
-{	/* PRIVATE */
-	if (this->sock == -1 || bind(this->sock, (sockaddr_t *)&(this->sin6), sizeof(this->sin6)) == -1)
-		return printError("bind"), false;
-	return true;
+bool	Server::initBind(bool useClosestAvailablePort)
+{
+	int	result;
+
+	while (1)
+	{
+		result = bind(sock, (sockaddr_t *)&(sin6), sizeof(sin6));
+		if (result == 0)
+			return true;
+		else if (!useClosestAvailablePort || port == 65535)
+			return printError("bind"), false;
+		else
+		{
+			port++;
+			sin6.sin6_port = htons(port);
+		}
+	}
 }
 
 bool	Server::initListen()
-{	/* PRIVATE */
-	if (this->sock == -1 || listen(this->sock, SOMAXCONN) == -1)
+{
+	if (sock == -1 || listen(sock, SOMAXCONN) == -1)
 		return printError("listen"), false;
 	return true;
+}
+
+/* GETTERS ******************************************************************* */
+
+uint16_t	Server::getPort()
+{
+	return port;
+}
+
+string_t	Server::getPassword()
+{
+	return password;
+}
+
+/* END OF PROGRAM ************************************************************ */
+
+void	Server::closeSocket()
+{
+	if (sock != -1)
+		close(sock);
+	sock = -1;
 }
 
 /* ************************************************************************** */

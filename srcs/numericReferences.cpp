@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:12 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/13 21:53:40 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/14 01:28:15 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,17 @@ string_t	formatReference(string_t nickname, IrcReference ref)
 string_t	welcomeBurst(Client &client)
 {
 	string_t	str;
+	string_t	nickname;
 
-	str += formatReference(client.getNickname(), RPL_WELCOME(client));
-	str += formatReference(client.getNickname(), RPL_YOURHOST());
-	str += formatReference(client.getNickname(), RPL_CREATED());
-	str += formatReference(client.getNickname(), RPL_MYINFO());
-	str += formatReference(client.getNickname(), RPL_MOTDSTART());
-	str += formatReference(client.getNickname(), RPL_MOTD());
-	str += formatReference(client.getNickname(), RPL_ENDOFMOTD());
+	nickname = client.getNickname();
+
+	str += formatReference(nickname, RPL_WELCOME(client));
+	str += formatReference(nickname, RPL_YOURHOST());
+	str += formatReference(nickname, RPL_CREATED());
+	str += formatReference(nickname, RPL_MYINFO());
+	str += formatReference(nickname, RPL_MOTDSTART());
+	str += formatReference(nickname, RPL_MOTD());
+	str += formatReference(nickname, RPL_ENDOFMOTD());
 	return str;
 }
 
@@ -64,7 +67,7 @@ IrcReference	RPL_CREATED()
 {
 	std::ostringstream	oss;
 
-	oss << "This server was created " << formatTime(g_server->getLaunchTime());
+	oss << "This server was created " << formatTime(Server::launchTime);
 	return (IrcReference){"003", oss.str()};
 }
 

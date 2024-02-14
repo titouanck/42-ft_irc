@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:42:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/13 13:22:22 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:23:22 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,28 @@
 	#define SERVER_HPP
 	#include "tools.hpp"
 
-/* ************************************************************************** */
+/* NON INSTANCIABLE CLASS *************************************************** */
 
 class Server
 {
 	public:
-		Server(unsigned int port, string_t password);
-		~Server();
+		static bool					init(uint16_t port_, string_t password_);
+		static void					closeSocket();
+		static uint16_t				getPort();
+		static string_t				getPassword();
 
-		bool				init();
-		void				closeSocket();
-		string_t			getPassword() const;
-		std::time_t			getLaunchTime() const;
+		static const std::time_t	launchTime;
+		static socket_t				sock;
+		static sockaddr_in6_t		sin6;
 
-		socket_t			sock;
-		sockaddr_in6_t		sin6;
-	
 	private:
-		Server();
-		Server(const Server &copy);
-		Server &operator=(const Server &copy);
+		virtual ~Server() 			= 0;
+		static bool					initSocket();
+		static bool					initBind(bool useClosestAvailablePort);
+		static bool					initListen();
 
-		bool				initSocket();
-		bool				initBind();
-		bool				initListen();
-
-		const unsigned int	_port;
-		const string_t		_password;
-		const std::time_t	_launchTime;
+		static uint16_t				port;
+		static string_t				password;
 };
 
 /* ************************************************************************** */

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/13 21:56:31 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/14 04:12:54 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "Server.hpp"
 #include "newConn.hpp"
 #include "numericReferences.hpp"
+#include "Channel.hpp"
 
 /* STATIC VARIABLES ********************************************************** */
 
@@ -53,7 +54,7 @@ Client::~Client()
 
 void	Client::PASS(string_t passphrase)
 {
-	if (this->_authenticated || passphrase.compare(g_server->getPassword()) != 0)
+	if (this->_authenticated || passphrase.compare(Server::getPassword()) != 0)
 		this->disconnect();
 	else
 	{
@@ -135,6 +136,8 @@ void	Client::CAP(string_t content)
 
 void	Client::PONG(string_t content)
 {
+	if (content.length() > 1 && content[0] == ':')
+		content = content.substr(1);
 	if (content.compare(this->_pingContent) == 0)
 	{
 		this->_pinged = false;
@@ -144,7 +147,28 @@ void	Client::PONG(string_t content)
 
 void	Client::JOIN(string_t content)
 {
-	(void)	content;
+	std::stringstream	oss;
+
+	if (content.length() < 2 || content[0] != '#')
+		return ;
+	content = content.substr(1);
+	if (!checkStrValidity(content))
+		return ;
+	if (this->_username.length() == 0)
+		oss << ":" << this->_nickname << "!" << this->_nickname << "@" << g_servername << " JOIN #" << content << '\n';
+	else
+		oss << ":" << this->_nickname << "!" << this->_username << "@" << g_servername << " JOIN #" << content << '\n';
+	if (g_channels.find(content) == g_channels.end())
+	{
+		g_channels[content] = Channel();
+		g_channels[content].setName(content);
+		oss << formatReference(this->_nickname + " = #" + content, (IrcReference){"353", "@" + this->_nickname});
+	}
+	else
+		oss << formatReference(this->_nickname + " = #" + content, (IrcReference){"353", this->_nickname});
+	g_channels[content].connect(this);
+	oss << formatReference(this->_nickname + " #" + content, (IrcReference){"366", "End of /NAMES list"});
+	this->sendMessage(oss.str());
 }
 
 void	Client::LEAVE(string_t content)
@@ -156,8 +180,14 @@ void	Client::LEAVE(string_t content)
 
 void	Client::disconnect()
 {
+	std::map<string_t, Channel *>::iterator it;
 	pollfd_t	&pollfd = g_pollfds[this->_index];
 
+	for (it = this->_channels.begin(); it != this->_channels.end(); ++it)
+	{
+		std::cout << "ITERATION" << '\n';
+		// (it->second)->disconnect(this);
+	}
 	if (this->_nickname.length() > 0)
 		Client::nicknames.erase(this->_nickname);
 	close(pollfd.fd);

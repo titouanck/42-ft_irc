@@ -37,6 +37,7 @@
 
 	class Server;
 	class Client;
+	class Channel;
 
 /* DEFINES ****************************************************************** */
 
@@ -44,8 +45,10 @@
 		#define EXECUTABLE "ircserv"
 	#endif
 	#define TIMEOUTSEC 30
-	#define MAX_CLIENTS 2
+	#define MAX_CLIENTS 3
 	#define GUEST "anonymous"
+	#define MIN_PORT 1024
+	#define MAX_PORT 65535
 
 /* COLORS ******************************************************************* */
 
@@ -83,14 +86,14 @@
 
 /* GLOBALS ****************************************************************** */
 
-	extern Server			*g_server;
-	extern Client			*g_clients;
-	extern pollfd_t			*g_pollfds;
+	extern Client						*g_clients;
+	extern pollfd_t						*g_pollfds;
 
-	extern string_t			g_servername;
-	extern string_t			g_serversion;
-	extern bool 			g_endOfProgram;
-	extern pthread_mutex_t	g_endOfProgram_mutex;
+	extern std::map<string_t, Channel>	g_channels;
+	extern string_t						g_servername;
+	extern string_t						g_serversion;
+	extern bool 						g_endOfProgram;
+	extern pthread_mutex_t				g_endOfProgram_mutex;
 
 /* ************************************************************************** */
 
