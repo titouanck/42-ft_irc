@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 02:40:35 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/14 14:30:05 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 	#define CLIENT_HPP
 	#include "types.hpp"
-	#include <map>
+	#include <set>
 
 	class Server;
 	class Channel;
@@ -34,7 +34,8 @@ class Client
 		void			CAP(string_t content);
 		void			PONG(string_t content);
 		void			JOIN(string_t content);
-		void			LEAVE(string_t content);
+		void			PART(string_t content);
+		void			PRIVMSG(string_t content);
 		
 		void			sendMessage(string_t content);
 		void			disconnect();
@@ -63,6 +64,7 @@ class Client
 		sockaddr_in6_t	addr;
 		socklen_t		len;
 
+		std::set<string_t>					_channels;
 		static std::map<string_t, Client *>	nicknames;
 		static pthread_mutex_t				nicknames_mutex;
 
@@ -80,7 +82,6 @@ class Client
 		string_t						_username;
 		string_t						_realname;
 		pthread_mutex_t					_mutex;
-		std::map<string_t, Channel *>	_channels;
 };
 
 /* ************************************************************************** */

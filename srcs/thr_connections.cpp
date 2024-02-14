@@ -33,8 +33,10 @@ void	handleMessage(Client &client, Message message)
 		client.PONG(message.content);
 	else if (message.command.compare("JOIN") == 0)
 		client.JOIN(message.content);
-	else if (message.command.compare("LEAVE") == 0)
-		client.LEAVE(message.content);
+	else if (message.command.compare("PART") == 0)
+		client.PART(message.content);
+	else if (message.command.compare("PRIVMSG") == 0)
+		client.PRIVMSG(message.content);
 	else if (message.command.compare("QUIT") == 0)
 		client.disconnect();
 }

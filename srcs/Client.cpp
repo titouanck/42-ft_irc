@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 04:12:54 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/14 15:02:01 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ pthread_mutex_t					Client::nicknames_mutex;
 
 /* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
 
-Client::Client()
+Client::Client() : _channels()
 {
 	pthread_mutex_init(&this->_mutex, NULL);
+	this->_channels.insert("bonjour");
 }
 
 Client::Client(const Client &copy)
@@ -148,12 +149,19 @@ void	Client::PONG(string_t content)
 void	Client::JOIN(string_t content)
 {
 	std::stringstream	oss;
+	string_t			remaining;
+	size_t				pos;
 
 	if (content.length() < 2 || content[0] != '#')
 		return ;
 	content = content.substr(1);
+	pos = content.find(',');
+	if (pos != std::string::npos)
+		remaining = content.substr(pos + 1);
+	content = content.substr(0, pos);
 	if (!checkStrValidity(content))
 		return ;
+	transform(content.begin(), content.end(), content.begin(), tolower);
 	if (this->_username.length() == 0)
 		oss << ":" << this->_nickname << "!" << this->_nickname << "@" << g_servername << " JOIN #" << content << '\n';
 	else
@@ -166,28 +174,70 @@ void	Client::JOIN(string_t content)
 	}
 	else
 		oss << formatReference(this->_nickname + " = #" + content, (IrcReference){"353", this->_nickname});
-	g_channels[content].connect(this);
-	oss << formatReference(this->_nickname + " #" + content, (IrcReference){"366", "End of /NAMES list"});
-	this->sendMessage(oss.str());
+	if (this->_channels.find(content) == this->_channels.end())
+	{
+		this->_channels.insert(content);
+		g_channels[content].connect(this);
+		oss << formatReference(this->_nickname + " #" + content, (IrcReference){"366", "End of /NAMES list"});
+		this->sendMessage(oss.str());
+	}
+	this->JOIN(lTrim(remaining));
 }
 
-void	Client::LEAVE(string_t content)
+void	Client::PART(string_t content)
 {
-	(void)	content;
+	string_t			channelToLeave;
+
+	if (content.length() < 2 || content[0] != '#')
+		return ;
+	else
+		content = content.substr(1);
+	channelToLeave = rTrim(content);
+	transform(channelToLeave.begin(), channelToLeave.end(), channelToLeave.begin(), tolower);
+	if (g_channels.find(channelToLeave) != g_channels.end() && this->_channels.find(channelToLeave) != this->_channels.end())
+	{
+		g_channels[channelToLeave].disconnect(this);
+		this->_channels.erase(channelToLeave);	
+		this->sendMessage(formatIrcMessage(this, false, "#" + channelToLeave, "PART", content));
+	}
+}
+
+void	Client::PRIVMSG(string_t content)
+{
+	bool				isChannelName;
+	string_t			receiver;
+	size_t				pos;
+
+	if (content.length() > 2 && content[0] == '#')
+		isChannelName = true;
+	else
+		isChannelName = false;
+	pos = content.find(':');
+	if (pos == std::string::npos)
+		return ;
+	receiver = rTrim(content.substr(0, pos));
+	transform(receiver.begin(), receiver.end(), receiver.begin(), tolower);
+	content = content.substr(pos + 1);
+	if (!isChannelName && receiver.compare(this->_nickname) == 0)
+		return ;
+	if (!isChannelName && Client::nicknames.find(receiver) != Client::nicknames.end())
+		Client::nicknames[receiver]->sendMessage(formatIrcMessage(this, false, receiver, "PRIVMSG", content));
+	else if (isChannelName && g_channels.find(receiver.substr(1)) != g_channels.end())
+		g_channels[receiver.substr(1)].sendMessage(this, formatIrcMessage(this, false, receiver, "PRIVMSG", content));
 }
 
 /* SOCKET RELATED ACTIONS *************************************************** */
 
 void	Client::disconnect()
 {
-	std::map<string_t, Channel *>::iterator it;
+	// std::map<string_t, Channel *>::iterator it;
 	pollfd_t	&pollfd = g_pollfds[this->_index];
 
-	for (it = this->_channels.begin(); it != this->_channels.end(); ++it)
-	{
-		std::cout << "ITERATION" << '\n';
-		// (it->second)->disconnect(this);
-	}
+	// for (it = this->_channels.begin(); it != this->_channels.end(); ++it)
+	// {
+	// 	std::cout << "ITERATION" << '\n';
+	// 	// (it->second)->disconnect(this);
+	// }
 	if (this->_nickname.length() > 0)
 		Client::nicknames.erase(this->_nickname);
 	close(pollfd.fd);

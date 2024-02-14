@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 04:00:25 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/14 13:29:10 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,14 @@ void    Channel::disconnect(Client *client)
 
 /* DATA TRANSMISSION ******************************************************** */
 
-void	Channel::send(Client *client, string_t content)
+void	Channel::sendMessage(Client *client, string_t content)
 {
     std::vector<Client *>::iterator it;
     
     for (it = this->_users.begin(); it != this->_users.end(); it++)
     {
-        if (*it == client)
-            continue ;
-        client->sendMessage(content);
+        if (*it != client)
+            (*it)->sendMessage(content);
     }
 }
 
@@ -83,3 +82,4 @@ void    Channel::setName(string_t name)
     this->_name = name;
 }
 
+/* GETTERS ****************************************************************** */

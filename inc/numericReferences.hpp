@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numericReferences.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:43:41 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/13 21:53:56 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/14 13:46:21 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 /* ************************************************************************** */
 
+string_t		formatIrcMessage(Client *client, bool isOp, string_t channel, string_t command, string_t content);
 string_t		formatReference(string_t nickname, IrcReference ref);
 string_t		welcomeBurst(Client &client);
 IrcReference	RPL_WELCOME(Client &client);

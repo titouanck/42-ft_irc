@@ -3,17 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   numericReferences.cpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:12 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/14 01:28:15 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/14 13:46:07 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "numericReferences.hpp"
 #include "Server.hpp"
+#include "Client.hpp"
 
 /* ************************************************************************** */
+
+string_t	formatIrcMessage(Client *client, bool isOp, string_t channel, string_t command, string_t content)
+{
+	std::stringstream	oss;
+
+	oss << ":";
+	if (isOp)
+		oss << "@";
+	oss << client->getNickname() << '!';
+	if (client->getUsername().length() > 0)
+		oss << client->getUsername();
+	else
+		oss << client->getNickname();
+	oss << "@" << g_servername << " " << command << " " << channel << " :" << content << '\n';
+	return oss.str();
+}
 
 string_t	formatReference(string_t nickname, IrcReference ref)
 {
