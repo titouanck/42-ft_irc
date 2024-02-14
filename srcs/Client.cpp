@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 15:02:01 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:34:51 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	Client::NICK(string_t nickname)
 		return this->sendMessage(formatReference(GUEST, ERR_NOTREGISTERED()));
 	else if (this->_nickname.compare(nickname) == 0)
 		return ;
-	else if (!checkStrValidity(nickname) || nickname.compare(GUEST) == 0)
+	nickname = rTrim(nickname.substr(0, nickname.find(':')));
+	if (!checkStrValidity(nickname) || nickname.compare(GUEST) == 0)
 		return this->sendMessage(formatReference(GUEST, ERR_ERRONEUSNICKNAME()));
 	pthread_mutex_lock(&Client::nicknames_mutex);
 	if (Client::nicknames.find(nickname) == Client::nicknames.end())
@@ -92,7 +93,7 @@ void	Client::NICK(string_t nickname)
 		}
 	}
 	else
-		this->sendMessage(formatReference(GUEST, ERR_NICKNAMEINUSE()));
+		this->sendMessage(formatReference(GUEST, ERR_NICKNAMEINUSE(nickname)));
 	pthread_mutex_unlock(&Client::nicknames_mutex);
 }
 
@@ -230,14 +231,17 @@ void	Client::PRIVMSG(string_t content)
 
 void	Client::disconnect()
 {
-	// std::map<string_t, Channel *>::iterator it;
 	pollfd_t	&pollfd = g_pollfds[this->_index];
 
-	// for (it = this->_channels.begin(); it != this->_channels.end(); ++it)
-	// {
-	// 	std::cout << "ITERATION" << '\n';
-	// 	// (it->second)->disconnect(this);
-	// }
+	for (std::set<string_t>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
+	{
+		if (g_channels.find(*it) != g_channels.end())
+		{
+			g_channels[*it].disconnect(this);
+			if (g_channels[*it].getSize() == 0)
+				g_channels.erase(*it);
+		}
+	}
 	if (this->_nickname.length() > 0)
 		Client::nicknames.erase(this->_nickname);
 	close(pollfd.fd);

@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:43:41 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/14 13:46:21 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:22:03 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ IrcReference	RPL_MOTD();
 IrcReference	RPL_MOTDSTART();
 IrcReference	RPL_ENDOFMOTD();
 IrcReference	ERR_NOTREGISTERED();
-IrcReference	ERR_NICKNAMEINUSE();
+IrcReference	ERR_NICKNAMEINUSE(string_t nickname);
 IrcReference	ERR_ERRONEUSNICKNAME();
 
 /* ************************************************************************** */

@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 13:29:10 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:15:48 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,8 @@ void    Channel::setName(string_t name)
 }
 
 /* GETTERS ****************************************************************** */
+
+size_t    Channel::getSize() const
+{
+    return this->_users.size();
+}

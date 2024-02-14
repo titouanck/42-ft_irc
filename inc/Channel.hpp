@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 13:11:28 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:15:52 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class Channel
 		void	disconnect(Client *client);
 		void	sendMessage(Client *client, string_t content);
 		void    setName(string_t name);
+		size_t	getSize() const;
 
 	private:
 		

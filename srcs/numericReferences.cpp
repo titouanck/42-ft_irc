@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:12 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/14 13:46:07 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:31:41 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,9 @@ IrcReference	ERR_ERRONEUSNICKNAME()
 }
 
 // 433
-IrcReference	ERR_NICKNAMEINUSE()
+IrcReference	ERR_NICKNAMEINUSE(string_t nickname)
 {
-	return (IrcReference){"433", "Nickname already in use, choose another one"};
+	return (IrcReference){"433", nickname + " :Nickname is already in use"};
 }
 
 // 451
