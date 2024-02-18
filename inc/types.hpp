@@ -44,7 +44,7 @@
 	#ifndef EXECUTABLE
 		#define EXECUTABLE "ircserv"
 	#endif
-	#define TIMEOUTSEC 30
+	#define TIMEOUTSEC 300
 	#define MAX_CLIENTS 3
 	#define GUEST "anonymous"
 	#define MIN_PORT 1024

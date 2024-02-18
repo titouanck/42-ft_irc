@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 15:34:51 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:11:42 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,11 @@ void	Client::CAP(string_t content)
 	this->sendMessage(formatReference("", (IrcReference){"CAP * LS", ""}));
 }
 
+void	Client::PING(string_t content)
+{
+	this->sendMessage("PONG " + content + "\n");
+}
+
 void	Client::PONG(string_t content)
 {
 	if (content.length() > 1 && content[0] == ':')
@@ -151,7 +156,9 @@ void	Client::JOIN(string_t content)
 {
 	std::stringstream	oss;
 	string_t			remaining;
+	string_t			channelKey;
 	size_t				pos;
+	bool				isOp;
 
 	if (content.length() < 2 || content[0] != '#')
 		return ;
@@ -160,27 +167,40 @@ void	Client::JOIN(string_t content)
 	if (pos != std::string::npos)
 		remaining = content.substr(pos + 1);
 	content = content.substr(0, pos);
+	pos = content.find_first_of(" \t");
+	if (pos != std::string::npos)
+		channelKey = content.substr(pos + 1);
+	content = content.substr(0, pos);
 	if (!checkStrValidity(content))
 		return ;
 	transform(content.begin(), content.end(), content.begin(), tolower);
+	
 	if (this->_username.length() == 0)
 		oss << ":" << this->_nickname << "!" << this->_nickname << "@" << g_servername << " JOIN #" << content << '\n';
 	else
 		oss << ":" << this->_nickname << "!" << this->_username << "@" << g_servername << " JOIN #" << content << '\n';
-	if (g_channels.find(content) == g_channels.end())
+	
+	if (g_channels.find(content) == g_channels.end())	/* If channel doesn't exist */
 	{
 		g_channels[content] = Channel();
 		g_channels[content].setName(content);
 		oss << formatReference(this->_nickname + " = #" + content, (IrcReference){"353", "@" + this->_nickname});
+		isOp = true;
 	}
-	else
-		oss << formatReference(this->_nickname + " = #" + content, (IrcReference){"353", this->_nickname});
+	else 												/* If channel does exist */
+	{
+		oss << formatReference(this->_nickname + " = #" + content, RPL_NAMREPLY(this->_nickname, g_channels[content].getUsers()));
+		isOp = false;
+	}
+	
 	if (this->_channels.find(content) == this->_channels.end())
 	{
-		this->_channels.insert(content);
-		g_channels[content].connect(this);
 		oss << formatReference(this->_nickname + " #" + content, (IrcReference){"366", "End of /NAMES list"});
 		this->sendMessage(oss.str());
+		this->_channels.insert(content);
+		g_channels[content].connect(this);
+		if (isOp)
+			g_channels[content].op(this);
 	}
 	this->JOIN(lTrim(remaining));
 }
@@ -201,6 +221,28 @@ void	Client::PART(string_t content)
 		this->_channels.erase(channelToLeave);	
 		this->sendMessage(formatIrcMessage(this, false, "#" + channelToLeave, "PART", content));
 	}
+}
+
+void	Client::KICK(string_t content)
+{
+	string_t			channel;
+	string_t			nickname;
+	size_t				pos;
+
+	if (content.length() < 2 || content[0] != '#')
+		return ;
+	else
+		content = content.substr(1);
+	transform(content.begin(), content.end(), content.begin(), tolower);
+	pos = content.find_first_of(" \t");
+	if (pos != std::string::npos)
+		nickname = content.substr(pos + 1);
+	channel = content.substr(0, pos);
+
+	pos = nickname.find(':');
+	if (pos != std::string::npos)
+		content = nickname.substr(pos + 1);
+	nickname = rTrim(nickname.substr(0, pos));
 }
 
 void	Client::PRIVMSG(string_t content)

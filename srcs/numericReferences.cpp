@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   numericReferences.cpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:12 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/14 15:31:41 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:37:43 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "numericReferences.hpp"
 #include "Server.hpp"
 #include "Client.hpp"
+#include "Channel.hpp"
 
 /* ************************************************************************** */
 
@@ -110,6 +111,23 @@ IrcReference	RPL_MYINFO()
 // {
 // 	return (IrcReference){"311", "<>"};
 // }
+
+// 353
+IrcReference	RPL_NAMREPLY(string_t nickname, const std::map<Client *, bool>	&users)
+{
+	std::ostringstream							oss;
+	std::map<Client *, bool>::const_iterator	it;
+
+	oss << nickname;
+	for (it = users.begin(); it != users.end(); ++it)
+	{
+		oss << ' ';
+		if (it->second == OPERATOR)
+			oss << '@';
+		oss << it->first->getNickname();
+	}
+	return (IrcReference){"353", oss.str()};
+}
 
 // 372
 IrcReference	RPL_MOTD()

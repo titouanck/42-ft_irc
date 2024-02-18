@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 14:30:05 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/18 16:51:37 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ class Client
 		void			NICK(string_t nickname);
 		void			USER(string_t content);
 		void			CAP(string_t content);
+		void			PING(string_t content);
 		void			PONG(string_t content);
 		void			JOIN(string_t content);
 		void			PART(string_t content);
+		void			KICK(string_t content);
 		void			PRIVMSG(string_t content);
 		
 		void			sendMessage(string_t content);
@@ -60,6 +62,7 @@ class Client
 		string_t		getUsername() const;
 		string_t		getRealname() const;
 		string_t		getPingContent() const;
+		static Client	*getClientByNickname();
 
 		sockaddr_in6_t	addr;
 		socklen_t		len;

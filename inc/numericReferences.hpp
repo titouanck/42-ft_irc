@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numericReferences.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:43:41 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/14 15:22:03 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:37:11 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ IrcReference	RPL_ENDOFMOTD();
 IrcReference	ERR_NOTREGISTERED();
 IrcReference	ERR_NICKNAMEINUSE(string_t nickname);
 IrcReference	ERR_ERRONEUSNICKNAME();
+IrcReference	RPL_NAMREPLY(string_t nickname, const std::map<Client *, bool>	&users);
 
 /* ************************************************************************** */
 

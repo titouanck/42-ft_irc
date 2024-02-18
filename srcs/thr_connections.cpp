@@ -29,12 +29,16 @@ void	handleMessage(Client &client, Message message)
 		client.NICK(message.content);
 	else if (message.command.compare("USER") == 0)
 		client.USER(message.content);
+	else if (message.command.compare("PING") == 0)
+		client.PING(message.content);
 	else if (message.command.compare("PONG") == 0)
 		client.PONG(message.content);
 	else if (message.command.compare("JOIN") == 0)
 		client.JOIN(message.content);
 	else if (message.command.compare("PART") == 0)
 		client.PART(message.content);
+	else if (message.command.compare("KICK") == 0)
+		client.KICK(message.content);
 	else if (message.command.compare("PRIVMSG") == 0)
 		client.PRIVMSG(message.content);
 	else if (message.command.compare("QUIT") == 0)

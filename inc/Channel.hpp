@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 15:15:52 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/18 16:51:08 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 	#include "types.hpp"
 	#include <vector>
 	
+	#define OPERATOR true
+	#define ISNOTOP false
+
 	class Client;
 
 /* ************************************************************************** */
@@ -27,16 +30,20 @@ class Channel
 		Channel &operator=(const Channel &copy);
 		~Channel();
 
-		void	connect(Client *client);
-		void	disconnect(Client *client);
-		void	sendMessage(Client *client, string_t content);
-		void    setName(string_t name);
-		size_t	getSize() const;
+		void							connect(Client *client);
+		void							disconnect(Client *client);
+		void							sendMessage(Client *client, string_t content);
+		void					   		setName(string_t name);
+		void							op(Client *client);
+		void							deop(Client *client);
+		size_t							getSize() const;
+		const std::map<Client *, bool>	&getUsers() const;
+		bool							isOp(Client *client) const;
 
 	private:
 		
-		string_t				_name;
-		std::vector<Client *>	_users;
+		string_t					_name;
+		std::map<Client *, bool>	_users;
 };
 
 /* ************************************************************************** */

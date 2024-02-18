@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 15:15:48 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/18 16:47:26 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ Channel::Channel()
 
 Channel::Channel(const Channel &copy)
 {
-    *this = copy;
+	*this = copy;
 }
 
 Channel &Channel::operator=(const Channel &copy)
 {
-    (void)  copy;
-    return  *this;
+	(void)	copy;
+	return *this;
 }
 
 Channel::~Channel()
@@ -36,55 +36,73 @@ Channel::~Channel()
 
 /* CHANNEL CONNECTIONS ****************************************************** */
 
-void    Channel::connect(Client *client)
+void	Channel::connect(Client *client)
 {
-    std::vector<Client *>::iterator it;
-    
-    for (it = this->_users.begin(); it != this->_users.end(); it++)
-    {
-        if (*it == client)
-            return ;
-    }
-    this->_users.insert(this->_users.end(), client);
+	if (this->_users.find(client) == this->_users.end())
+		this->_users[client] = ISNOTOP;
 }
 
-void    Channel::disconnect(Client *client)
+void	Channel::disconnect(Client *client)
 {
-    std::vector<Client *>::iterator it;
-    
-    for (it = this->_users.begin(); it != this->_users.end(); it++)
-    {
-        if (*it == client)
-        {
-            this->_users.erase(it);
-            return ;
-        }
-    }
+	if (this->_users.find(client) != this->_users.end())
+		this->_users.erase(client);
 }
 
 /* DATA TRANSMISSION ******************************************************** */
 
 void	Channel::sendMessage(Client *client, string_t content)
 {
-    std::vector<Client *>::iterator it;
-    
-    for (it = this->_users.begin(); it != this->_users.end(); it++)
-    {
-        if (*it != client)
-            (*it)->sendMessage(content);
-    }
+	std::map<Client *, bool>::iterator it;
+
+	for (it = this->_users.begin(); it != this->_users.end(); it++)
+	{
+		if (it->first != client)
+			(it->first)->sendMessage(content);
+	}
 }
 
 /* SETTERS ****************************************************************** */
 
-void    Channel::setName(string_t name)
+void	Channel::setName(string_t name)
 {
-    this->_name = name;
+	this->_name = name;
+}
+
+void	Channel::op(Client *client)
+{
+	std::map<Client *, bool>::iterator it;
+
+	it = this->_users.find(client);
+	if (it != this->_users.end())
+		it->second = OPERATOR;
+}
+
+void	Channel::deop(Client *client)
+{
+	std::map<Client *, bool>::iterator it;
+
+	it = this->_users.find(client);
+	if (it != this->_users.end())
+		it->second = ISNOTOP;
 }
 
 /* GETTERS ****************************************************************** */
 
-size_t    Channel::getSize() const
+size_t	Channel::getSize() const
 {
-    return this->_users.size();
+	return this->_users.size();
+}
+
+const std::map<Client *, bool>	&Channel::getUsers() const
+{
+	return this->_users;
+}
+
+bool	Channel::isOp(Client *client) const
+{
+	std::map<Client *, bool>::const_iterator it;
+
+	it = this->_users.find(client);
+	if (it != this->_users.end())
+		return it->second;
 }
