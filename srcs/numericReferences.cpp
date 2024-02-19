@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:12 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/19 19:55:11 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 23:25:45 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ IrcReference	RPL_NAMREPLY(string_t nickname, const std::map<Client *, bool>	&use
 	for (it = users.begin(); it != users.end(); ++it)
 	{
 		oss << ' ';
-		if (it->second == OPERATOR)
+		if (it->second == ISOP)
 			oss << '@';
 		oss << it->first->getNickname();
 	}

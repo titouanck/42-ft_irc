@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thr_newConn.hpp                                       :+:      :+:    :+:   */
+/*   connections.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/17 10:14:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 18:16:49 by titouanck        ###   ########.fr       */
+/*   Created: 2024/02/19 23:44:36 by titouanck         #+#    #+#             */
+/*   Updated: 2024/02/19 23:44:41 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef THR_CONNECTIONS_HPP
-	#define THR_CONNECTIONS_HPP
+#ifndef CONNECTIONS_HPP
+	#define CONNECTIONS_HPP
 	#include "types.hpp"
 	#include "newConn.hpp"
 
 /* ************************************************************************** */
 
-void	*thr_connections(void *arg);
+void	*connections(void *arg);
 
 /* ************************************************************************** */
 

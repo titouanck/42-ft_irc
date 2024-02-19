@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thr_connections.cpp                                       :+:      :+:    :+:   */
+/*   connections.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "thr_connections.hpp"
-#include "thr_timeout.hpp"
+#include "connections.hpp"
+#include "timeout.hpp"
 #include "Server.hpp"
 
 #define BUFFER_SIZE 4096
@@ -108,11 +108,11 @@ void	readSocket(Client &client)
 		cout << '\n';
 	cout << " username: " << client.getUsername() << '\n';
 	cout << " realname: " << client.getRealname() << '\n';
-	cout << "----------------------------------------" << '\n';
 	handleClientInput(client, buffer);
+	cout << "----------------------------------------" << '\n';
 }
 
-void	*thr_connections(void *arg)
+void	*connections(void *arg)
 {
 	Client		*clients = (static_cast<Client (*)>(arg));
 	pollfd_t	*pollfds = g_pollfds;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thr_timeout.cpp                                    :+:      :+:    :+:   */
+/*   timeout.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "thr_timeout.hpp"
+#include "timeout.hpp"
 #include "numericReferences.hpp"
 
 /* ************************************************************************** */
 
-void	*thr_timeout(void *arg)
+void	*timeout(void *arg)
 {
 	Client	*clients = (static_cast<Client (*)>(arg));
 
@@ -27,23 +27,11 @@ void	*thr_timeout(void *arg)
 			if (clients[i].getIdentity().length() != 0)
 			{
 				if (clients[i].isPinged() == true && clients[i].getPingTime() + TIMEOUTSEC < std::time(0))
-				{
-					cout << "TIMEOUT" << '\n';
 					clients[i].disconnect();
-				}
 				else if (clients[i].isPinged() == false && clients[i].getPingTime() + (TIMEOUTSEC * 2) < std::time(0))
 				{
-					switch (std::time(0) % 2)
-					{
-						case 0:
-							clients[i].setPingContent(g_servername);
-							clients[i].sendMessage("PING :" + g_servername + "\n");
-							break ;
-						default:
-							clients[i].setPingContent(g_serversion);
-							clients[i].sendMessage("PING :" + g_serversion + "\n");
-							break ;
-					}
+					clients[i].setPingContent(g_servername);
+					clients[i].sendMessage("PING :" + g_servername + "\n");
 				}
 			}
 			clients[i].unlockMutex();

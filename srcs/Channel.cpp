@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 19:56:08 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 23:32:43 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	Channel::op(Client *client)
 
 	it = this->_users.find(client);
 	if (it != this->_users.end())
-		it->second = OPERATOR;
+		it->second = ISOP;
 }
 
 void	Channel::deop(Client *client)
@@ -92,11 +92,6 @@ void	Channel::deop(Client *client)
 }
 
 /* GETTERS ****************************************************************** */
-
-size_t	Channel::getSize() const
-{
-	return this->_users.size();
-}
 
 string_t	Channel::getTopic() const
 {

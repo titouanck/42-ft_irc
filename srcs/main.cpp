@@ -6,13 +6,13 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 15:50:22 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 23:44:20 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
 #include "tools.hpp"
-#include "thr_timeout.hpp"
+#include "timeout.hpp"
 #include "Channel.hpp"
 
 /* ************************************************************************** */
@@ -63,9 +63,9 @@ bool	irc_serv(unsigned int port, string_t password)
 	cout << "----------------------------------------" << '\n';
 	cout << "Launching " << RED << g_servername << NC << "..." << '\n';
 	
-	if (pthread_create(&thread_connections, NULL, thr_connections, &clients) != 0)
+	if (pthread_create(&thread_connections, NULL, connections, &clients) != 0)
     	return printError("pthread_create(&thread_connections, ...)"), false;
-	if (pthread_create(&thread_timeout, NULL, thr_timeout, &clients) != 0)
+	if (pthread_create(&thread_timeout, NULL, timeout, &clients) != 0)
     	return printError("pthread_create(&thread_timeout, ...)"), false;
 
 	cout << "Port: " RED << Server::getPort() << NC ", Password: " RED << password << NC << '\n';

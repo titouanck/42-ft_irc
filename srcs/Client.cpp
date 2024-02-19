@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 19:55:35 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 23:33:14 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,7 +333,7 @@ void	Client::disconnect()
 		if (g_channels.find(*it) != g_channels.end())
 		{
 			g_channels[*it].disconnect(this);
-			if (g_channels[*it].getSize() == 0)
+			if (g_channels[*it].getUsers().size() == 0)
 				g_channels.erase(*it);
 		}
 	}
