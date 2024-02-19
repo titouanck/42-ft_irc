@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 19:26:07 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:55:35 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,9 +223,9 @@ void	Client::PART(string_t content)
 
 void	Client::KICK(string_t content)
 {
-	string_t			givenChannel;
-	string_t			givenNickname;
-	size_t				pos;
+	string_t		givenChannel;
+	string_t		givenNickname;
+	size_t			pos;
 
 	if (content.length() < 2 || content[0] != '#')
 		return ;
@@ -256,6 +256,30 @@ void	Client::KICK(string_t content)
 		g_channels[givenChannel].disconnect(nicknames[givenNickname]);
 		nicknames[givenNickname]->sendMessage(formatIrcMessage(this->getFullname(), "#" + givenChannel + " " + givenNickname, "KICK", content));
 	}
+}
+
+void	Client::TOPIC(string_t content)
+{
+	size_t			pos;
+	string_t		givenChannel;
+	
+	if (content.length() < 2 || content[0] != '#')
+		return ;
+	else
+		content = content.substr(1);
+	pos = content.find_first_of(" \t");
+	givenChannel = content.substr(0, pos);
+	transform(givenChannel.begin(), givenChannel.end(), givenChannel.begin(), tolower);
+	if (pos == std::string::npos)
+	{
+		if (g_channels.find(givenChannel) != g_channels.end())
+			this->sendMessage(formatReference(this->_nickname + " #" + givenChannel, RPL_TOPIC(g_channels[givenChannel])));
+		else
+			this->sendMessage(formatReference(this->_nickname + " #" + givenChannel, ERR_NOSUCHCHANNEL()));
+		return ;
+	}
+	// givenChannel = content.substr(0, pos);
+	// content = content.substr(pos + 1);
 }
 
 void	Client::PRIVMSG(string_t content)

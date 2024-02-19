@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 17:41:54 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:34:47 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,19 @@ class Channel
 		void							disconnect(Client *client);
 		void							sendMessage(Client *client, string_t content);
 		void					   		setName(string_t name);
+		void					   		setTopic(string_t name);
 		void							op(Client *client);
 		void							deop(Client *client);
 		size_t							getSize() const;
 		const std::map<Client *, bool>	&getUsers() const;
+		string_t						getTopic() const;
 		bool							isOp(Client *client) const;
 		bool							isConnected(Client *client) const;
 
 	private:
-		
 		string_t					_name;
 		std::map<Client *, bool>	_users;
+		string_t					_topic;
 };
 
 /* ************************************************************************** */

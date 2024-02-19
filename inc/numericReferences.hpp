@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:43:41 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/19 18:48:20 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:55:02 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ IrcReference	RPL_NAMREPLY(string_t nickname, const std::map<Client *, bool>	&use
 IrcReference	ERR_NOSUCHNICK();
 IrcReference	ERR_NOSUCHCHANNEL();
 IrcReference	ERR_CANNOTSENDTOCHAN();
+IrcReference	RPL_TOPIC(Channel &channel);
 
 /* ************************************************************************** */
 

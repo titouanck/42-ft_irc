@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:12 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/19 19:22:01 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:55:11 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ IrcReference	RPL_MYINFO()
 	return (IrcReference){"004", "-"};
 }
 
+// 332
+IrcReference	RPL_TOPIC(Channel &channel)
+{
+	return (IrcReference){"332", channel.getTopic()};
+}
+	
 // 353
 IrcReference	RPL_NAMREPLY(string_t nickname, const std::map<Client *, bool>	&users)
 {

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 19:10:15 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:56:08 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void	Channel::setName(string_t name)
 	this->_name = name;
 }
 
+void	Channel::setTopic(string_t topic)
+{
+	this->_topic = topic;
+}
+
 void	Channel::op(Client *client)
 {
 	std::map<Client *, bool>::iterator it;
@@ -91,6 +96,11 @@ void	Channel::deop(Client *client)
 size_t	Channel::getSize() const
 {
 	return this->_users.size();
+}
+
+string_t	Channel::getTopic() const
+{
+	return this->_topic;
 }
 
 const std::map<Client *, bool>	&Channel::getUsers() const

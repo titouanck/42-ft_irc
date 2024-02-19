@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 18:14:43 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:38:44 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Client
 		void			PART(string_t content);
 		void			KICK(string_t content);
 		void			PRIVMSG(string_t content);
+		void			TOPIC(string_t content);
 		
 		void			sendMessage(string_t content);
 		void			disconnect();

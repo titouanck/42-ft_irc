@@ -41,6 +41,8 @@ void	handleMessage(Client &client, Message message)
 		client.KICK(message.content);
 	else if (message.command.compare("PRIVMSG") == 0)
 		client.PRIVMSG(message.content);
+	else if (message.command.compare("TOPIC") == 0)
+		client.TOPIC(message.content);
 	else if (message.command.compare("QUIT") == 0)
 		client.disconnect();
 }
