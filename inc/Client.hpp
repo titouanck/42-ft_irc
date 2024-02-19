@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/18 16:51:37 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 18:14:43 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ class Client
 		string_t		getNickname() const;
 		string_t		getUsername() const;
 		string_t		getRealname() const;
+		string_t		getFullname() const;
 		string_t		getPingContent() const;
 		static Client	*getClientByNickname();
 

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/18 16:51:08 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 17:41:54 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class Channel
 		size_t							getSize() const;
 		const std::map<Client *, bool>	&getUsers() const;
 		bool							isOp(Client *client) const;
+		bool							isConnected(Client *client) const;
 
 	private:
 		

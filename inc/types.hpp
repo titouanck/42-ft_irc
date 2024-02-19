@@ -49,6 +49,9 @@
 	#define GUEST "anonymous"
 	#define MIN_PORT 1024
 	#define MAX_PORT 65535
+	#define cout std::cout
+	#define cin std::cin
+	#define cerr std::cerr
 
 /* COLORS ******************************************************************* */
 

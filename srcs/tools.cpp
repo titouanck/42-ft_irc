@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:46:00 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 13:39:55 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:48:42 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	printError(string_t str)
 {
-	std::cout << "Error in " << str << ": " << std::strerror(errno) << '\n';
+	cout << "Error in " << str << ": " << std::strerror(errno) << '\n';
 }
 
 bool	endsWith(const string_t &str, const string_t &suffix)

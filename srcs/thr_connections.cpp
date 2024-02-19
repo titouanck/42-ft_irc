@@ -99,14 +99,14 @@ void	readSocket(Client &client)
 	buffer[bytesRead] = '\0';
 
 	if (client.getNickname().length() == 0)
-		std::cout << "(" << RED << "CLIENT " << client.getIndex() << NC ") " << MAGENTA << buffer << NC;
+		cout << "(" << RED << "CLIENT " << client.getIndex() << NC ") " << MAGENTA << buffer << NC;
 	else
-		std::cout << "(" << RED << client.getNickname() << NC ") " << MAGENTA << buffer << NC;
+		cout << "(" << RED << client.getNickname() << NC ") " << MAGENTA << buffer << NC;
 	if (!endsWith(buffer, "\n"))
-		std::cout << '\n';
-	std::cout << " username: " << client.getUsername() << '\n';
-	std::cout << " realname: " << client.getRealname() << '\n';
-	std::cout << "----------------------------------------" << '\n';
+		cout << '\n';
+	cout << " username: " << client.getUsername() << '\n';
+	cout << " realname: " << client.getRealname() << '\n';
+	cout << "----------------------------------------" << '\n';
 	handleClientInput(client, buffer);
 }
 

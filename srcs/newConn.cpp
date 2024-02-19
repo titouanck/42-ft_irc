@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   newConn.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 14:47:41 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:48:42 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ void	printConn(unsigned char connStatus, const Client &client)
 	switch (connStatus)
 	{
 		case '+':
-			std::cout << GREEN	<< "[+] client " << client.getIndex() << " (" << client.getIdentity() << ")" NC << '\n';
+			cout << GREEN	<< "[+] client " << client.getIndex() << " (" << client.getIdentity() << ")" NC << '\n';
 			break ;
 		case '-':
-			std::cout << RED	<< "[-] client " << client.getIndex() << " (" << client.getIdentity() << ")" NC << '\n';
+			cout << RED	<< "[-] client " << client.getIndex() << " (" << client.getIdentity() << ")" NC << '\n';
 			break ;
 		case '!':
-			std::cout << ORANGE	<< "[!] Cannot connect with " << client.getIdentity() << ", too many clients. " RED "[> " << MAX_CLIENTS << "]" NC << '\n';
+			cout << ORANGE	<< "[!] Cannot connect with " << client.getIdentity() << ", too many clients. " RED "[> " << MAX_CLIENTS << "]" NC << '\n';
 			break ;
 		default:
 			return ;
 	}
-	std::cout << "----------------------------------------" << '\n';
+	cout << "----------------------------------------" << '\n';
 }
 
 /* ************************************************************************** */

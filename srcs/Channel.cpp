@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/18 16:47:26 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:10:15 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,15 @@ bool	Channel::isOp(Client *client) const
 	it = this->_users.find(client);
 	if (it != this->_users.end())
 		return it->second;
+	return false;
+}
+
+bool	Channel::isConnected(Client *client) const
+{
+	std::map<Client *, bool>::const_iterator it;
+
+	it = this->_users.find(client);
+	if (it != this->_users.end())
+		return true;
+	return false;
 }

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/18 18:11:42 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:26:07 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ void	Client::NICK(string_t nickname)
 	nickname = rTrim(nickname.substr(0, nickname.find(':')));
 	if (!checkStrValidity(nickname) || nickname.compare(GUEST) == 0)
 		return this->sendMessage(formatReference(GUEST, ERR_ERRONEUSNICKNAME()));
-	pthread_mutex_lock(&Client::nicknames_mutex);
-	if (Client::nicknames.find(nickname) == Client::nicknames.end())
+	pthread_mutex_lock(&nicknames_mutex);
+	if (nicknames.find(nickname) == nicknames.end())
 	{
 		if (this->_nickname.length() == 0)
 			sendWelcomeBurst = true;
 		else
-			Client::nicknames.erase(this->_nickname);
-		Client::nicknames[nickname] = this;
+			nicknames.erase(this->_nickname);
+		nicknames[nickname] = this;
 		this->_nickname = nickname;
 		if (sendWelcomeBurst)
 		{
@@ -94,7 +94,7 @@ void	Client::NICK(string_t nickname)
 	}
 	else
 		this->sendMessage(formatReference(GUEST, ERR_NICKNAMEINUSE(nickname)));
-	pthread_mutex_unlock(&Client::nicknames_mutex);
+	pthread_mutex_unlock(&nicknames_mutex);
 }
 
 void	Client::USER(string_t content)
@@ -174,12 +174,10 @@ void	Client::JOIN(string_t content)
 	if (!checkStrValidity(content))
 		return ;
 	transform(content.begin(), content.end(), content.begin(), tolower);
-	
-	if (this->_username.length() == 0)
-		oss << ":" << this->_nickname << "!" << this->_nickname << "@" << g_servername << " JOIN #" << content << '\n';
-	else
-		oss << ":" << this->_nickname << "!" << this->_username << "@" << g_servername << " JOIN #" << content << '\n';
-	
+	oss << ":" << this->_nickname;
+	if (this->_username.length() > 0)
+		oss << "!" << this->_username;
+	oss << "@" << g_servername << " JOIN #" << content << '\n';
 	if (g_channels.find(content) == g_channels.end())	/* If channel doesn't exist */
 	{
 		g_channels[content] = Channel();
@@ -218,31 +216,46 @@ void	Client::PART(string_t content)
 	if (g_channels.find(channelToLeave) != g_channels.end() && this->_channels.find(channelToLeave) != this->_channels.end())
 	{
 		g_channels[channelToLeave].disconnect(this);
-		this->_channels.erase(channelToLeave);	
-		this->sendMessage(formatIrcMessage(this, false, "#" + channelToLeave, "PART", content));
+		this->_channels.erase(channelToLeave);
+		this->sendMessage(formatIrcMessage(this->getFullname(), "#" + channelToLeave, "PART", content));
 	}
 }
 
 void	Client::KICK(string_t content)
 {
-	string_t			channel;
-	string_t			nickname;
+	string_t			givenChannel;
+	string_t			givenNickname;
 	size_t				pos;
 
 	if (content.length() < 2 || content[0] != '#')
 		return ;
 	else
 		content = content.substr(1);
-	transform(content.begin(), content.end(), content.begin(), tolower);
+	
 	pos = content.find_first_of(" \t");
-	if (pos != std::string::npos)
-		nickname = content.substr(pos + 1);
-	channel = content.substr(0, pos);
+	if (pos == std::string::npos)
+		return ;
+	givenChannel = content.substr(0, pos);
+	content = content.substr(pos + 1);
 
-	pos = nickname.find(':');
+	pos = content.find(':');
+	givenNickname = rTrim(content.substr(0, pos));
+	if (givenNickname.length() == 0)
+		return ;
 	if (pos != std::string::npos)
-		content = nickname.substr(pos + 1);
-	nickname = rTrim(nickname.substr(0, pos));
+		content = content.substr(pos + 1);
+	else
+		content = "";
+
+	transform(givenChannel.begin(), givenChannel.end(), givenChannel.begin(), tolower);
+	transform(givenNickname.begin(), givenNickname.end(), givenNickname.begin(), tolower);
+	
+	if (g_channels.find(givenChannel) != g_channels.end() && g_channels[givenChannel].isOp(this) && nicknames.find(givenNickname) != nicknames.end() && !g_channels[givenChannel].isOp(nicknames[givenNickname]))
+	{
+		nicknames[givenNickname]->_channels.erase(givenChannel);
+		g_channels[givenChannel].disconnect(nicknames[givenNickname]);
+		nicknames[givenNickname]->sendMessage(formatIrcMessage(this->getFullname(), "#" + givenChannel + " " + givenNickname, "KICK", content));
+	}
 }
 
 void	Client::PRIVMSG(string_t content)
@@ -261,12 +274,28 @@ void	Client::PRIVMSG(string_t content)
 	receiver = rTrim(content.substr(0, pos));
 	transform(receiver.begin(), receiver.end(), receiver.begin(), tolower);
 	content = content.substr(pos + 1);
-	if (!isChannelName && receiver.compare(this->_nickname) == 0)
-		return ;
-	if (!isChannelName && Client::nicknames.find(receiver) != Client::nicknames.end())
-		Client::nicknames[receiver]->sendMessage(formatIrcMessage(this, false, receiver, "PRIVMSG", content));
-	else if (isChannelName && g_channels.find(receiver.substr(1)) != g_channels.end())
-		g_channels[receiver.substr(1)].sendMessage(this, formatIrcMessage(this, false, receiver, "PRIVMSG", content));
+	
+	if (!isChannelName)
+	{
+		if (receiver.compare(this->_nickname) == 0)
+			return ;
+		if (nicknames.find(receiver) != nicknames.end())
+			nicknames[receiver]->sendMessage(formatIrcMessage(this->getFullname(), receiver, "PRIVMSG", content));
+		else
+			this->sendMessage(formatReference(this->_nickname + " " + receiver, ERR_NOSUCHNICK()));
+	}
+	else if (isChannelName)
+	{
+		if (g_channels.find(receiver.substr(1)) != g_channels.end())
+		{
+			if (g_channels[receiver.substr(1)].isConnected(this))
+				g_channels[receiver.substr(1)].sendMessage(this, formatIrcMessage(this->getFullname(), receiver, "PRIVMSG", content));
+			else
+				this->sendMessage(formatReference(this->_nickname + " " + receiver, ERR_CANNOTSENDTOCHAN()));
+		}
+		else
+			this->sendMessage(formatReference(this->_nickname + " " + receiver, ERR_NOSUCHCHANNEL()));
+	}
 }
 
 /* SOCKET RELATED ACTIONS *************************************************** */
@@ -285,7 +314,7 @@ void	Client::disconnect()
 		}
 	}
 	if (this->_nickname.length() > 0)
-		Client::nicknames.erase(this->_nickname);
+		nicknames.erase(this->_nickname);
 	close(pollfd.fd);
 	bzero(&pollfd, sizeof(pollfd));
 	printConn('-', *this);
@@ -411,6 +440,14 @@ string_t	Client::getUsername() const
 string_t	Client::getRealname() const
 {
 	return this->_realname;
+}
+
+string_t	Client::getFullname() const
+{
+	if (this->getUsername().length() == 0)
+		return this->_nickname;
+	else
+		return this->_nickname + "!" + this->_username;
 }
 
 string_t	Client::getPingContent() const

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:59:13 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 01:32:31 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 15:48:42 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*thr_timeout(void *arg)
 			{
 				if (clients[i].isPinged() == true && clients[i].getPingTime() + TIMEOUTSEC < std::time(0))
 				{
-					std::cout << "TIMEOUT" << '\n';
+					cout << "TIMEOUT" << '\n';
 					clients[i].disconnect();
 				}
 				else if (clients[i].isPinged() == false && clients[i].getPingTime() + (TIMEOUTSEC * 2) < std::time(0))

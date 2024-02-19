@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:43:41 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/18 15:37:11 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 18:48:20 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 /* ************************************************************************** */
 
-string_t		formatIrcMessage(Client *client, bool isOp, string_t channel, string_t command, string_t content);
+string_t		formatIrcMessage(string_t fullName, string_t channel, string_t command, string_t content);
 string_t		formatReference(string_t nickname, IrcReference ref);
 string_t		welcomeBurst(Client &client);
 IrcReference	RPL_WELCOME(Client &client);
@@ -32,6 +32,9 @@ IrcReference	ERR_NOTREGISTERED();
 IrcReference	ERR_NICKNAMEINUSE(string_t nickname);
 IrcReference	ERR_ERRONEUSNICKNAME();
 IrcReference	RPL_NAMREPLY(string_t nickname, const std::map<Client *, bool>	&users);
+IrcReference	ERR_NOSUCHNICK();
+IrcReference	ERR_NOSUCHCHANNEL();
+IrcReference	ERR_CANNOTSENDTOCHAN();
 
 /* ************************************************************************** */
 

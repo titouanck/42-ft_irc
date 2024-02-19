@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:38:12 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/18 15:37:43 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 19:22:01 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,9 @@
 
 /* ************************************************************************** */
 
-string_t	formatIrcMessage(Client *client, bool isOp, string_t channel, string_t command, string_t content)
+string_t	formatIrcMessage(string_t fullName, string_t channel, string_t command, string_t content)
 {
-	std::stringstream	oss;
-
-	oss << ":";
-	if (isOp)
-		oss << "@";
-	oss << client->getNickname() << '!';
-	if (client->getUsername().length() > 0)
-		oss << client->getUsername();
-	else
-		oss << client->getNickname();
-	oss << "@" << g_servername << " " << command << " " << channel << " :" << content << '\n';
-	return oss.str();
+	return ":" + fullName + "@" + g_servername + " " + command + " " + channel + " :" + content + "\n";
 }
 
 string_t	formatReference(string_t nickname, IrcReference ref)
@@ -95,23 +84,6 @@ IrcReference	RPL_MYINFO()
 	return (IrcReference){"004", "-"};
 }
 
-// // 005
-// IrcReference	RPL_ISUPPORT()
-// {
-// 	return (IrcReference){"005", "<>"};
-// }
-
-// // 276
-// IrcReference	RPL_WHOISCERTFP()
-// {
-// 	return (IrcReference){"276", "<>"};
-// }
-// // 311
-// IrcReference	RPL_WHOISUSER()
-// {
-// 	return (IrcReference){"311", "<>"};
-// }
-
 // 353
 IrcReference	RPL_NAMREPLY(string_t nickname, const std::map<Client *, bool>	&users)
 {
@@ -147,17 +119,23 @@ IrcReference	RPL_ENDOFMOTD()
 	return (IrcReference){"376", ">"};
 }
 
-// // 381
-// IrcReference	RPL_YOUREOPER()
-// {
-// 	return (IrcReference){"381", "<>"};
-// }
+// 401
+IrcReference	ERR_NOSUCHNICK()
+{
+	return (IrcReference){"401", "No such nickname"};
+}
 
-// // 422
-// IrcReference	ERR_NOMOTD()
-// {
-// 	return (IrcReference){"422", "<>"};
-// }
+// 403
+IrcReference	ERR_NOSUCHCHANNEL()
+{
+	return (IrcReference){"403", "No such channel"};
+}
+
+// 404
+IrcReference	ERR_CANNOTSENDTOCHAN()
+{
+	return (IrcReference){"404", "Cannot send to channel"};
+}
 
 // 432
 IrcReference	ERR_ERRONEUSNICKNAME()
@@ -177,21 +155,4 @@ IrcReference	ERR_NOTREGISTERED()
 	return (IrcReference){"451", "You must first authenticate"};
 }
 
-// // 481
-// IrcReference	ERR_NOPRIVILEGES()
-// {
-// 	return (IrcReference){"481", "<>"};
-// }
-
-// // 491
-// IrcReference	ERR_NOOPERHOST()
-// {
-// 	return (IrcReference){"491", "<>"};
-// }
-
-// // 723
-// IrcReference	ERR_NOPRIVS()
-// {
-// 	return (IrcReference){"723", "<>"};
-// }
-// /* ************************************************************************** */
+/* ************************************************************************** */

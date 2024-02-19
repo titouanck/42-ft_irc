@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/14 02:49:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/19 15:50:22 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 	{
 		port = portParsing(argv[1]);
 		if (port == -1)
-			return std::cerr << "Error: invalid port. [" << MIN_PORT << " - " << MAX_PORT << "]" << '\n', 1;
+			return cerr << "Error: invalid port. [" << MIN_PORT << " - " << MAX_PORT << "]" << '\n', 1;
 		password = argv[2];
 	}
 	else if (argc == 2)
@@ -35,10 +35,10 @@ int	main(int argc, char **argv)
 		password = argv[1];
 	}
 	else
-		return std::cerr << "Usage: ./" << EXECUTABLE << " [port] <password>" << '\n', 1;
+		return cerr << "Usage: ./" << EXECUTABLE << " [port] <password>" << '\n', 1;
 	if (password.length() == 0)
-		return std::cerr << "Error: password cannot be empty" << '\n', 1;
-	g_servername = "ircserv." + getMyHostname();
+		return cerr << "Error: password cannot be empty" << '\n', 1;
+	g_servername = "" + getMyHostname();
 	g_serversion = "0.1";
 	return !irc_serv(port, password);
 }
@@ -60,18 +60,18 @@ bool	irc_serv(unsigned int port, string_t password)
 	g_pollfds = pollfds;
 	g_clients = clients;
 	
-	std::cout << "----------------------------------------" << '\n';
-	std::cout << "Launching " << RED << g_servername << NC << "..." << '\n';
+	cout << "----------------------------------------" << '\n';
+	cout << "Launching " << RED << g_servername << NC << "..." << '\n';
 	
 	if (pthread_create(&thread_connections, NULL, thr_connections, &clients) != 0)
     	return printError("pthread_create(&thread_connections, ...)"), false;
 	if (pthread_create(&thread_timeout, NULL, thr_timeout, &clients) != 0)
     	return printError("pthread_create(&thread_timeout, ...)"), false;
 
-	std::cout << "Port: " RED << Server::getPort() << NC ", Password: " RED << password << NC << '\n';
-	std::cout << "Created on " RED << formatTime(Server::launchTime) << NC << '\n';
-	std::cout << "Version: " RED << g_serversion << NC << '\n';
-	std::cout << "----------------------------------------" << '\n';
+	cout << "Port: " RED << Server::getPort() << NC ", Password: " RED << password << NC << '\n';
+	cout << "Created on " RED << formatTime(Server::launchTime) << NC << '\n';
+	cout << "Version: " RED << g_serversion << NC << '\n';
+	cout << "----------------------------------------" << '\n';
 	
 	pthread_join(thread_timeout, NULL);
 	pthread_join(thread_connections, NULL);
