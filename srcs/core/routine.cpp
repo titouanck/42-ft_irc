@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 19:38:24 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 19:58:00 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ Message	parseInput(string_t line)
 	Message		message;
 	size_t		pos;
 	
+	if (line.length() == 0)
+		return ((Message){"", ""});
 	bzero(&message, sizeof(message));
 	pos = line.find_first_of(" \t");
 	if (pos != string_t::npos)
@@ -41,19 +43,21 @@ Message	parseInput(string_t line)
 
 void	handleClientInput(Client &client, string_t input)
 {
-	size_t		pos;
 	string_t	remaining;
+	string_t	toAdd;
+	size_t		pos;
 
 	if (input.length() <= 0)
 		return ;
 	pos = input.find('\n');
 	if (pos != string_t::npos)
 	{
-		remaining = input.substr(pos);
+		remaining = input.substr(pos + 1);
 		if (pos > 0 && input[pos - 1] == '\r')
 			pos -= 1;
 	}
-	client.appendToBuffer(input.substr(0, pos));
+	toAdd = input.substr(0, pos);
+	client.appendToBuffer(toAdd);
 	if (pos != string_t::npos)
 	{
 		callCorrespondingCommand(client, parseInput(client.getBuffer()));
