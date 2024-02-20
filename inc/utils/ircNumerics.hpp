@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/20 04:48:30 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:18:22 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@ enum IRCNUMERICS
 	RPL_MOTDSTART = 375,
 	RPL_ENDOFMOTD = 376,
 
-// 	ERR_NOSUCHNICK = 401,
+	ERR_NOSUCHNICK = 401,
 
-// 	ERR_NOSUCHCHANNEL = 403,
-// 	ERR_CANNOTSENDTOCHAN = 404,
+	ERR_NOSUCHCHANNEL = 403,
+	ERR_CANNOTSENDTOCHAN = 404,
 	
-// 	ERR_ERRONEUSNICKNAME = 432,
-// 	ERR_NICKNAMEINUSE = 433,
+	ERR_ERRONEUSNICKNAME = 432,
+	ERR_NICKNAMEINUSE = 433,
 
-// 	ERR_NOTREGISTERED = 451
-	ENDEND = 999
+	ERR_NOTREGISTERED = 451
 };
 
 /* ************************************************************************** */
