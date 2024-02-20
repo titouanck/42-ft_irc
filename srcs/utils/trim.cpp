@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.cpp                                          :+:      :+:    :+:   */
+/*   trim.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 19:46:00 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 15:48:42 by titouanck        ###   ########.fr       */
+/*   Created: 2024/02/20 00:55:08 by titouanck         #+#    #+#             */
+/*   Updated: 2024/02/20 01:01:51 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tools.hpp"
+#include "utils/utils.hpp"
 
 /* ************************************************************************** */
-
-void	printError(string_t str)
-{
-	cout << "Error in " << str << ": " << std::strerror(errno) << '\n';
-}
-
-bool	endsWith(const string_t &str, const string_t &suffix)
-{
-	if (str.length() < suffix.length())
-		return false;
-	else
-		return str.substr(str.length() - suffix.length()) == suffix;
-}
 
 string_t	lTrim(string_t str)
 {
@@ -53,37 +40,3 @@ string_t	trim(string_t str)
 	str = rTrim(str);
 	return str;
 }
-
-string_t	formatTime(std::time_t givenTime)
-{
-	std::tm	*now;
-    char 	buffer[80];
-	
-	now = std::localtime(&givenTime);
-    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", now);
-	return buffer;
-}
-
-string_t	getMyHostname()
-{
-    char hostname[256];
-
-    if (gethostname(hostname, sizeof(hostname)) == 0)
-		return hostname;
-    return "";
-}
-
-bool	checkStrValidity(string_t str)
-{
-	size_t	len;
-
-	len = str.length();
-	for (size_t i = 0; i < len; i++)
-	{
-		if (!isalnum(str[i]) && str[i] != '-' && str[i] != '_')
-			return false;
-	}
-	return true;
-}
-
-/* ************************************************************************** */

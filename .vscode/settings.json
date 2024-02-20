@@ -54,7 +54,7 @@
 		"cfenv": "cpp",
 		"charconv": "cpp",
 		"chrono": "cpp",
-		"cinttypes": "cpp",
+		"std::cinttypes": "cpp",
 		"codecvt": "cpp",
 		"complex": "cpp",
 		"condition_variable": "cpp",

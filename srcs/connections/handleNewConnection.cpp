@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   newConn.cpp                                        :+:      :+:    :+:   */
+/*   handleNewConnection.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 15:48:42 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 01:40:39 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "newConn.hpp"
-#include "numericReferences.hpp"
-
-/* ************************************************************************** */
-
-void	printConn(unsigned char connStatus, const Client &client)
-{
-	switch (connStatus)
-	{
-		case '+':
-			cout << GREEN	<< "[+] client " << client.getIndex() << " (" << client.getIdentity() << ")" NC << '\n';
-			break ;
-		case '-':
-			cout << RED	<< "[-] client " << client.getIndex() << " (" << client.getIdentity() << ")" NC << '\n';
-			break ;
-		case '!':
-			cout << ORANGE	<< "[!] Cannot connect with " << client.getIdentity() << ", too many clients. " RED "[> " << MAX_CLIENTS << "]" NC << '\n';
-			break ;
-		default:
-			return ;
-	}
-	cout << "----------------------------------------" << '\n';
-}
+#include "connections/handleNewConnection.hpp"
+#include "connections/printConnectionStatus.hpp"
+#include "classes/Client.hpp"
+#include "classes/Server.hpp"
+#include "types.hpp"
 
 /* ************************************************************************** */
 
@@ -46,7 +28,7 @@ static void	rejectConn()
 	if (clientFd == -1)
 		return printError("accept");
 	client.setIdentity();
-	printConn('!', client);
+	printConnectionStatus('!', client);
 	close(clientFd);
 }
 
@@ -62,10 +44,10 @@ static void	acceptConn(Client &client, int index)
 	pollfd.events = POLLIN;
 	client.setIndex(index);
 	client.setIdentity();
-	printConn('+', client);
+	printConnectionStatus('+', client);
 }
 
-void	handleConn(Client *clients)
+void	handleNewConnection(Client *clients)
 {
 	pollfd_t	*pollfds = g_pollfds;
 	int 		index;
@@ -78,5 +60,3 @@ void	handleConn(Client *clients)
 	if (index == MAX_CLIENTS + 1)
 		rejectConn();
 }
-
-/* ************************************************************************** */

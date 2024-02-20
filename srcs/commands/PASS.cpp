@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   timeout.hpp                                    :+:      :+:    :+:   */
+/*   PASS.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 17:58:38 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/13 15:53:08 by titouanck        ###   ########.fr       */
+/*   Created: 2024/02/20 01:18:52 by titouanck         #+#    #+#             */
+/*   Updated: 2024/02/20 01:40:39 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TIMEOUT_HPP
-	#define TIMEOUT_HPP
-
-	#include "types.hpp"
-	#include "Client.hpp"
-	#include "newConn.hpp"
+#include "classes/Client.hpp"
+#include "classes/Server.hpp"
 
 /* ************************************************************************** */
 
-void	*timeout(void *arg);
-
-/* ************************************************************************** */
-
-#endif
+void	Client::PASS(string_t passphrase)
+{
+	if (this->_authenticated || passphrase.compare(Server::getPassword()) != 0)
+		this->disconnect();
+	else
+	{
+		this->_authenticated = true;
+		this->_pinged = false;
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 23:24:24 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 01:38:51 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,6 @@ class Client
 		Client(const Client &copy);
 		Client &operator=(const Client &copy);
 		~Client();
-
-		void			PASS(string_t passphrase);
-		void			NICK(string_t nickname);
-		void			USER(string_t content);
-		void			CAP(string_t content);
-		void			PING(string_t content);
-		void			PONG(string_t content);
-		void			JOIN(string_t content);
-		void			PART(string_t content);
-		void			KICK(string_t content);
-		void			PRIVMSG(string_t content);
-		void			TOPIC(string_t content);
 		
 		void			sendMessage(string_t content);
 		void			disconnect();
@@ -47,10 +35,9 @@ class Client
 		void			setIdentity();
 		void			setOperator(bool isOp);
 		void			setPingContent(string_t content);
-
 		void			lockMutex();
 		void			unlockMutex();
-
+	
 		unsigned int	getIndex() const;
 		string_t		getIp() const;
 		string_t		getName() const;
@@ -64,6 +51,18 @@ class Client
 		string_t		getRealname() const;
 		string_t		getFullname() const;
 		string_t		getPingContent() const;
+
+		void			PASS(string_t passphrase);
+		void			NICK(string_t nickname);
+		void			USER(string_t content);
+		void			CAP(string_t content);
+		void			PING(string_t content);
+		void			PONG(string_t content);
+		void			JOIN(string_t content);
+		void			PART(string_t content);
+		void			KICK(string_t content);
+		void			PRIVMSG(string_t content);
+		void			TOPIC(string_t content);
 
 		sockaddr_in6_t	addr;
 		socklen_t		len;

@@ -1,51 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   connections.cpp                                       :+:      :+:    :+:   */
+/*   routine.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/17 10:13:48 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 18:16:40 by titouanck        ###   ########.fr       */
+/*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
+/*   Updated: 2024/02/20 01:41:41 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "connections.hpp"
-#include "timeout.hpp"
-#include "Server.hpp"
+#include "core/routine.hpp"
+#include "connections/timeout.hpp"
+#include "commands/callCorrespondingCommand.hpp"
+#include "classes/Server.hpp"
+#include "classes/Client.hpp"
 
 #define BUFFER_SIZE 4096
-
-/* ************************************************************************** */
-
-void	handleMessage(Client &client, Message message)
-{
-	if (message.command.length() == 0);
-	else if (message.command.compare("CAP") == 0)
-		client.CAP(message.content);
-	else if (message.command.compare("PASS") == 0)
-		client.PASS(message.content);
-	else if (message.command.compare("NICK") == 0)
-		client.NICK(message.content);
-	else if (message.command.compare("USER") == 0)
-		client.USER(message.content);
-	else if (message.command.compare("PING") == 0)
-		client.PING(message.content);
-	else if (message.command.compare("PONG") == 0)
-		client.PONG(message.content);
-	else if (message.command.compare("JOIN") == 0)
-		client.JOIN(message.content);
-	else if (message.command.compare("PART") == 0)
-		client.PART(message.content);
-	else if (message.command.compare("KICK") == 0)
-		client.KICK(message.content);
-	else if (message.command.compare("PRIVMSG") == 0)
-		client.PRIVMSG(message.content);
-	else if (message.command.compare("TOPIC") == 0)
-		client.TOPIC(message.content);
-	else if (message.command.compare("QUIT") == 0)
-		client.disconnect();
-}
 
 /* ************************************************************************** */
 
@@ -85,7 +56,7 @@ void	handleClientInput(Client &client, string_t input)
 		handleClientInput(client, input.substr(pos + 2));
 		return ;
 	}
-	handleMessage(client, parseInput(input));
+	callCorrespondingCommand(client, parseInput(input));
 }
 
 void	readSocket(Client &client)
@@ -101,18 +72,18 @@ void	readSocket(Client &client)
 	buffer[bytesRead] = '\0';
 
 	if (client.getNickname().length() == 0)
-		cout << "(" << RED << "CLIENT " << client.getIndex() << NC ") " << MAGENTA << buffer << NC;
+		std::cout << "(" << RED << "CLIENT " << client.getIndex() << NC ") " << MAGENTA << buffer << NC;
 	else
-		cout << "(" << RED << client.getNickname() << NC ") " << MAGENTA << buffer << NC;
+		std::cout << "(" << RED << client.getNickname() << NC ") " << MAGENTA << buffer << NC;
 	if (!endsWith(buffer, "\n"))
-		cout << '\n';
-	cout << " username: " << client.getUsername() << '\n';
-	cout << " realname: " << client.getRealname() << '\n';
+		std::cout << '\n';
+	std::cout << " username: " << client.getUsername() << '\n';
+	std::cout << " realname: " << client.getRealname() << '\n';
 	handleClientInput(client, buffer);
-	cout << "----------------------------------------" << '\n';
+	std::cout << "----------------------------------------" << '\n';
 }
 
-void	*connections(void *arg)
+void	*routine(void *arg)
 {
 	Client		*clients = (static_cast<Client (*)>(arg));
 	pollfd_t	*pollfds = g_pollfds;
@@ -132,7 +103,7 @@ void	*connections(void *arg)
             if (pollfds[i].revents == POLLIN)
 			{
 				if (i == 0)
-					handleConn(clients);
+					handleNewConnection(clients);
 				else
 					readSocket(clients[i]);
 			}

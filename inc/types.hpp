@@ -49,9 +49,6 @@
 	#define GUEST "anonymous"
 	#define MIN_PORT 1024
 	#define MAX_PORT 65535
-	#define cout std::cout
-	#define cin std::cin
-	#define cerr std::cerr
 
 /* COLORS ******************************************************************* */
 
@@ -81,11 +78,11 @@
 		string_t	content;
 	}	Message;
 
-	typedef struct s_ircReference
+	typedef struct s_ircResponse
 	{
 		string_t	numeric;
 		string_t	content;
-	}	IrcReference;
+	}	IrcResponse;
 
 /* GLOBALS ****************************************************************** */
 

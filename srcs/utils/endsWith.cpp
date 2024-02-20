@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   newConn.hpp                                    :+:      :+:    :+:   */
+/*   endsWith.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 14:53:26 by titouanck         #+#    #+#             */
-/*   Updated: 2024/01/25 17:03:40 by titouanck        ###   ########.fr       */
+/*   Created: 2024/02/20 00:54:48 by titouanck         #+#    #+#             */
+/*   Updated: 2024/02/20 01:01:51 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NEWCONN_HPP
-	#define NEWCONN_HPP
-	
-	#include "tools.hpp"
-	#include "Server.hpp"
+#include "utils/utils.hpp"
 
 /* ************************************************************************** */
 
-void	handleConn(Client *clients);
-void	printConn(unsigned char connStatus, const Client &client);
-
-/* ************************************************************************** */
-
-#endif
+bool	endsWith(const string_t &str, const string_t &suffix)
+{
+	if (str.length() < suffix.length())
+		return false;
+	else
+		return str.substr(str.length() - suffix.length()) == suffix;
+}

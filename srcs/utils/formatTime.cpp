@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   connections.hpp                                    :+:      :+:    :+:   */
+/*   formatTime.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 23:44:36 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 23:44:41 by titouanck        ###   ########.fr       */
+/*   Created: 2024/02/20 00:55:51 by titouanck         #+#    #+#             */
+/*   Updated: 2024/02/20 01:01:51 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONNECTIONS_HPP
-	#define CONNECTIONS_HPP
-	#include "types.hpp"
-	#include "newConn.hpp"
+#include "utils/utils.hpp"
 
 /* ************************************************************************** */
 
-void	*connections(void *arg);
-
-/* ************************************************************************** */
-
-#endif
+string_t	formatTime(std::time_t givenTime)
+{
+	std::tm	*now;
+    char 	buffer[80];
+	
+	now = std::localtime(&givenTime);
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", now);
+	return buffer;
+}
