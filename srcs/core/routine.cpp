@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 13:44:18 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 19:27:04 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,29 @@ Message	parseInput(string_t line)
 
 void	handleClientInput(Client &client, string_t input)
 {
-	// RECURSIVITY WITH EACH LINE OF THE CLIENT INPUT
-	size_t	pos;
-	Message	message;
+	(void)	client;
+	(void)	input;
+	size_t		pos;
+	string_t	remaining;
 
-	if (endsWith(input, "\r\n"))
-		input = input.substr(0, input.length() - 2);
+	std::cout << "ICI COUCOU" << '\n';
+	
 	if (input.length() <= 0)
 		return ;
-	pos = input.find("\r\n");
+	pos = input.find('\n');
 	if (pos != string_t::npos)
 	{
-		handleClientInput(client, input.substr(0, pos));
-		handleClientInput(client, input.substr(pos + 2));
-		return ;
+		remaining = input.substr(pos);
+		if (pos > 0 && input[pos - 1] == '\r')
+			pos -= 1;
 	}
-	callCorrespondingCommand(client, parseInput(input));
+	client.appendToBuffer(input.substr(0, pos));
+	if (pos != string_t::npos)
+	{
+		callCorrespondingCommand(client, parseInput(client.getBuffer()));
+		client.clearBuffer();
+	}
+	handleClientInput(client, remaining);
 }
 
 void	readSocket(Client &client)

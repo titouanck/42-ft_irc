@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 13:34:24 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 19:26:44 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ pthread_mutex_t					Client::nicknames_mutex;
 Client::Client() : _channels()
 {
 	pthread_mutex_init(&this->_mutex, NULL);
-	this->_channels.insert("bonjour");
 }
 
 Client::Client(const Client &copy)
@@ -77,6 +76,16 @@ void	Client::disconnect()
 void	Client::sendMessage(string_t content)
 {
 	send(g_pollfds[this->_index].fd, content.c_str(), content.length(), 0);
+}
+
+void	Client::appendToBuffer(string_t toAppend)
+{
+	this->_buffer += toAppend;
+}
+
+void	Client::clearBuffer()
+{
+	this->_buffer.clear();
 }
 
 /* SETTERS ****************************************************************** */
@@ -211,6 +220,11 @@ string_t	Client::getFullname() const
 string_t	Client::getPingContent() const
 {
 	return this->_pingContent;
+}
+
+string_t	Client::getBuffer() const
+{
+	return this->_buffer;
 }
 
 /* ************************************************************************** */

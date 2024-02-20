@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 03:00:44 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:26:58 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ class Client
 		
 		void			sendMessage(string_t content);
 		void			disconnect();
+		void			appendToBuffer(string_t toAppend);
+		void			clearBuffer();
 
 		void			setIndex(unsigned int index);
 		void			setIdentity();
@@ -51,6 +53,7 @@ class Client
 		string_t		getRealname() const;
 		string_t		getFullname() const;
 		string_t		getPingContent() const;
+		string_t		getBuffer() const;
 
 		void			PASS(string_t passphrase);
 		void			NICK(string_t nickname);
@@ -81,6 +84,7 @@ class Client
 		string_t						_pingContent;
 		bool							_operator;
 		bool							_authenticated;
+		string_t						_buffer;
 		string_t						_nickname;
 		string_t						_username;
 		string_t						_realname;

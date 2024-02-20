@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 20:49:28 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:40:39 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 18:51:18 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool	Server::init(uint16_t port_, string_t password_)
 
 bool	Server::initSocket()
 {
-	sock = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
+	sock = socket(AF_INET6, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
 	if (sock == -1)
 		return printError("socket"), false;
 	return true;
