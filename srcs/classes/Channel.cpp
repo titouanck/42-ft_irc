@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 04:34:45 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:25:55 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,11 @@ string_t	Channel::getTopic() const
 const std::map<Client *, bool>	&Channel::getUsers() const
 {
 	return this->_users;
+}
+
+string_t	Channel::getName() const
+{
+	return this->_name;
 }
 
 string_t	Channel::getUserList() const

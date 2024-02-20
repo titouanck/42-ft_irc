@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   PART.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:29:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 03:32:55 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:35:31 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/Client.hpp"
 #include "utils/utils.hpp"
-#include "utils/ircResponses.hpp"
 #include "classes/Channel.hpp"
 
 /* ************************************************************************** */

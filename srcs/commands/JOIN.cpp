@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 04:50:28 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:35:25 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,26 @@
 
 /* ************************************************************************** */
 
+static string_t	joinedChannelMessages(Client &client, string_t channelName, string_t userList)
+{
+	string_t	str;
+	string_t	nickname;
+
+	nickname = client.getNickname();
+	str += formatIrcMessage(client.getFullname(), "JOIN", "#" + channelName, "");
+	if (userList.length() == 0)
+		str += formatIrcMessage(g_servername, RPL_NAMREPLY, nickname + " = #" + channelName, "@" + nickname);
+	else
+		str += formatIrcMessage(g_servername, RPL_NAMREPLY, nickname + " = #" + channelName, nickname + " " + userList);
+	str += formatIrcMessage(g_servername, RPL_ENDOFNAMES, nickname + " #" + channelName, "End of /NAMES list");
+	return str;
+}
+
 void	Client::JOIN(string_t content)
 {
-	std::stringstream	oss;
 	string_t			remaining;
 	string_t			channelKey;
+	string_t			userList;
 	size_t				pos;
 	bool				isOp;
 
@@ -39,24 +54,20 @@ void	Client::JOIN(string_t content)
 	if (!checkStrValidity(content))
 		return ;
 	transform(content.begin(), content.end(), content.begin(), tolower);
-	oss << formatIrcMessage(this->getFullname(), "JOIN", "#" + content, "");
 	if (g_channels.find(content) == g_channels.end())	/* If channel doesn't exist */
 	{
 		g_channels[content] = Channel();
 		g_channels[content].setName(content);
-		oss << formatIrcMessage(g_servername, RPL_NAMREPLY, this->_nickname + " = #" + content, "@" + this->_nickname);
 		isOp = true;
 	}
 	else 												/* If channel does exist */
 	{
-		oss << formatIrcMessage(g_servername, RPL_NAMREPLY, this->_nickname + " = #" + content, this->_nickname + " " + g_channels[content].getUserList());
+		userList = g_channels[content].getUserList();
 		isOp = false;
 	}
-	oss << formatIrcMessage(g_servername, RPL_ENDOFNAMES, this->_nickname + " #" + content, "End of /NAMES list");
-	
 	if (this->_channels.find(content) == this->_channels.end())
 	{
-		this->sendMessage(oss.str());
+		this->sendMessage(joinedChannelMessages(*this, content, userList));
 		this->_channels.insert(content);
 		g_channels[content].connect(this);
 		if (isOp)

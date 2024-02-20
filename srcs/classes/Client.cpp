@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 03:35:59 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:34:24 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/Client.hpp"
 #include "classes/Server.hpp"
 #include "connections/handleNewConnection.hpp"
-#include "utils/ircResponses.hpp"
 #include "classes/Channel.hpp"
 #include "connections/printConnectionStatus.hpp"
 

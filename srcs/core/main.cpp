@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:41:34 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 13:36:08 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "connections/timeout.hpp"
 #include "classes/Server.hpp"
 #include "classes/Channel.hpp"
+#include "classes/Client.hpp"
 
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 03:25:36 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:44:18 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ void	handleClientInput(Client &client, string_t input)
 
 void	readSocket(Client &client)
 {
-	ssize_t bytesRead;
-	char 	buffer[BUFFER_SIZE];
-	int		index;
+	ssize_t 	bytesRead;
+	char 		buffer[BUFFER_SIZE];
+	int			index;
+	string_t	clientInfo;
 
 	index = client.getIndex();
 	bytesRead = read(g_pollfds[index].fd, buffer, sizeof(buffer));
@@ -77,9 +78,17 @@ void	readSocket(Client &client)
 		std::cout << "(" << RED << client.getNickname() << NC ") " << MAGENTA << buffer << NC;
 	if (!endsWith(buffer, "\n"))
 		std::cout << '\n';
-	std::cout << " username: " << client.getUsername() << '\n';
-	std::cout << " realname: " << client.getRealname() << '\n';
-	std::cout << " identity: " << client.getIdentity() << '\n';
+	clientInfo = client.getUsername();
+	if (clientInfo.length() > 0)
+		std::cout << " username: " << clientInfo << '\n';
+	clientInfo = client.getRealname();
+	if (clientInfo.length() > 0)
+		std::cout << " realname: " << clientInfo << '\n';
+	clientInfo = client.getIdentity();
+	if (clientInfo.compare(client.getName()) == 0)
+		std::cout << " host: " << clientInfo << " [" << client.getIp() << "]" << '\n';
+	else
+		std::cout << " host: " << clientInfo << '\n';
 	handleClientInput(client, buffer);
 	std::cout << "----------------------------------------" << '\n';
 }

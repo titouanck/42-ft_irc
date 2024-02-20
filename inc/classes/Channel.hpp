@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 04:34:07 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:25:27 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class Channel
 		void							deop(Client *client);
 	
 		const std::map<Client *, bool>	&getUsers() const;
+		string_t						getName() const;
 		string_t						getUserList() const;
 		string_t						getTopic() const;
 		bool							isOp(Client *client) const;
