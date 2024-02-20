@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:38:51 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 03:00:44 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 	#define CLIENT_HPP
-	#include "types.hpp"
+	#include "utils/types.hpp"
 	#include <set>
 
 	class Server;

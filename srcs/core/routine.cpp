@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:41:41 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 03:25:36 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	readSocket(Client &client)
 		std::cout << '\n';
 	std::cout << " username: " << client.getUsername() << '\n';
 	std::cout << " realname: " << client.getRealname() << '\n';
+	std::cout << " identity: " << client.getIdentity() << '\n';
 	handleClientInput(client, buffer);
 	std::cout << "----------------------------------------" << '\n';
 }

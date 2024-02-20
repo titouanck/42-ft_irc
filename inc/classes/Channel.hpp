@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/19 23:32:41 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 04:34:07 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHANNEL_HPP
     #define CHANNEL_HPP
-	#include "types.hpp"
+	#include "utils/types.hpp"
 	
 	#define ISOP true
 	#define ISNOTOP false
@@ -39,6 +39,7 @@ class Channel
 		void							deop(Client *client);
 	
 		const std::map<Client *, bool>	&getUsers() const;
+		string_t						getUserList() const;
 		string_t						getTopic() const;
 		bool							isOp(Client *client) const;
 		bool							isConnected(Client *client) const;

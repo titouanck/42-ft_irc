@@ -1,37 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
+/*   ircNumerics.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 19:48:31 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 03:56:51 by tchevrie         ###   ########.fr       */
+/*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
+/*   Updated: 2024/02/20 04:48:30 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_HPP
-	#define UTILS_HPP
-	#include "utils/types.hpp"
+#ifndef IRCNUMERICS_HPP
+	#define IRCNUMERICS_HPP
 
 /* ************************************************************************** */
 
-bool		checkStrValidity(string_t str);
+enum IRCNUMERICS
+{
+	RPL_WELCOME = 001,
+	RPL_YOURHOST = 002,
+	RPL_CREATED = 003,
+	RPL_MYINFO = 004,
 
-bool 		endsWith(const string_t &str, const string_t &suffix);
+	RPL_TOPIC = 332,
 
-string_t	formatIrcMessage(string_t prefix, string_t command, string_t params, string_t trailing);
-string_t	formatIrcMessage(string_t prefix, unsigned int code, string_t params, string_t trailing);
+	RPL_NAMREPLY = 353,
 
-string_t	formatTime(std::time_t givenTime);
+	RPL_ENDOFNAMES = 366,
 
-string_t	getMyHostname();
+	RPL_MOTD = 372,
 
-void		printError(string_t str);
+	RPL_MOTDSTART = 375,
+	RPL_ENDOFMOTD = 376,
 
-string_t	lTrim(string_t str);
-string_t	rTrim(string_t str);
-string_t	trim(string_t str);
+// 	ERR_NOSUCHNICK = 401,
+
+// 	ERR_NOSUCHCHANNEL = 403,
+// 	ERR_CANNOTSENDTOCHAN = 404,
+	
+// 	ERR_ERRONEUSNICKNAME = 432,
+// 	ERR_NICKNAMEINUSE = 433,
+
+// 	ERR_NOTREGISTERED = 451
+	ENDEND = 999
+};
 
 /* ************************************************************************** */
 

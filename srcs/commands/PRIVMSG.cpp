@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PRIVMSG.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:33:04 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:42:40 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 03:33:14 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	Client::PRIVMSG(string_t content)
 		if (receiver.compare(this->_nickname) == 0)
 			return ;
 		if (nicknames.find(receiver) != nicknames.end())
-			nicknames[receiver]->sendMessage(formatIrcMessage(this->getFullname(), receiver, "PRIVMSG", content));
+			nicknames[receiver]->sendMessage(formatIrcMessage(this->getFullname(), "PRIVMSG", receiver, content));
 		else
 			this->sendMessage(formatReference(this->_nickname + " " + receiver, ERR_NOSUCHNICK()));
 	}
@@ -47,7 +47,7 @@ void	Client::PRIVMSG(string_t content)
 		if (g_channels.find(receiver.substr(1)) != g_channels.end())
 		{
 			if (g_channels[receiver.substr(1)].isConnected(this))
-				g_channels[receiver.substr(1)].sendMessage(this, formatIrcMessage(this->getFullname(), receiver, "PRIVMSG", content));
+				g_channels[receiver.substr(1)].sendMessage(this, formatIrcMessage(this->getFullname(), "PRIVMSG", receiver, content));
 			else
 				this->sendMessage(formatReference(this->_nickname + " " + receiver, ERR_CANNOTSENDTOCHAN()));
 		}

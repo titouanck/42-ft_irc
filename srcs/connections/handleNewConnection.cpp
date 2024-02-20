@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handleNewConnection.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:40:39 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 03:00:44 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "connections/printConnectionStatus.hpp"
 #include "classes/Client.hpp"
 #include "classes/Server.hpp"
-#include "types.hpp"
+#include "utils/types.hpp"
 
 /* ************************************************************************** */
 

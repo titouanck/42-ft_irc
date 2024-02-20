@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:42:40 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 04:50:28 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils/utils.hpp"
 #include "classes/Client.hpp"
 #include "classes/Channel.hpp"
-#include "utils/ircResponses.hpp"
+#include "utils/utils.hpp"
+#include "utils/ircNumerics.hpp"
 
 /* ************************************************************************** */
 
@@ -39,26 +39,23 @@ void	Client::JOIN(string_t content)
 	if (!checkStrValidity(content))
 		return ;
 	transform(content.begin(), content.end(), content.begin(), tolower);
-	oss << ":" << this->_nickname;
-	if (this->_username.length() > 0)
-		oss << "!" << this->_username;
-	oss << "@" << g_servername << " JOIN #" << content << '\n';
+	oss << formatIrcMessage(this->getFullname(), "JOIN", "#" + content, "");
 	if (g_channels.find(content) == g_channels.end())	/* If channel doesn't exist */
 	{
 		g_channels[content] = Channel();
 		g_channels[content].setName(content);
-		oss << formatReference(this->_nickname + " = #" + content, (IrcResponse){"353", "@" + this->_nickname});
+		oss << formatIrcMessage(g_servername, RPL_NAMREPLY, this->_nickname + " = #" + content, "@" + this->_nickname);
 		isOp = true;
 	}
 	else 												/* If channel does exist */
 	{
-		oss << formatReference(this->_nickname + " = #" + content, RPL_NAMREPLY(this->_nickname, g_channels[content].getUsers()));
+		oss << formatIrcMessage(g_servername, RPL_NAMREPLY, this->_nickname + " = #" + content, this->_nickname + " " + g_channels[content].getUserList());
 		isOp = false;
 	}
+	oss << formatIrcMessage(g_servername, RPL_ENDOFNAMES, this->_nickname + " #" + content, "End of /NAMES list");
 	
 	if (this->_channels.find(content) == this->_channels.end())
 	{
-		oss << formatReference(this->_nickname + " #" + content, (IrcResponse){"366", "End of /NAMES list"});
 		this->sendMessage(oss.str());
 		this->_channels.insert(content);
 		g_channels[content].connect(this);

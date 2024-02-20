@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:40:31 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 04:34:45 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,22 @@ string_t	Channel::getTopic() const
 const std::map<Client *, bool>	&Channel::getUsers() const
 {
 	return this->_users;
+}
+
+string_t	Channel::getUserList() const
+{
+	std::ostringstream							oss;
+	std::map<Client *, bool>::const_iterator	it;
+
+	for (it = this->_users.begin(); it != this->_users.end(); ++it)
+	{
+		if (it != this->_users.begin())
+			oss << ' ';
+		if (it->second == ISOP)
+			oss << '@';
+		oss << it->first->getNickname();
+	}
+	return oss.str();
 }
 
 bool	Channel::isOp(Client *client) const

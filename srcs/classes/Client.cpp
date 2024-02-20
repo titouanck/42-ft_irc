@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:42:40 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 03:35:59 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,10 +198,15 @@ string_t	Client::getRealname() const
 
 string_t	Client::getFullname() const
 {
-	if (this->getUsername().length() == 0)
-		return this->_nickname;
-	else
-		return this->_nickname + "!" + this->_username;
+	string_t	fullName;
+
+	if (this->_nickname.length() > 0)
+		fullName += this->_nickname;
+	if (this->_username.length() > 0)
+		fullName += "!" + this->_username;
+	if (this->_identity.length() > 0)
+		fullName += "@" + this->_identity;
+	return fullName;
 }
 
 string_t	Client::getPingContent() const

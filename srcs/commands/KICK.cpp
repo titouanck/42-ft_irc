@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   KICK.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:30:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:42:40 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 04:50:33 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils/utils.hpp"
-#include "utils/ircResponses.hpp"
 #include "classes/Client.hpp"
 #include "classes/Channel.hpp"
 
@@ -50,6 +49,6 @@ void	Client::KICK(string_t content)
 	{
 		nicknames[givenNickname]->_channels.erase(givenChannel);
 		g_channels[givenChannel].disconnect(nicknames[givenNickname]);
-		nicknames[givenNickname]->sendMessage(formatIrcMessage(this->getFullname(), "#" + givenChannel + " " + givenNickname, "KICK", content));
+		nicknames[givenNickname]->sendMessage(formatIrcMessage(this->getFullname(), "KICK", "#" + givenChannel + " " + givenNickname, content));
 	}
 }

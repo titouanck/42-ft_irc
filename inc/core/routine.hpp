@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   routine.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:16:15 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 00:46:23 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/20 03:00:44 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ROUTINE_HPP
 	#define ROUTINE_HPP
-	#include "types.hpp"
+	#include "utils/types.hpp"
 	#include "connections/handleNewConnection.hpp"
 
 /* ************************************************************************** */
