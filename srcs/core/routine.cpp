@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 19:58:00 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/21 12:33:41 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	handleClientInput(Client &client, string_t input)
 	if (pos != string_t::npos)
 	{
 		callCorrespondingCommand(client, parseInput(client.getBuffer()));
+		if (client.getIp().length() == 0)
+			return ;
 		client.clearBuffer();
 	}
 	handleClientInput(client, remaining);
@@ -97,7 +99,8 @@ void	readSocket(Client &client)
 	else
 		std::cout << " host: " << clientInfo << '\n';
 	handleClientInput(client, buffer);
-	std::cout << "----------------------------------------" << '\n';
+	if (client.getIp().length() != 0)
+		std::cout << "----------------------------------------" << '\n';
 }
 
 void	*routine(void *arg)

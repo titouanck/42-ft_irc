@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   JOIN.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 13:35:25 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/21 14:07:46 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,22 @@
 
 /* ************************************************************************** */
 
-static string_t	joinedChannelMessages(Client &client, string_t channelName, string_t userList)
+static string_t	joinBurst(Client &client, Channel &channel, string_t userList)
 {
 	string_t	str;
 	string_t	nickname;
+	string_t	channelName;
+	string_t	channelTopic;
 
 	nickname = client.getNickname();
+	channelName = channel.getName();
+	channelTopic = channel.getTopic();
 	str += formatIrcMessage(client.getFullname(), "JOIN", "#" + channelName, "");
+	if (channelTopic.length() > 0)
+	{
+		str += formatIrcMessage(g_servername, RPL_TOPIC, nickname + " #" + channelName, channelTopic);
+		str += formatIrcMessage(g_servername, RPL_TOPICWHOTIME, nickname + " #" + channelName + " " + channel.getTopicWhoTime(), "");
+	}
 	if (userList.length() == 0)
 		str += formatIrcMessage(g_servername, RPL_NAMREPLY, nickname + " = #" + channelName, "@" + nickname);
 	else
@@ -67,7 +76,7 @@ void	Client::JOIN(string_t content)
 	}
 	if (this->_channels.find(content) == this->_channels.end())
 	{
-		this->sendMessage(joinedChannelMessages(*this, content, userList));
+		this->sendMessage(joinBurst(*this, g_channels[content], userList));
 		this->_channels.insert(content);
 		g_channels[content].connect(this);
 		if (isOp)

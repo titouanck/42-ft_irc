@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 13:25:55 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/21 14:03:05 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,11 @@ void	Channel::setName(string_t name)
 	this->_name = name;
 }
 
-void	Channel::setTopic(string_t topic)
+void	Channel::setTopic(Client *client, string_t topic)
 {
 	this->_topic = topic;
+	this->_whoChangedTopic = client->getNickname();
+	this->_timeTopicChanged = std::time(NULL);
 }
 
 void	Channel::op(Client *client)
@@ -142,4 +144,12 @@ bool	Channel::isConnected(Client *client) const
 	if (it != this->_users.end())
 		return true;
 	return false;
+}
+
+string_t	Channel::getTopicWhoTime() const
+{
+	std::ostringstream	oss;
+
+	oss << this->_whoChangedTopic << " " <<this->_timeTopicChanged;
+	return oss.str();
 }

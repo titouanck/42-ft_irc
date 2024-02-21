@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/20 05:18:22 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:45:29 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ enum IRCNUMERICS
 	RPL_MYINFO = 004,
 
 	RPL_TOPIC = 332,
+	RPL_TOPICWHOTIME = 333,
 
 	RPL_NAMREPLY = 353,
 
