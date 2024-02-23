@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PING.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:27:05 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 01:40:32 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/24 00:07:53 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@
 
 void	Client::PING(string_t content)
 {
-	this->sendMessage("PONG " + content + "\n");
+	sendMessage("PONG " + content + "\n");
 }

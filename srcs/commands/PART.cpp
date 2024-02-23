@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PART.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:29:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 13:35:31 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/24 00:07:53 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void	Client::PART(string_t content)
 	{
 		g_channels[channelToLeave].disconnect(this);
 		this->_channels.erase(channelToLeave);
-		this->sendMessage(formatIrcMessage(this->getFullname(), "PART", "#" + channelToLeave, content));
+		sendMessage(formatIrcMessage(this->getFullname(), "PART", "#" + channelToLeave, content));
 	}
 }

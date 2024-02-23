@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:33:04 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 05:18:59 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/24 00:07:53 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	Client::PRIVMSG(string_t content)
 		if (nicknames.find(receiver) != nicknames.end())
 			nicknames[receiver]->sendMessage(formatIrcMessage(this->getFullname(), "PRIVMSG", receiver, content));
 		else
-			this->sendMessage(formatIrcMessage(g_servername, 401, this->_nickname + " " + receiver, "No such nickname"));
+			sendMessage(formatIrcMessage(g_servername, 401, this->_nickname + " " + receiver, "No such nickname"));
 	}
 	else if (isChannelName)
 	{
@@ -50,9 +50,9 @@ void	Client::PRIVMSG(string_t content)
 			if (g_channels[receiver.substr(1)].isConnected(this))
 				g_channels[receiver.substr(1)].sendMessage(this, formatIrcMessage(this->getFullname(), "PRIVMSG", receiver, content));
 			else
-				this->sendMessage(formatIrcMessage(g_servername, ERR_CANNOTSENDTOCHAN, this->_nickname + " " + receiver, "Cannot send to channel"));
+				sendMessage(formatIrcMessage(g_servername, ERR_CANNOTSENDTOCHAN, this->_nickname + " " + receiver, "Cannot send to channel"));
 		}
 		else
-			this->sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, this->_nickname + " " + receiver, "No such channel"));
+			sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, this->_nickname + " " + receiver, "No such channel"));
 	}
 }

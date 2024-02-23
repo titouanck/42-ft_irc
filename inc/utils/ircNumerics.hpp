@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/21 12:45:29 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/23 23:59:29 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ enum IRCNUMERICS
 	RPL_CREATED = 003,
 	RPL_MYINFO = 004,
 
+	RPL_NOTOPIC = 331,
 	RPL_TOPIC = 332,
 	RPL_TOPICWHOTIME = 333,
 
@@ -42,7 +43,13 @@ enum IRCNUMERICS
 	ERR_ERRONEUSNICKNAME = 432,
 	ERR_NICKNAMEINUSE = 433,
 
-	ERR_NOTREGISTERED = 451
+	ERR_NOTONCHANNEL = 442,
+
+	ERR_NOTREGISTERED = 451,
+
+	ERR_NEEDMOREPARAMS = 461,
+	
+	ERR_CHANOPRIVSNEEDED = 482
 };
 
 /* ************************************************************************** */

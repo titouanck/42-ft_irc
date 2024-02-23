@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/21 14:07:46 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/24 00:07:53 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	Client::JOIN(string_t content)
 	}
 	if (this->_channels.find(content) == this->_channels.end())
 	{
-		this->sendMessage(joinBurst(*this, g_channels[content], userList));
+		sendMessage(joinBurst(*this, g_channels[content], userList));
 		this->_channels.insert(content);
 		g_channels[content].connect(this);
 		if (isOp)

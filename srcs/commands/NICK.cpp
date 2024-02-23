@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:23:55 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 05:10:21 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/24 00:07:53 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	Client::NICK(string_t nickname)
 		return ;
 	nickname = rTrim(nickname.substr(0, nickname.find(':')));
 	if (!checkStrValidity(nickname))
-		return this->sendMessage(formatIrcMessage(g_servername, ERR_ERRONEUSNICKNAME, GUEST, "Nickname containing invalid characters. Please stick to these : [A-Z, a-z, -, _]"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_ERRONEUSNICKNAME, GUEST, "Nickname containing invalid characters. Please stick to these : [A-Z, a-z, -, _]"));
 	else if (nickname.compare(GUEST) == 0)
-		return this->sendMessage(formatIrcMessage(g_servername, ERR_ERRONEUSNICKNAME, GUEST, "Nickname reserved, choose a different one"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_ERRONEUSNICKNAME, GUEST, "Nickname reserved, choose a different one"));
 	pthread_mutex_lock(&nicknames_mutex);
 	if (nicknames.find(nickname) == nicknames.end())
 	{
@@ -57,11 +57,11 @@ void	Client::NICK(string_t nickname)
 		this->_nickname = nickname;
 		if (sendWelcomeBurst)
 		{
-			this->sendMessage(welcomeBurst(*this));
+			sendMessage(welcomeBurst(*this));
 			sendWelcomeBurst = false;
 		}
 	}
 	else
-		this->sendMessage(formatIrcMessage(g_servername, ERR_NICKNAMEINUSE, GUEST, nickname + " :Nickname is already in use"));
+		sendMessage(formatIrcMessage(g_servername, ERR_NICKNAMEINUSE, GUEST, nickname + " :Nickname is already in use"));
 	pthread_mutex_unlock(&nicknames_mutex);
 }

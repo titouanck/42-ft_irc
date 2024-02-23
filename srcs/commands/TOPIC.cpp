@@ -3,38 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   TOPIC.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:32:20 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 13:35:37 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/24 00:34:22 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/Client.hpp"
 #include "classes/Channel.hpp"
+#include "utils/ircNumerics.hpp"
+#include "utils/utils.hpp"
 
 /* ************************************************************************** */
 
 void	Client::TOPIC(string_t content)
 {
 	size_t			pos;
-	string_t		givenChannel;
+	string_t		channelName;
+	string_t		channelTopic;
+	Channel			*channel;
 	
 	if (content.length() < 2 || content[0] != '#')
 		return ;
-	else
-		content = content.substr(1);
+	content = content.substr(1);
 	pos = content.find_first_of(" \t");
-	givenChannel = content.substr(0, pos);
-	transform(givenChannel.begin(), givenChannel.end(), givenChannel.begin(), tolower);
+	channelName = content.substr(0, pos);
+	transform(channelName.begin(), channelName.end(), channelName.begin(), tolower);
+	if (g_channels.find(channelName) == g_channels.end())
+		return sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, this->_nickname + " #" + channelName, "No such channel"));
+	channel = &(g_channels.find(channelName)->second);
+	channelTopic = channel->getTopic();
+	if (channel->isConnected(this) == false)
+		return sendMessage(formatIrcMessage(g_servername, ERR_NOTONCHANNEL, this->_nickname + " #" + channelName, "You're not on that channel"));
 	if (pos == std::string::npos)
 	{
-		// if (g_channels.find(givenChannel) != g_channels.end())
-		// 	this->sendMessage(formatReference(this->_nickname + " #" + givenChannel, RPL_TOPIC(g_channels[givenChannel])));
-		// else
-		// 	this->sendMessage(formatReference(this->_nickname + " #" + givenChannel, ERR_NOSUCHCHANNEL()));
+		if (channelTopic.length() == 0)
+			return sendMessage(formatIrcMessage(g_servername, RPL_NOTOPIC, this->_nickname + " #" + channelName, "No topic is set"));
+		sendMessage(formatIrcMessage(g_servername, RPL_TOPIC, this->_nickname + " #" + channelName, channelTopic));
+		sendMessage(formatIrcMessage(g_servername, RPL_TOPICWHOTIME, this->_nickname + " #" + channelName + " " + channel->getTopicWhoTime(), ""));
 		return ;
 	}
-	// givenChannel = content.substr(0, pos);
-	// content = content.substr(pos + 1);
+	pos = content.find(':');
+	if (pos == std::string::npos)
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " #" + channelName, "TOPIC needs more parameters, it's missing ':'"));
+	content = content.substr(pos + 1);
+	if (channel->isOp(this) == false)
+		return sendMessage(formatIrcMessage(g_servername, ERR_CHANOPRIVSNEEDED, this->_nickname + " #" + channelName, "You're not channel operator"));
+	channel->setTopic(this, content);
+	channel->sendMessage(NULL, formatIrcMessage(this->getFullname(), "TOPIC", "#" + channelName, channel->getTopic()));
 }
