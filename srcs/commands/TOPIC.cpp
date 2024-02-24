@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:32:20 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/24 00:34:22 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/24 01:01:39 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	Client::TOPIC(string_t content)
 	if (pos == std::string::npos)
 		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " #" + channelName, "TOPIC needs more parameters, it's missing ':'"));
 	content = content.substr(pos + 1);
-	if (channel->isOp(this) == false)
+	if (channel->isTopicRestricted() && channel->isOp(this) == false)
 		return sendMessage(formatIrcMessage(g_servername, ERR_CHANOPRIVSNEEDED, this->_nickname + " #" + channelName, "You're not channel operator"));
 	channel->setTopic(this, content);
 	channel->sendMessage(NULL, formatIrcMessage(this->getFullname(), "TOPIC", "#" + channelName, channel->getTopic()));

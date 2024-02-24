@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/21 14:03:05 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/24 00:58:19 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,21 @@ void	Channel::deop(Client *client)
 		it->second = ISNOTOP;
 }
 
+void	Channel::setInviteOnly(bool value)
+{
+	this->_inviteOnly = value;
+}
+
+void	Channel::setTopicRestricted(bool value)
+{
+	this->_topicRestricted = value;
+}
+
+void	Channel::setChannelKey(string_t key)
+{
+	this->_channelKey = key;
+}
+
 /* GETTERS ****************************************************************** */
 
 string_t	Channel::getTopic() const
@@ -152,4 +167,19 @@ string_t	Channel::getTopicWhoTime() const
 
 	oss << this->_whoChangedTopic << " " <<this->_timeTopicChanged;
 	return oss.str();
+}
+
+bool	Channel::isInviteOnly() const
+{
+	return this->_inviteOnly;
+}
+
+bool	Channel::isTopicRestricted() const
+{
+	return this->_topicRestricted;
+}
+
+string_t	Channel::getChannelKey() const
+{
+	return this->_channelKey;
 }

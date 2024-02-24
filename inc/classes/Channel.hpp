@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/21 14:01:55 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/24 00:55:40 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ class Channel
 		void					   		setTopic(Client *client, string_t name);
 		void							op(Client *client);
 		void							deop(Client *client);
+		void							setInviteOnly(bool value);
+		void							setTopicRestricted(bool value);
+		void							setChannelKey(string_t key);
 	
 		const std::map<Client *, bool>	&getUsers() const;
 		string_t						getName() const;
@@ -45,6 +48,9 @@ class Channel
 		string_t						getTopicWhoTime() const;
 		bool							isOp(Client *client) const;
 		bool							isConnected(Client *client) const;
+		bool							isInviteOnly() const;
+		bool							isTopicRestricted() const;
+		string_t						getChannelKey() const;
 
 	private:
 		string_t					_name;
@@ -52,6 +58,9 @@ class Channel
 		std::map<Client *, bool>	_users;
 		string_t					_whoChangedTopic;
 		time_t						_timeTopicChanged;
+		bool						_inviteOnly;
+		bool						_topicRestricted;
+		string_t					_channelKey;
 };
 
 /* ************************************************************************** */
