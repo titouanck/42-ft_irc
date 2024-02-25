@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/25 18:50:31 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/25 23:04:38 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ enum IRCNUMERICS
 	RPL_YOURHOST = 002,
 	RPL_CREATED = 003,
 	RPL_MYINFO = 004,
+
+	RPL_CHANNELMODEIS = 324,
 
 	RPL_NOTOPIC = 331,
 	RPL_TOPIC = 332,
@@ -53,6 +55,7 @@ enum IRCNUMERICS
 	ERR_CHANNELISFULL = 471,
 
 	ERR_INVITEONLYCHAN = 473,
+	ERR_BANNEDFROMCHAN = 474,
 
 	ERR_BADCHANNELKEY = 475,
 	

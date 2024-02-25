@@ -6,12 +6,13 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/25 18:43:53 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/25 22:35:57 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/Channel.hpp"
 #include "classes/Client.hpp"
+#include "utils/ircNumerics.hpp"
 
 /* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
 
@@ -111,6 +112,12 @@ void	Channel::setChannelKey(string_t key)
 	this->_channelKey = key;
 }
 
+void	Channel::setUserLimit(unsigned short limit)
+{
+	this->_userLimit = limit;
+}
+
+
 /* GETTERS ****************************************************************** */
 
 string_t	Channel::getTopic() const
@@ -187,13 +194,34 @@ string_t	Channel::getChannelKey() const
 	return this->_channelKey;
 }
 
-bool		Channel::isInvited(Client *client) const
+int	Channel::checkEligibilityToConnect(Client *client, string_t key) const
 {
-	if (!this->_inviteOnly)
-		return true;
-	else if (this->_invitedUsers.find(client) == this->_invitedUsers.end())
-		return false;
-	else if (std::time(0) > (this->_invitedUsers.at(client) + 300))
-		return false;
-	return true;
+	if (this->_userLimit != 0 && this->_users.size() >= this->_userLimit)
+		return ERR_CHANNELISFULL;
+	if (this->_inviteOnly && (this->_invitedUsers.find(client) == this->_invitedUsers.end() || std::time(0) > (this->_invitedUsers.at(client) + 300)))
+		return ERR_INVITEONLYCHAN;
+	if (this->_channelKey.length() > 0 && key.compare(this->_channelKey) != 0)
+		return ERR_BADCHANNELKEY;
+	return 0;
 }
+
+unsigned short	Channel::getUserLimit() const
+{
+	return this->_userLimit;
+}
+
+string_t	Channel::getModeList() const
+{
+	string_t	list;
+
+	if (this->_inviteOnly)
+		list += "i";
+	if (this->_topicRestricted)
+		list += "t";
+	if (this->_channelKey.length() > 0)
+		list += "k";
+	if (this->_userLimit != 0)
+		list += "l";
+	return list;	
+}
+

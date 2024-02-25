@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:12:44 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/21 12:37:03 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/25 22:38:38 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,6 @@ void	callCorrespondingCommand(Client &client, Message message)
 		client.PRIVMSG(message.content);
 	else if (message.command.compare("TOPIC") == 0)
 		client.TOPIC(message.content);
+	else if (message.command.compare("MODE") == 0)
+		client.MODE(message.content);
 }

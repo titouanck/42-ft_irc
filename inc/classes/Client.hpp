@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/21 12:37:27 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/25 22:38:48 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ class Client
 		void			KICK(string_t content);
 		void			PRIVMSG(string_t content);
 		void			TOPIC(string_t content);
+		void			MODE(string_t content);
 
 		sockaddr_in6_t	addr;
 		socklen_t		len;

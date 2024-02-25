@@ -21,7 +21,8 @@ $(NAME): $(OBJS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	@echo Compiling $(shell echo "$<" | sed 's/$(SRCDIR)\///')
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 -include $(DEPS)
 
