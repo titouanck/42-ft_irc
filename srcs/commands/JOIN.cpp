@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/24 00:07:53 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/25 18:52:11 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static string_t	joinBurst(Client &client, Channel &channel, string_t userList)
 	nickname = client.getNickname();
 	channelName = channel.getName();
 	channelTopic = channel.getTopic();
-	str += formatIrcMessage(client.getFullname(), "JOIN", "#" + channelName, "");
+	channel.sendMessage(NULL, formatIrcMessage(client.getFullname(), "JOIN", "#" + channelName, ""));
 	if (channelTopic.length() > 0)
 	{
 		str += formatIrcMessage(g_servername, RPL_TOPIC, nickname + " #" + channelName, channelTopic);
@@ -44,6 +44,7 @@ static string_t	joinBurst(Client &client, Channel &channel, string_t userList)
 void	Client::JOIN(string_t content)
 {
 	string_t			remaining;
+	string_t			channelName;
 	string_t			channelKey;
 	string_t			userList;
 	size_t				pos;
@@ -76,6 +77,8 @@ void	Client::JOIN(string_t content)
 	}
 	if (this->_channels.find(content) == this->_channels.end())
 	{
+		if (!g_channels[content].isInvited(this))
+			return ;
 		sendMessage(joinBurst(*this, g_channels[content], userList));
 		this->_channels.insert(content);
 		g_channels[content].connect(this);

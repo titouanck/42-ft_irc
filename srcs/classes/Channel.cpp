@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/24 00:58:19 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/25 18:43:53 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,13 @@ Channel::~Channel()
 
 /* CHANNEL CONNECTIONS ****************************************************** */
 
-void	Channel::connect(Client *client)
+bool	Channel::connect(Client *client)
 {
+	if (this->_inviteOnly && this->_invitedUsers.find(client) != this->_invitedUsers.end())
+		this->_invitedUsers.erase(client);
 	if (this->_users.find(client) == this->_users.end())
 		this->_users[client] = ISNOTOP;
+	return true;
 }
 
 void	Channel::disconnect(Client *client)
@@ -182,4 +185,15 @@ bool	Channel::isTopicRestricted() const
 string_t	Channel::getChannelKey() const
 {
 	return this->_channelKey;
+}
+
+bool		Channel::isInvited(Client *client) const
+{
+	if (!this->_inviteOnly)
+		return true;
+	else if (this->_invitedUsers.find(client) == this->_invitedUsers.end())
+		return false;
+	else if (std::time(0) > (this->_invitedUsers.at(client) + 300))
+		return false;
+	return true;
 }

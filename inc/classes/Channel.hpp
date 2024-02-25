@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/24 00:55:40 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/25 18:36:42 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Channel
 		Channel &operator=(const Channel &copy);
 		~Channel();
 
-		void							connect(Client *client);
+		bool							connect(Client *client);
 		void							disconnect(Client *client);
 		void							sendMessage(Client *client, string_t content);
 
@@ -51,11 +51,13 @@ class Channel
 		bool							isInviteOnly() const;
 		bool							isTopicRestricted() const;
 		string_t						getChannelKey() const;
+		bool							isInvited(Client *client) const;
 
 	private:
 		string_t					_name;
 		string_t					_topic;
 		std::map<Client *, bool>	_users;
+		std::map<Client *, time_t>	_invitedUsers;
 		string_t					_whoChangedTopic;
 		time_t						_timeTopicChanged;
 		bool						_inviteOnly;
