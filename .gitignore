@@ -2,5 +2,8 @@
 objs/
 *.o
 
+# Dependencies
+*.d
+
 # Executable
 ircserv
