@@ -32,6 +32,9 @@ clean:
 	rm -rf objs
 	rm -rf deps
 
+docker:
+	docker run -v ./:/app your_image_name
+
 fclean: clean
 	rm -f $(NAME)
 
