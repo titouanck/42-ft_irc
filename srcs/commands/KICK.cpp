@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:30:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 18:24:28 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:29:37 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	Client::KICK(string_t content)
 		return sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, this->_nickname + " #" + channelName, "No such channel"));
 	else if (nicknames.find(givenNickname) == nicknames.end())
 		return sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHNICK, this->_nickname + " " + givenNickname, "No such nickname"));
+	else if (!g_channels[channelName].isConnected(this))
+		return sendMessage(formatIrcMessage(g_servername, ERR_NOTONCHANNEL, this->_nickname + " #" + channelName, "Not on channel"));
 	else if (!g_channels[channelName].isOp(this))
 		return sendMessage(formatIrcMessage(g_servername, ERR_CHANOPRIVSNEEDED, this->_nickname + " #" + channelName, "You're not channel operator"));
 	else if (g_channels[channelName].isOp(nicknames[givenNickname]))
