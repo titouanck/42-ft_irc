@@ -33,7 +33,13 @@ clean:
 	rm -rf deps
 
 docker:
-	docker run -v ./:/app your_image_name
+	docker kill ircserv || true
+	mkdir -p srcs/
+	mkdir -p inc/
+	mkdir -p objs/
+	sudo docker-compose build
+	sudo docker-compose up -d
+	sudo docker exec -it ircserv sh
 
 fclean: clean
 	rm -f $(NAME)

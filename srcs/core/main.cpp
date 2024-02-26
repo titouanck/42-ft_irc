@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 13:36:08 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/26 17:07:36 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "core/main.hpp"
 #include "utils/utils.hpp"
-#include "connections/timeout.hpp"
 #include "classes/Server.hpp"
 #include "classes/Channel.hpp"
 #include "classes/Client.hpp"
@@ -47,8 +46,6 @@ int	main(int argc, char **argv)
 
 bool	irc_serv(unsigned int port, string_t password)
 {
-	pthread_t	thread_routine;
-	pthread_t	thread_timeout;
 	pollfd_t	pollfds[MAX_CLIENTS + 1];
 	Client		clients[MAX_CLIENTS + 1];
 	
@@ -64,19 +61,12 @@ bool	irc_serv(unsigned int port, string_t password)
 	
 	std::cout << "----------------------------------------" << '\n';
 	std::cout << "Launching " << RED << g_servername << NC << "..." << '\n';
-	
-	if (pthread_create(&thread_routine, NULL, routine, &clients) != 0)
-    	return printError("pthread_create(&thread_routine, ...)"), false;
-	if (pthread_create(&thread_timeout, NULL, timeout, &clients) != 0)
-    	return printError("pthread_create(&thread_timeout, ...)"), false;
-
 	std::cout << "Port: " RED << Server::getPort() << NC ", Password: " RED << password << NC << '\n';
 	std::cout << "Created on " RED << formatTime(Server::launchTime) << NC << '\n';
 	std::cout << "Version: " RED << g_serversion << NC << '\n';
 	std::cout << "----------------------------------------" << '\n';
 	
-	pthread_join(thread_timeout, NULL);
-	pthread_join(thread_routine, NULL);
+	routine();
 	Server::closeSocket();
 	return true;
 }
@@ -102,7 +92,5 @@ pollfd_t					*g_pollfds = 0;
 std::map<string_t, Channel>	g_channels;
 string_t					g_servername;
 string_t					g_serversion;
-bool 						g_endOfProgram = false;
-pthread_mutex_t				g_endOfProgram_mutex;
 
 /* ************************************************************************** */

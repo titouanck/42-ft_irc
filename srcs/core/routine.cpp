@@ -6,12 +6,11 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/21 12:33:41 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:07:42 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "core/routine.hpp"
-#include "connections/timeout.hpp"
 #include "commands/callCorrespondingCommand.hpp"
 #include "classes/Server.hpp"
 #include "classes/Client.hpp"
@@ -103,15 +102,13 @@ void	readSocket(Client &client)
 		std::cout << "----------------------------------------" << '\n';
 }
 
-void	*routine(void *arg)
+void	routine()
 {
-	Client		*clients = (static_cast<Client (*)>(arg));
-	pollfd_t	*pollfds = g_pollfds;
-	int			pollResult;
+	int	pollResult;
 
 	while (true)
 	{
-		pollResult = poll(pollfds, MAX_CLIENTS + 1, 250);
+		pollResult = poll(g_pollfds, MAX_CLIENTS + 1, 250);
         if (pollResult == -1)
 		{
 			printError("poll");
@@ -119,21 +116,15 @@ void	*routine(void *arg)
 		}
 		for (int i = 0; i <= MAX_CLIENTS; ++i)
 		{
-			clients[i].lockMutex();
-            if (pollfds[i].revents == POLLIN)
+            if (g_pollfds[i].revents == POLLIN)
 			{
 				if (i == 0)
-					handleNewConnection(clients);
+					handleNewConnection(g_clients);
 				else
-					readSocket(clients[i]);
+					readSocket(g_clients[i]);
 			}
-			clients[i].unlockMutex();
 		}
 	}
-	pthread_mutex_lock(&g_endOfProgram_mutex);
-	g_endOfProgram = true;
-	pthread_mutex_unlock(&g_endOfProgram_mutex);
-	pthread_exit(NULL);
 }
 
 /* ************************************************************************** */

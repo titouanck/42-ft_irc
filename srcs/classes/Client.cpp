@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 19:26:44 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/26 17:05:12 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 /* STATIC VARIABLES ********************************************************** */
 
 std::map<string_t, Client *>	Client::nicknames;
-pthread_mutex_t					Client::nicknames_mutex;
 
 /* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
 
 Client::Client() : _channels()
 {
-	pthread_mutex_init(&this->_mutex, NULL);
 }
 
 Client::Client(const Client &copy)
@@ -47,7 +45,6 @@ Client &Client::operator=(const Client &copy)
 
 Client::~Client()
 {
-	pthread_mutex_destroy(&this->_mutex);
 }
 
 /* SOCKET RELATED ACTIONS *************************************************** */
@@ -133,18 +130,6 @@ void	Client::setPingContent(string_t content)
 	this->_pingContent = content;
 	this->_pingTime = std::time(0);
 	this->_pinged = true;
-}
-
-/* MUTEX ******************************************************************** */
-
-void	Client::lockMutex()
-{
-	pthread_mutex_lock(&this->_mutex);
-}
-
-void	Client::unlockMutex()
-{
-	pthread_mutex_unlock(&this->_mutex);
 }
 
 /* GETTERS ******************************************************************* */

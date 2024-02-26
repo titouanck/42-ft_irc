@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/25 22:38:48 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:04:43 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ class Client
 		void			setIdentity();
 		void			setOperator(bool isOp);
 		void			setPingContent(string_t content);
-		void			lockMutex();
-		void			unlockMutex();
 	
 		unsigned int	getIndex() const;
 		string_t		getIp() const;
@@ -73,7 +71,6 @@ class Client
 
 		std::set<string_t>					_channels;
 		static std::map<string_t, Client *>	nicknames;
-		static pthread_mutex_t				nicknames_mutex;
 
 	private:
 		unsigned int					_index;
@@ -89,7 +86,6 @@ class Client
 		string_t						_nickname;
 		string_t						_username;
 		string_t						_realname;
-		pthread_mutex_t					_mutex;
 };
 
 /* ************************************************************************** */

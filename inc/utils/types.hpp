@@ -92,8 +92,6 @@
 	extern std::map<string_t, Channel>	g_channels;
 	extern string_t						g_servername;
 	extern string_t						g_serversion;
-	extern bool 						g_endOfProgram;
-	extern pthread_mutex_t				g_endOfProgram_mutex;
 
 /* ************************************************************************** */
 
