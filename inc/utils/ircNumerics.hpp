@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/26 17:26:08 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:49:49 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ enum IRCNUMERICS
 	ERR_CANNOTSENDTOCHAN = 404,
 	ERR_TOOMANYCHANNELS = 405,
 	
+	ERR_NONICKNAMEGIVEN = 431,
 	ERR_ERRONEUSNICKNAME = 432,
 	ERR_NICKNAMEINUSE = 433,
 

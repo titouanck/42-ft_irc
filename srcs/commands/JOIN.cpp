@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 18:04:12 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:46:35 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "classes/Channel.hpp"
 #include "utils/utils.hpp"
 #include "utils/ircNumerics.hpp"
+
+#define MAX_CHANNELS_PER_USER 10
 
 /* ************************************************************************** */
 
@@ -76,7 +78,9 @@ void	Client::JOIN(string_t content)
 	else if (content[0] != '#' || content.length() == 1)
 		return sendMessage(formatIrcMessage(g_servername, ERR_BADCHANMASK, this->_nickname + " " + content, "Invalid channel name"));
 	remaining = _parsing(content.substr(1), channelName, channelKey);
-	if (!containsOnlyAllowedChars(channelName))
+	if (this->_channels.size() >= MAX_CHANNELS_PER_USER)
+		return sendMessage(formatIrcMessage(g_servername, ERR_TOOMANYCHANNELS, this->_nickname + " " + channelName, "Too many channels"));
+	else if (!containsOnlyAllowedChars(channelName))
 	{
 		sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, this->_nickname + " #" + channelName, "Channel name contains invalid characters"));
 		if (remaining.length() > 0)
