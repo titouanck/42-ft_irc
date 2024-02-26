@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:33:04 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/24 00:07:53 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:38:49 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,44 @@
 
 void	Client::PRIVMSG(string_t content)
 {
-	bool				isChannelName;
-	string_t			receiver;
-	size_t				pos;
+	bool		isChannelName;
+	string_t	name;
+	size_t		pos;
 
-	if (content.length() > 2 && content[0] == '#')
+	if (content.length() <= 2)
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "PRIVMSG needs more parameters"));	
+
+	if (content[0] == '#')
+	{
+		content = content.substr(1);
 		isChannelName = true;
+	}
 	else
 		isChannelName = false;
 	pos = content.find(':');
 	if (pos == std::string::npos)
-		return ;
-	receiver = rTrim(content.substr(0, pos));
-	transform(receiver.begin(), receiver.end(), receiver.begin(), tolower);
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "PRIVMSG needs more parameters"));	
+	name = rTrim(content.substr(0, pos));
+	transform(name.begin(), name.end(), name.begin(), tolower);
 	content = content.substr(pos + 1);
 	
 	if (!isChannelName)
 	{
-		if (receiver.compare(this->_nickname) == 0)
-			return ;
-		if (nicknames.find(receiver) != nicknames.end())
-			nicknames[receiver]->sendMessage(formatIrcMessage(this->getFullname(), "PRIVMSG", receiver, content));
+		if (nicknames.find(name) == nicknames.end())
+			return sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHNICK, this->_nickname + " " + name, "No such nickname"));
 		else
-			sendMessage(formatIrcMessage(g_servername, 401, this->_nickname + " " + receiver, "No such nickname"));
+			nicknames[name]->sendMessage(formatIrcMessage(this->getFullname(), "PRIVMSG", name, content));
 	}
 	else if (isChannelName)
 	{
-		if (g_channels.find(receiver.substr(1)) != g_channels.end())
+		if (g_channels.find(name.substr(1)) != g_channels.end())
 		{
-			if (g_channels[receiver.substr(1)].isConnected(this))
-				g_channels[receiver.substr(1)].sendMessage(this, formatIrcMessage(this->getFullname(), "PRIVMSG", receiver, content));
+			if (g_channels[name.substr(1)].isConnected(this))
+				g_channels[name.substr(1)].sendMessage(this, formatIrcMessage(this->getFullname(), "PRIVMSG", name, content));
 			else
-				sendMessage(formatIrcMessage(g_servername, ERR_CANNOTSENDTOCHAN, this->_nickname + " " + receiver, "Cannot send to channel"));
+				sendMessage(formatIrcMessage(g_servername, ERR_CANNOTSENDTOCHAN, this->_nickname + " " + name, "Cannot send to channel"));
 		}
 		else
-			sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, this->_nickname + " " + receiver, "No such channel"));
+			sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, this->_nickname + " " + name, "No such channel"));
 	}
 }

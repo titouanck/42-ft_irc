@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 17:07:36 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:18:36 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	irc_serv(unsigned int port, string_t password)
 	g_clients = clients;
 	
 	std::cout << "----------------------------------------" << '\n';
-	std::cout << "Launching " << RED << g_servername << NC << "..." << '\n';
+	std::cout << "Launching " << RED << g_servername << NC << '\n';
 	std::cout << "Port: " RED << Server::getPort() << NC ", Password: " RED << password << NC << '\n';
 	std::cout << "Created on " RED << formatTime(Server::launchTime) << NC << '\n';
 	std::cout << "Version: " RED << g_serversion << NC << '\n';
