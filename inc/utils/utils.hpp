@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:48:31 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 00:05:04 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:00:48 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 /* ************************************************************************** */
 
-bool		checkStrValidity(string_t str);
+bool		containsOnlyAllowedChars(string_t str);
 
 bool 		endsWith(const string_t &str, const string_t &suffix);
 

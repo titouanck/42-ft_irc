@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkStrValidity.cpp                               :+:      :+:    :+:   */
+/*   containsOnlyAllowedChars.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 
 /* ************************************************************************** */
 
-bool	checkStrValidity(string_t str)
+bool	containsOnlyAllowedChars(string_t str)
 {
 	size_t	len;
 

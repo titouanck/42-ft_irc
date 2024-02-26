@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 00:49:59 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:04:12 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static string_t	joinBurst(Client &client, Channel &channel, string_t userList)
 	channelTopic = channel.getTopic();
 	modeList = channel.getModeList();
 	channel.sendMessage(NULL, formatIrcMessage(client.getFullname(), "JOIN", "#" + channelName, ""));
+	str += formatIrcMessage(client.getFullname(), "JOIN", "#" + channelName, "");
 	if (modeList.length() > 0)
 		str += formatIrcMessage(g_servername, "MODE", nickname + " #" + channelName + " +" + modeList, "");
 	if (channelTopic.length() > 0)
@@ -70,14 +71,17 @@ void	Client::JOIN(string_t content)
 	string_t	userList;
 	bool		isOp;
 
-	if (content.length() < 2 || content[0] != '#')
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + "JOIN", "Need more parameters, missing #<channel>"));
+	if (content.length() == 0)
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "JOIN needs more parameters"));
+	else if (content[0] != '#' || content.length() == 1)
+		return sendMessage(formatIrcMessage(g_servername, ERR_BADCHANMASK, this->_nickname + " " + content, "Invalid channel name"));
 	remaining = _parsing(content.substr(1), channelName, channelKey);
-	if (!checkStrValidity(channelName))
+	if (!containsOnlyAllowedChars(channelName))
 	{
-		sendMessage(formatIrcMessage(g_servername, ERR_BANNEDFROMCHAN, this->_nickname + " #" + channelName, "Channel name contains invalid characters"));
+		sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, this->_nickname + " #" + channelName, "Channel name contains invalid characters"));
 		if (remaining.length() > 0)
-			return this->JOIN(lTrim(remaining));
+			this->JOIN(lTrim(remaining));
+		return ;
 	}
 	else if (g_channels.find(channelName) == g_channels.end())
 	{

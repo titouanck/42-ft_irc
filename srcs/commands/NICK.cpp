@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:23:55 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 17:05:18 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:00:48 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	Client::NICK(string_t nickname)
 	if (this->_nickname.compare(nickname) == 0)
 		return ;
 	nickname = rTrim(nickname.substr(0, nickname.find(':')));
-	if (!checkStrValidity(nickname))
+	if (!containsOnlyAllowedChars(nickname))
 		return sendMessage(formatIrcMessage(g_servername, ERR_ERRONEUSNICKNAME, GUEST, "Nickname containing invalid characters. Please stick to these : [A-Z, a-z, -, _]"));
 	else if (nickname.compare(GUEST) == 0)
 		return sendMessage(formatIrcMessage(g_servername, ERR_ERRONEUSNICKNAME, GUEST, "Nickname reserved, choose a different one"));

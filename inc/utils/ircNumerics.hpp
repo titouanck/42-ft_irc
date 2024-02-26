@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/25 23:04:38 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:26:08 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ enum IRCNUMERICS
 	ERR_BANNEDFROMCHAN = 474,
 
 	ERR_BADCHANNELKEY = 475,
+	ERR_BADCHANMASK = 476,
 	
 	ERR_CHANOPRIVSNEEDED = 482
 };

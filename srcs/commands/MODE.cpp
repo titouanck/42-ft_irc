@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:32:20 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 00:53:26 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:49:31 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	Client::MODE(string_t content)
 	if (content.length() >= 1 && content[0] == '#')
 		content = content.substr(1);
 	else if (content.length() == 0 || content[0] == '#')
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "Need more parameters, MODE <channel|nickname> [[+|-]modechars [parameters]]"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "MODE needs more parameters"));
 	else
 		return ;
 	pos = content.find_first_of(" \t");
