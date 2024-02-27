@@ -33,6 +33,7 @@ clean:
 	rm -rf deps
 
 docker:
+	clear
 	docker kill ircserv || true
 	mkdir -p srcs/
 	mkdir -p inc/

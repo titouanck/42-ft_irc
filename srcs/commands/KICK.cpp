@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   KICK.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:30:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 22:46:54 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ void	Client::KICK(string_t content)
 		return sendMessage(formatIrcMessage(g_servername, ERR_CHANOPRIVSNEEDED, this->_nickname + " #" + channelName, "Not enough permissions"));
 	
 	g_channels[channelName].sendMessage(NULL, formatIrcMessage(this->getFullname(), "KICK", "#" + channelName + " " + givenNickname, content));
-	nicknames[givenNickname]->_channels.erase(channelName);
 	g_channels[channelName].disconnect(nicknames[givenNickname]);
+	nicknames[givenNickname]->_channels.erase(channelName);
 }

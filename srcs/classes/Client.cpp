@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 20:30:52 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:49:36 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	Client::disconnect()
 		{
 			g_channels[*it].sendMessage(this, formatIrcMessage(this->getFullname(), "PART", "#" + *it, *it));
 			g_channels[*it].disconnect(this);
-			if (g_channels[*it].getUsers().size() == 0)
+			if (g_channels[*it].getUsers().empty())
 				g_channels.erase(*it);
 		}
 	}

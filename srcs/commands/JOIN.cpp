@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 20:37:48 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:49:13 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,7 @@ static void _joinChannel(Client *client, string_t channelName, string_t key)
 	transform(channelName.begin(), channelName.end(), channelName.begin(), tolower);
 	
 	if (g_channels.find(channelName) == g_channels.end())
-	{
-		for (std::map<string_t, Channel>::iterator it = g_channels.begin(); it != g_channels.end(); it++)
-		{
-			if (it->second.getUsers().size() == 0)
-			{
-				g_channels.erase(it);
-				it = g_channels.begin();
-			}
-		}
 		g_channels[channelName] = Channel(channelName);
-	}
 	else
 	{
 		if (client->_channels.find(channelName) != client->_channels.end())
