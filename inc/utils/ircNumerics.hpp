@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/27 23:05:46 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:41:56 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ enum IRCNUMERICS
 	RPL_NOTOPIC = 331,
 	RPL_TOPIC = 332,
 	RPL_TOPICWHOTIME = 333,
+
+	RPL_INVITING = 341,
 
 	RPL_NAMREPLY = 353,
 

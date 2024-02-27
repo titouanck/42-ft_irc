@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 22:59:35 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/27 23:39:50 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:42:07 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	Client::INVITE(string_t content)
 	else if (!g_channels[channelName].isOp(this))
 		return sendMessage(formatIrcMessage(g_servername, ERR_CHANOPRIVSNEEDED, this->_nickname + " #" + channelName, "You're not channel operator"));
 
-	g_channels[channelName].sendMessage(NULL, formatIrcMessage(this->getFullname(), "INVITE", givenNickname + " #" + channelName, ""));
+	g_channels[channelName].sendMessage(NULL, formatIrcMessage(this->getFullname(), RPL_INVITING, givenNickname + " #" + channelName, ""));
 	g_channels[channelName].invite(nicknames[givenNickname]);
 }
