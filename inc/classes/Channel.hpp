@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/25 22:35:57 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:27:22 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Channel
 {
 	public:
 		Channel();
+		Channel(string_t channelName);
 		Channel(const Channel &copy);
 		Channel &operator=(const Channel &copy);
 		~Channel();
@@ -64,9 +65,9 @@ class Channel
 		string_t						_whoChangedTopic;
 		time_t							_timeTopicChanged;
 		
+		string_t						_channelKey;
 		bool							_inviteOnly;
 		bool							_topicRestricted;
-		string_t						_channelKey;
 		unsigned short					_userLimit;
 };
 

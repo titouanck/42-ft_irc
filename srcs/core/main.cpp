@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 19:18:36 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:33:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv)
 		return std::cerr << "Usage: ./" << EXECUTABLE << " [port] <password>" << '\n', 1;
 	if (password.length() == 0)
 		return std::cerr << "Error: password cannot be empty" << '\n', 1;
-	g_servername = "" + getMyHostname();
+	g_servername = getMyHostname();
 	g_serversion = "0.1";
 	return !irc_serv(port, password);
 }

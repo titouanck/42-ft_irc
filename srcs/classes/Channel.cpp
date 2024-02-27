@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/25 22:35:57 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:51:35 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 /* COMPULSORY MEMBERS OF THE ORTHODOX CANONICAL CLASS *********************** */
 
-Channel::Channel()
+Channel::Channel() : _inviteOnly(false), _topicRestricted(false), _userLimit(0)
 {
 }
 
@@ -27,11 +27,26 @@ Channel::Channel(const Channel &copy)
 
 Channel &Channel::operator=(const Channel &copy)
 {
-	(void)	copy;
+	this->_name = copy._name;
+	this->_topic = copy._topic;
+	this->_whoChangedTopic = copy._whoChangedTopic;
+	this->_timeTopicChanged = copy._timeTopicChanged;
+	
+	this->_channelKey = copy._channelKey;
+	this->_inviteOnly = copy._inviteOnly;
+	this->_topicRestricted = copy._topicRestricted;
+	this->_userLimit = copy._userLimit;
+
 	return *this;
 }
 
 Channel::~Channel()
+{
+}
+
+/* ADDITIONNAL CONSTRUCTOR *************************************************** */
+
+Channel::Channel(string_t channelName) : _name(channelName), _inviteOnly(false), _topicRestricted(false), _userLimit(0)
 {
 }
 

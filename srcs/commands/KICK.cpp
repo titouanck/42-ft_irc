@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   KICK.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:30:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 18:38:05 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:33:04 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	Client::KICK(string_t content)
 	if (pos != std::string::npos)
 		content = content.substr(pos + 1);
 	else
-		content = "";
+		content.clear();
 
 	transform(channelName.begin(), channelName.end(), channelName.begin(), tolower);
 	transform(givenNickname.begin(), givenNickname.end(), givenNickname.begin(), tolower);

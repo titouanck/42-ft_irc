@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 14:28:24 by ngriveau         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:01:50 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ Message	parseInput(string_t line)
 	Message		message;
 	size_t		pos;
 	
+	while (line.length() > 0 && (line[0] == ' ' || line[0] == '\t'))
+		line = line.substr(1);
 	if (line.length() == 0)
 		return ((Message){"", ""});
 	bzero(&message, sizeof(message));
@@ -46,8 +48,14 @@ void	handleClientInput(Client &client, string_t input)
 	string_t	toAdd;
 	size_t		pos;
 
-	if (input.length() <= 0 || input.compare("\n") == 0 || input.compare("\r\n") == 0)
+	if (input.length() <= 0)
 		return ;
+	else if (input.compare("\n") == 0 || input.compare("\r\n") == 0)
+	{
+		callCorrespondingCommand(client, parseInput(client.getBuffer()));
+		client.clearBuffer();
+		return ;
+	}
 	pos = input.find('\n');
 	if (pos != string_t::npos)
 	{
