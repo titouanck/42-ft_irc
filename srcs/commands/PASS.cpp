@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PASS.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:18:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 18:54:37 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 23:19:13 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,18 @@
 
 /* ************************************************************************** */
 
-void	Client::PASS(string_t passphrase)
+bool	Client::PASS(string_t passphrase)
 {
 	if (this->_authenticated)
-		return sendMessage(formatIrcMessage(g_servername, "NOTICE", this->_nickname, "You have already authenticated"));
+		return sendMessage(formatIrcMessage(g_servername, "NOTICE", this->_nickname, "You have already authenticated")), true;
 	if (passphrase.compare(Server::getPassword()) != 0)
 	{
 		std::cout << "----------------------------------------" << '\n';
 		sendMessage(formatIrcMessage(g_servername, ERR_PASSWDMISMATCH, this->_nickname, "Passwords don't match"));
 		this->disconnect();
-		return ;
+		return false;
 	}
 	this->_authenticated = true;
 	this->_pinged = false;
+	return true;
 }

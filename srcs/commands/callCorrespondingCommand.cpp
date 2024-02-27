@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:12:44 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 22:33:53 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:19:56 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,13 @@ void	callCorrespondingCommand(Client &client, Message message)
 		client.disconnect();
 		return ;
 	}
+	else if (message.command.compare("PASS") == 0)
+	{
+		if (!client.PASS(message.content))
+			return ;
+	}
 	else if (message.command.compare("CAP") == 0)
 		client.CAP(message.content);
-	else if (message.command.compare("PASS") == 0)
-		client.PASS(message.content);
 	else if (message.command.compare("USER") == 0)
 		client.USER(message.content);
 	else if (!(client.isAuthenticated()))
@@ -78,6 +81,8 @@ void	callCorrespondingCommand(Client &client, Message message)
 		client.PRIVMSG(message.content);
 	else if (message.command.compare("TOPIC") == 0)
 		client.TOPIC(message.content);
+	else if (message.command.compare("INVITE") == 0)
+		client.INVITE(message.content);
 	else if (message.command.compare("MODE") == 0)
 		client.MODE(message.content);
 	std::cout << "----------------------------------------" << '\n';

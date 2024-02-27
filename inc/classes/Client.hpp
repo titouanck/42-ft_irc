@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 17:04:43 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:18:53 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Client
 		string_t		getPingContent() const;
 		string_t		getBuffer() const;
 
-		void			PASS(string_t passphrase);
+		bool			PASS(string_t passphrase);
 		void			NICK(string_t nickname);
 		void			USER(string_t content);
 		void			CAP(string_t content);
@@ -64,6 +64,7 @@ class Client
 		void			KICK(string_t content);
 		void			PRIVMSG(string_t content);
 		void			TOPIC(string_t content);
+		void			INVITE(string_t content);
 		void			MODE(string_t content);
 
 		sockaddr_in6_t	addr;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MODE.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:32:20 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 23:37:31 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	_modeParameter(Client *client, Channel &channel, string_t content)
 	if (content[0] != '+' && content[0] != '-')
 		return ;
 	operation = content[0];
-	content = content.substr(1);
+	content.erase(0, 1);
 	pos = content.find_first_of("+-");
 	if (pos != std::string::npos)
 		remaining = content.substr(pos);
@@ -87,7 +87,7 @@ void	Client::MODE(string_t content)
 	size_t		pos;
 
 	if (content.length() >= 1 && content[0] == '#')
-		content = content.substr(1);
+		content.erase(0, 1);
 	else if (content.empty() || content[0] == '#')
 		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "MODE needs more parameters"));
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:34:18 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 16:27:22 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 23:13:56 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ class Channel
 		void							setUserLimit(unsigned short limit);
 		void							op(Client *client);
 		void							deop(Client *client);
+		void							invite(Client *client);
 	
 		const std::map<Client *, bool>	&getUsers() const;
 		string_t						getName() const;
@@ -50,12 +51,12 @@ class Channel
 		string_t						getTopicWhoTime() const;
 		bool							isOp(Client *client) const;
 		bool							isConnected(Client *client) const;
-		int								checkEligibilityToConnect(Client *client, string_t key) const;
 		bool							isInviteOnly() const;
 		bool							isTopicRestricted() const;
 		string_t						getChannelKey() const;
 		unsigned short					getUserLimit() const;
 		string_t						getModeList() const;
+		int								checkEligibilityToConnect(Client *client, string_t key) const;
 
 	private:
 		string_t						_name;

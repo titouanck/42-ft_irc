@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 16:51:35 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 23:13:26 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	Channel::disconnect(Client *client)
 		this->_users.erase(client);
 }
 
-/* DATA TRANSMISSION ******************************************************** */
+/* ************************************************************************** */
 
 void	Channel::sendMessage(Client *client, string_t content)
 {
@@ -132,6 +132,10 @@ void	Channel::setUserLimit(unsigned short limit)
 	this->_userLimit = limit;
 }
 
+void	Channel::invite(Client *client)
+{
+	this->_invitedUsers[client] = std::time(0);
+}
 
 /* GETTERS ****************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TOPIC.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:32:20 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 23:37:49 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	Client::TOPIC(string_t content)
 	
 	if (content.length() < 2 || content[0] != '#')
 		return ;
-	content = content.substr(1);
+	content.erase(0, 1);
 	pos = content.find_first_of(" \t");
 	channelName = content.substr(0, pos);
 	transform(channelName.begin(), channelName.end(), channelName.begin(), tolower);

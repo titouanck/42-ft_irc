@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PONG.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:27:37 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 15:33:09 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 23:37:43 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	Client::PONG(string_t content)
 {
 	if (content.length() >= 1 && content[0] == ':')
-		content = content.substr(1);
+		content.erase(0, 1);
 	if (content.compare(this->_pingContent) == 0)
 	{
 		this->_pinged = false;

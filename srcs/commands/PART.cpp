@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:29:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 22:53:19 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:37:38 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void _partChannel(Client *client, string_t channelName)
 	string_t	userList;
 
 	firstChar = channelName[0];
-	channelName = channelName.substr(1);
+	channelName.erase(0, 1);
 	
 	if (firstChar != '#' || channelName.empty())
 		return client->sendMessage(formatIrcMessage(g_servername, ERR_BADCHANMASK, client->getNickname() + " " + firstChar + channelName, "Syntax error, invalid channel name"));

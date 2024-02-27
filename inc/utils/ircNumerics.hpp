@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircNumerics.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/27 19:39:51 by ngriveau         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:05:46 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ enum IRCNUMERICS
 	ERR_NICKNAMEINUSE = 433,
 
 	ERR_NOTONCHANNEL = 442,
+	ERR_USERONCHANNEL = 443,
 
 	ERR_NOTREGISTERED = 451,
 

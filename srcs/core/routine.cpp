@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 19:04:08 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 23:38:04 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Message	parseInput(string_t line)
 	size_t		pos;
 	
 	while (line.length() > 0 && (line[0] == ' ' || line[0] == '\t'))
-		line = line.substr(1);
+		line.erase(0, 1);
 	if (line.empty())
 		return ((Message){"", ""});
 	bzero(&message, sizeof(message));
@@ -35,7 +35,7 @@ Message	parseInput(string_t line)
 		message.command = line.substr(0, pos);
 		message.content = line.substr(pos);
 		while (message.content[0] == ' ' || message.content[0] == '\t')
-			message.content = message.content.substr(1);
+			message.content.erase(0, 1);
 	}
 	else
 		message.command = line;
