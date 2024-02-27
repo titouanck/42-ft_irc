@@ -1,7 +1,7 @@
 FROM alpine
 
 RUN apk update && \
-    apk add build-base make
+    apk add build-base make valgrind
 
 WORKDIR /app
 COPY Makefile /app/Makefile
