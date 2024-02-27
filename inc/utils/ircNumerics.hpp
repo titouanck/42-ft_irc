@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircNumerics.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/27 18:47:41 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 19:39:51 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ enum IRCNUMERICS
 	ERR_BADCHANNELKEY = 475,
 	ERR_BADCHANMASK = 476,
 	
-	ERR_CHANOPRIVSNEEDED = 482
+	ERR_CHANOPRIVSNEEDED = 482,
+
+	ERR_NORECIPIENT = 411,
+	ERR_NOTEXTTOSEND = 412
 };
 
 /* ************************************************************************** */
