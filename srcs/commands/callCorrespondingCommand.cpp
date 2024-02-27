@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   callCorrespondingCommand.cpp                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:12:44 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 19:19:35 by ngriveau         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:33:53 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,10 @@ void	callCorrespondingCommand(Client &client, Message message)
 		client.PASS(message.content);
 	else if (message.command.compare("USER") == 0)
 		client.USER(message.content);
-	
-	// else if (!(client.isAuthenticated()))
-	// 	client.sendMessage(formatIrcMessage(g_servername, ERR_NOTREGISTERED, GUEST, "You must first authenticate"));
+	else if (!(client.isAuthenticated()))
+		client.sendMessage(formatIrcMessage(g_servername, ERR_NOTREGISTERED, GUEST, "You must first authenticate"));
 	else if (message.command.compare("NICK") == 0)
 		client.NICK(message.content);
-	
 	else if (client.getNickname().empty())
 		client.sendMessage(formatIrcMessage(g_servername, ERR_NONICKNAMEGIVEN, GUEST, "You must first set a nickname"));
 	else if (message.command.compare("PING") == 0)
