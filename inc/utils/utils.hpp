@@ -6,14 +6,13 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 19:48:31 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 19:56:37 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/26 21:30:24 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_HPP
 	#define UTILS_HPP
 	#include "utils/types.hpp"
-	class std::deque;
 
 /* ************************************************************************** */
 

@@ -6,4 +6,4 @@ RUN apk update && \
 WORKDIR /app
 COPY Makefile /app/Makefile
 
-CMD ["sh", "-c", "make && tail -f"]
+CMD ["sh", "-c", "make ; tail -f"]
