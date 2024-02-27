@@ -9,7 +9,7 @@ OBJS := $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 DEPS := $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.d,$(SRCS))
 
 CXX := c++
-CXXFLAGS :=  -std=c++98 -Wall -Wextra -Werror -I$(INCDIR) -MMD
+CXXFLAGS := -g -std=c++98 -Wall -Wextra -Werror -I$(INCDIR) -MMD
 
 # ********************************************************************** #
 

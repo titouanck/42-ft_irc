@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 17:07:42 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 14:28:24 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	handleClientInput(Client &client, string_t input)
 	string_t	toAdd;
 	size_t		pos;
 
-	if (input.length() <= 0)
+	if (input.length() <= 0 || input.compare("\n") == 0 || input.compare("\r\n") == 0)
 		return ;
 	pos = input.find('\n');
 	if (pos != string_t::npos)
