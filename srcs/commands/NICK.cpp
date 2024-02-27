@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NICK.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:23:55 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 19:02:24 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	Client::NICK(string_t nickname)
 {
 	bool	sendWelcomeBurst;
 
-	if (nickname.length() == 0)
+	if (nickname.empty())
 		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, GUEST, "NICK needs more parameters"));
 	sendWelcomeBurst = false;
 	transform(nickname.begin(), nickname.end(), nickname.begin(), tolower);
@@ -52,7 +52,7 @@ void	Client::NICK(string_t nickname)
 	else if (nicknames.find(nickname) != nicknames.end())
 		return sendMessage(formatIrcMessage(g_servername, ERR_NICKNAMEINUSE, GUEST, nickname + " :Nickname is already in use"));
 	
-	if (this->_nickname.length() == 0)
+	if (this->_nickname.empty())
 		sendWelcomeBurst = true;
 	else
 		nicknames.erase(this->_nickname);

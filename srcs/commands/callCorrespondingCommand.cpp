@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:12:44 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 14:57:30 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 19:08:49 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,39 @@
 
 /* ************************************************************************** */
 
+static void _printLine(const Client &client, const Message &message)
+{
+	string_t	tmp;
+	if (client.getNickname().empty())
+		std::cout << "(" << RED << "CLIENT " << client.getIndex() << NC ") ";
+	else
+		std::cout << "(" << RED << client.getNickname() << NC ") ";
+	std::cout << MAGENTA << message.command << " " << message.content << NC << '\n';
+	
+	tmp = client.getUsername();
+	if (tmp.length() > 0)
+		std::cout << " username: " << tmp << '\n';
+	
+	tmp = client.getRealname();
+	if (tmp.length() > 0)
+		std::cout << " realname: " << tmp << '\n';
+	
+	tmp = client.getIdentity();
+	if (tmp.compare(client.getName()) == 0)
+		std::cout << " host: " << tmp << " [" << client.getIp() << "]" << '\n';
+	else
+		std::cout << " host: " << tmp << '\n';
+}
+
 void	callCorrespondingCommand(Client &client, Message message)
 {
-	if (message.command.length() == 0);
+	_printLine(client, message);
+	if (message.command.empty());
 	else if (message.command.compare("QUIT") == 0)
 	{
 		std::cout << "----------------------------------------" << '\n';
 		client.disconnect();
+		return ;
 	}
 	else if (message.command.compare("CAP") == 0)
 		client.CAP(message.content);
@@ -32,12 +58,14 @@ void	callCorrespondingCommand(Client &client, Message message)
 		client.PASS(message.content);
 	else if (message.command.compare("USER") == 0)
 		client.USER(message.content);
-	// else if (!(client.isAuthenticated()))
-	// 	return client.sendMessage(formatIrcMessage(g_servername, ERR_NOTREGISTERED, GUEST, "You must first authenticate"));
+	
+	else if (!(client.isAuthenticated()))
+		client.sendMessage(formatIrcMessage(g_servername, ERR_NOTREGISTERED, GUEST, "You must first authenticate"));
 	else if (message.command.compare("NICK") == 0)
 		client.NICK(message.content);
-	// else if (client.getNickname().length() == 0)
-	// 	return client.sendMessage(formatIrcMessage(g_servername, ERR_NONICKNAMEGIVEN, GUEST, "You must first set a nickname"));
+	
+	else if (client.getNickname().empty())
+		client.sendMessage(formatIrcMessage(g_servername, ERR_NONICKNAMEGIVEN, GUEST, "You must first set a nickname"));
 	else if (message.command.compare("PING") == 0)
 		client.PING(message.content);
 	else if (message.command.compare("PONG") == 0)
@@ -54,4 +82,5 @@ void	callCorrespondingCommand(Client &client, Message message)
 		client.TOPIC(message.content);
 	else if (message.command.compare("MODE") == 0)
 		client.MODE(message.content);
+	std::cout << "----------------------------------------" << '\n';
 }

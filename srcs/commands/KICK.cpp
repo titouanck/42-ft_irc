@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:30:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 15:33:04 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	Client::KICK(string_t content)
 	string_t		givenNickname;
 	size_t			pos;
 
-	if (content.length() == 0)
+	if (content.empty())
 		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "KICK needs more parameters"));
 	else if (content[0] != '#' || content.length() == 1)
-		return sendMessage(formatIrcMessage(g_servername, ERR_BADCHANMASK, this->_nickname + " " + content, "Invalid channel name"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_BADCHANMASK, this->_nickname + " " + content, "Syntax error, invalid channel name"));
 	
 	content = content.substr(1);
 	pos = content.find_first_of(" \t");
@@ -41,7 +41,7 @@ void	Client::KICK(string_t content)
 	pos = content.find(':');
 	givenNickname = rTrim(content.substr(0, pos));
 	
-	if (givenNickname.length() == 0)
+	if (givenNickname.empty())
 		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " #" + channelName, "KICK needs more parameters"));
 	
 	if (pos != std::string::npos)

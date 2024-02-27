@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   formatIrcMessage.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 03:04:13 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/20 04:26:25 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ string_t	formatIrcMessage(string_t prefix, string_t command, string_t params, st
 	if (prefix.length() > 0)
 		ircMessage += ":" + prefix + " ";
 	transform(command.begin(), command.end(), command.begin(), toupper);
-	if (command.length() == 0)
+	if (command.empty())
 		command = "-";
 	ircMessage += command + " ";
 	if (params.length() > 0)

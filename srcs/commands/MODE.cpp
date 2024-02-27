@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MODE.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:32:20 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 17:49:31 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	_modeParameter(Client *client, Channel &channel, string_t content)
 	if (pos != std::string::npos)
 		remaining = content.substr(pos);
 	content = content.substr(0, pos);
-	if (content.length() == 0 || (content.length() >= 2 && (content[1] != ' ' && content[1] != '\t')))
+	if (content.empty() || (content.length() >= 2 && (content[1] != ' ' && content[1] != '\t')))
 		return client->sendMessage(formatIrcMessage(g_servername, "MODE", client->getNickname(), "Syntax error, MODE <channel|nickname> [[+|-]modechars [parameters]]"));
 	modechar = content[0];
 	content = trim(content.substr(1));
@@ -88,7 +88,7 @@ void	Client::MODE(string_t content)
 
 	if (content.length() >= 1 && content[0] == '#')
 		content = content.substr(1);
-	else if (content.length() == 0 || content[0] == '#')
+	else if (content.empty() || content[0] == '#')
 		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "MODE needs more parameters"));
 	else
 		return ;

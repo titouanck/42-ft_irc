@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printConnectionStatus.cpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:35:44 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 03:36:28 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:08:28 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

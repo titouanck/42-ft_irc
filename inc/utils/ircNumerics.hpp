@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircNumerics.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/26 18:49:49 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:47:41 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ enum IRCNUMERICS
 	ERR_NOTREGISTERED = 451,
 
 	ERR_NEEDMOREPARAMS = 461,
+
+	ERR_PASSWDMISMATCH = 464,
 
 	ERR_CHANNELISFULL = 471,
 

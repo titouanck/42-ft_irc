@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PART.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:29:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 19:32:02 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	Client::PART(string_t content)
 	string_t	remaining;
 	size_t		pos;
 
-	if (content.length() == 0)
+	if (content.empty())
 		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "PART needs more parameters"));
 	else if (content[0] != '#' || content.length() == 1)
-		return sendMessage(formatIrcMessage(g_servername, ERR_BADCHANMASK, this->_nickname + " " + content, "Invalid channel name"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_BADCHANMASK, this->_nickname + " " + content, "Syntax error, invalid channel name"));
 
 	pos = content.find(',');
 	if (pos != std::string::npos)

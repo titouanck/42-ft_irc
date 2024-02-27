@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 17:07:15 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static string_t	joinBurst(Client *client, string_t channelName, string_t userLis
 		str += formatIrcMessage(g_servername, RPL_TOPIC, nickname + " #" + channelName, channelTopic);
 		str += formatIrcMessage(g_servername, RPL_TOPICWHOTIME, nickname + " #" + channelName + " " + g_channels[channelName].getTopicWhoTime(), "");
 	}
-	if (userList.length() == 0)
+	if (userList.empty())
 		str += formatIrcMessage(g_servername, RPL_NAMREPLY, nickname + " = #" + channelName, "@" + nickname);
 	else
 		str += formatIrcMessage(g_servername, RPL_NAMREPLY, nickname + " = #" + channelName, nickname + " " + userList);
@@ -98,7 +98,7 @@ void	Client::JOIN(string_t content)
 	string_t				channelKey;
 	size_t					pos;
 	
-	if (content.length() == 0)
+	if (content.empty())
 		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "JOIN needs more parameters"));
 	splitedElements = split(content, ",");
 

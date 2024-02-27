@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TOPIC.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:32:20 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/26 17:49:14 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	Client::TOPIC(string_t content)
 		return sendMessage(formatIrcMessage(g_servername, ERR_NOTONCHANNEL, this->_nickname + " #" + channelName, "You're not on that channel"));
 	if (pos == std::string::npos)
 	{
-		if (channelTopic.length() == 0)
+		if (channelTopic.empty())
 			return sendMessage(formatIrcMessage(g_servername, RPL_NOTOPIC, this->_nickname + " #" + channelName, "No topic is set"));
 		sendMessage(formatIrcMessage(g_servername, RPL_TOPIC, this->_nickname + " #" + channelName, channelTopic));
 		sendMessage(formatIrcMessage(g_servername, RPL_TOPICWHOTIME, this->_nickname + " #" + channelName + " " + channel->getTopicWhoTime(), ""));

@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 15:33:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 	}
 	else
 		return std::cerr << "Usage: ./" << EXECUTABLE << " [port] <password>" << '\n', 1;
-	if (password.length() == 0)
+	if (password.empty())
 		return std::cerr << "Error: password cannot be empty" << '\n', 1;
 	g_servername = getMyHostname();
 	g_serversion = "0.1";
