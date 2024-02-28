@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ircNumerics.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/28 11:57:18 by ngriveau         ###   ########.fr       */
+/*   Updated: 2024/02/28 11:44:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ enum IRCNUMERICS
 	RPL_YOURHOST = 002,
 	RPL_CREATED = 003,
 	RPL_MYINFO = 004,
+
+	RPL_UMODEIS = 221,
 
 	RPL_CHANNELMODEIS = 324,
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 12:03:37 by ngriveau         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:09:04 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,14 @@ string_t	Client::getFullname() const
 string_t	Client::getBuffer() const
 {
 	return this->_buffer;
+}
+
+string_t	Client::getModeList() const
+{
+	if (_operator == true)
+		return "o";
+	else
+		return "";
 }
 
 /* ************************************************************************** */

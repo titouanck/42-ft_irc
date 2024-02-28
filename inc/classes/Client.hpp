@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:29:17 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 02:01:00 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:00:36 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ class Client
 		string_t		getRealname() const;
 		string_t		getFullname() const;
 		string_t		getBuffer() const;
+		string_t		getModeList() const;
 
 		bool			PASS(string_t passphrase);
 		void			NICK(string_t nickname);
