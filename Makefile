@@ -28,10 +28,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 
 # ********************************************************************** #
 
-clean:
-	rm -rf objs
-	rm -rf deps
-
 docker:
 	clear
 	docker kill ircserv || true
@@ -41,6 +37,10 @@ docker:
 	sudo docker-compose build
 	sudo docker-compose up -d
 	sudo docker exec -it ircserv sh
+
+clean:
+	rm -rf objs
+	rm -rf deps
 
 fclean: clean
 	rm -f $(NAME)
