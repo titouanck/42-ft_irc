@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 02:18:44 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:18:44 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "commands/callCorrespondingCommand.hpp"
 #include "classes/Server.hpp"
 #include "classes/Client.hpp"
+#include "utils/utils.hpp"
 
 #define BUFFER_SIZE 2
 
@@ -34,9 +35,7 @@ Message	parseInput(string_t line)
 	if (pos != string_t::npos)
 	{
 		message.command = line.substr(0, pos);
-		message.content = line.substr(pos);
-		while (message.content[0] == ' ' || message.content[0] == '\t')
-			message.content.erase(0, 1);
+		message.content = trim(line.substr(pos));
 	}
 	else
 		message.command = line;

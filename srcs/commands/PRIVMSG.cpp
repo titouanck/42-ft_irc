@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PRIVMSG.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:33:04 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 12:59:56 by ngriveau         ###   ########.fr       */
+/*   Updated: 2024/02/28 14:17:03 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	Client::PRIVMSG(string_t content)
 	size_t		pos;
 	string_t	msg;
 	if (content.length() <= 2)
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "PRIVMSG needs more parameters"));	
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " " + "PRIVMSG", "PRIVMSG needs more parameters"));	
 	if (trim(content)[0] == ':')
 		return sendMessage(formatIrcMessage(g_servername, ERR_NORECIPIENT, this->_nickname, "PRIVMSG needs a destinatair"));	
 	pos = content.find(':');

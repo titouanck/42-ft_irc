@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:23:55 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/28 13:15:03 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	Client::NICK(string_t nickname)
 	bool	sendWelcomeBurst;
 
 	if (nickname.empty())
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, GUEST, "NICK needs more parameters"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, (string_t)GUEST + " " + "NICK", "NICK needs more parameters"));
 	sendWelcomeBurst = false;
 	transform(nickname.begin(), nickname.end(), nickname.begin(), tolower);
 	if (this->_nickname.compare(nickname) == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   KICK.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:30:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 23:37:03 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:30:19 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void	Client::KICK(string_t content)
 	size_t			pos;
 
 	if (content.empty())
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "KICK needs more parameters"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " " + "KICK", "KICK needs more parameters"));
 	else if (content[0] != '#' || content.length() == 1)
 		return sendMessage(formatIrcMessage(g_servername, ERR_BADCHANMASK, this->_nickname + " " + content, "Syntax error, invalid channel name"));
 	
 	content.erase(0, 1);
 	pos = content.find_first_of(" \t");
 	if (pos == std::string::npos)
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " #" + channelName, "KICK needs more parameters"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " " + "KICK", "KICK needs more parameters"));
 	channelName = content.substr(0, pos);
 	
 	if (!containsOnlyAllowedChars(channelName))
@@ -42,7 +42,7 @@ void	Client::KICK(string_t content)
 	givenNickname = rTrim(content.substr(0, pos));
 	
 	if (givenNickname.empty())
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " #" + channelName, "KICK needs more parameters"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " " + "KICK", "KICK needs more parameters"));
 	
 	if (pos != std::string::npos)
 		content = content.substr(pos + 1);

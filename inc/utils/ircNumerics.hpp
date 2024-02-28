@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 04:02:16 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/28 11:44:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/28 13:13:08 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ enum IRCNUMERICS
 	ERR_PASSWDMISMATCH = 464,
 
 	ERR_CHANNELISFULL = 471,
+	ERR_UNKNOWNMODE = 472,
 
 	ERR_INVITEONLYCHAN = 473,
 	ERR_BANNEDFROMCHAN = 474,

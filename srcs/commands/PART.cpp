@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PART.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:29:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 12:04:29 by ngriveau         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:30:44 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	Client::PART(string_t content)
 	std::deque<string_t>	channelNames;
 	
 	if (content.empty())
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "PART needs more parameters"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " " + "PART", "PART needs more parameters"));
 	channelNames = split(content, ",");
 
 	while (channelNames.size() > 0)

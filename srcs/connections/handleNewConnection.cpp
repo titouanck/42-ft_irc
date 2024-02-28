@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handleNewConnection.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 02:03:17 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:56:13 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

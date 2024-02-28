@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   INVITE.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 22:59:35 by tchevrie          #+#    #+#             */
-/*   Updated: 2024/02/27 23:42:07 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:29:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	Client::INVITE(string_t content)
 	size_t			pos;
 
 	if (content.empty())
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname, "INVITE needs more parameters"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " " + "INVITE", "INVITE needs more parameters"));
 	
 	pos = content.find_first_of(" \t");
 	if (pos == std::string::npos)
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, content, "INVITE needs more parameters"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " " + "INVITE", "INVITE needs more parameters"));
 	
 	givenNickname = content.substr(0, pos);
 	channelName = trim(content.substr(pos));

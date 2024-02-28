@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TOPIC.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:32:20 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 23:37:49 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:31:06 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	Client::TOPIC(string_t content)
 	}
 	pos = content.find(':');
 	if (pos == std::string::npos)
-		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " #" + channelName, "TOPIC needs more parameters"));
+		return sendMessage(formatIrcMessage(g_servername, ERR_NEEDMOREPARAMS, this->_nickname + " " + "TOPIC", "TOPIC needs more parameters"));
 	content = content.substr(pos + 1);
 	if (channel->isTopicRestricted() && channel->isOp(this) == false)
 		return sendMessage(formatIrcMessage(g_servername, ERR_CHANOPRIVSNEEDED, this->_nickname + " #" + channelName, "You're not channel operator"));
