@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 02:00:55 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:03:37 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	Client::disconnect()
 	{
 		if (g_channels.find(*it) != g_channels.end())
 		{
-			g_channels[*it].sendMessage(this, formatIrcMessage(this->getFullname(), "PART", "#" + *it, *it));
+			g_channels[*it].sendMessage(this, formatIrcMessage(this->getFullname(), "PART", "#" + *it, ""));
 			g_channels[*it].disconnect(this);
 			if (g_channels[*it].getUsers().empty())
 				g_channels.erase(*it);

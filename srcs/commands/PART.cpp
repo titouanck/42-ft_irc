@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PART.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:29:58 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 23:37:38 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:04:29 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void _partChannel(Client *client, string_t channelName)
 		return client->sendMessage(formatIrcMessage(g_servername, ERR_NOSUCHCHANNEL, client->getNickname() + " #" + channelName, "No such channel"));
 	else if (!g_channels[channelName].isConnected(client) || client->_channels.find(channelName) == client->_channels.end())
 		return client->sendMessage(formatIrcMessage(g_servername, ERR_NOTONCHANNEL, client->getNickname() + " #" + channelName, "You're not on channel"));
-	g_channels[channelName].sendMessage(NULL, formatIrcMessage(client->getFullname(), "PART", "#" + channelName, channelName));
+	g_channels[channelName].sendMessage(NULL, formatIrcMessage(client->getFullname(), "PART", "#" + channelName, ""));
 	g_channels[channelName].disconnect(client);
 	client->_channels.erase(channelName);
 	if (g_channels[channelName].getUsers().empty())
