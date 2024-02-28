@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 01:46:34 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 23:13:26 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 14:50:17 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,8 @@ string_t	Channel::getChannelKey() const
 
 int	Channel::checkEligibilityToConnect(Client *client, string_t key) const
 {
+	if (client->isOperator())
+		return 0;
 	if (this->_userLimit != 0 && this->_users.size() >= this->_userLimit)
 		return ERR_CHANNELISFULL;
 	if (this->_inviteOnly && (this->_invitedUsers.find(client) == this->_invitedUsers.end() || std::time(0) > (this->_invitedUsers.at(client) + 300)))
