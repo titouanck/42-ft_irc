@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
+/*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:43:11 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 18:58:17 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/28 01:54:06 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "classes/Server.hpp"
 #include "classes/Channel.hpp"
 #include "classes/Client.hpp"
+#include "core/signals.hpp"
 
 /* ************************************************************************** */
 
@@ -39,6 +40,7 @@ int	main(int argc, char **argv)
 		return std::cerr << "Usage: ./" << EXECUTABLE << " [port] <password>" << '\n', 1;
 	if (password.empty())
 		return std::cerr << "Error: password cannot be empty" << '\n', 1;
+	signalsHandler();
 	g_servername = getMyHostname();
 	g_serversion = "0.1";
 	return !irc_serv(port, password);
@@ -51,8 +53,12 @@ bool	irc_serv(unsigned int port, string_t password)
 	
 	if (!Server::init(port, password))
 		return false;
-    bzero(pollfds, sizeof(pollfds));
-    bzero(clients, sizeof(clients));
+	
+	for (size_t i = 0; i < MAX_CLIENTS + 1; i++)
+	{
+		clients[i] = Client();
+		bzero(pollfds + i, sizeof(pollfd_t));
+	}
 	pollfds[0].fd = Server::sock;
     pollfds[0].events = POLLIN;
 
@@ -67,6 +73,7 @@ bool	irc_serv(unsigned int port, string_t password)
 	std::cout << "----------------------------------------" << '\n';
 	
 	routine();
+
 	Server::closeSocket();
 	return true;
 }

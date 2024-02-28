@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:53:09 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/20 03:00:44 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:03:17 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	acceptConn(Client &client, int index)
 {
 	pollfd_t	&pollfd = g_pollfds[index];
 
-	client._channels = std::set<string_t>(); /* Container needs to be initialized to work */
 	client.len = sizeof(client.addr);
 	pollfd.fd = accept(Server::sock, (sockaddr_t *)&(client.addr), &(client.len));
 	if (pollfd.fd == -1)

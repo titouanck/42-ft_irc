@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:12:44 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 23:19:56 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:00:18 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void	callCorrespondingCommand(Client &client, Message message)
 		client.sendMessage(formatIrcMessage(g_servername, ERR_NONICKNAMEGIVEN, GUEST, "You must first set a nickname"));
 	else if (message.command.compare("PING") == 0)
 		client.PING(message.content);
-	else if (message.command.compare("PONG") == 0)
-		client.PONG(message.content);
 	else if (message.command.compare("JOIN") == 0)
 		client.JOIN(message.content);
 	else if (message.command.compare("PART") == 0)

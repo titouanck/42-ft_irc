@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:31:22 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 22:49:36 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:00:55 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ std::map<string_t, Client *>	Client::nicknames;
 
 Client::Client() : _channels()
 {
+	bzero(&addr, sizeof(sockaddr_in6_t));
+	bzero(&len, sizeof(socklen_t));
+	bzero(&_ip, sizeof(char) * INET6_ADDRSTRLEN);
+	bzero(&_name, sizeof(char) * NI_MAXHOST);
+	
+	_channels = std::set<string_t>();
+
+	_index = 0;
+
+	_operator = false;
+	_authenticated = false;
 }
 
 Client::Client(const Client &copy)
@@ -34,13 +45,23 @@ Client::Client(const Client &copy)
 
 Client &Client::operator=(const Client &copy)
 {
-	Client	*copyPtr;
-	int		size;
+	this->addr = copy.addr;
+	this->len = copy.len;
 	
-	copyPtr = const_cast<Client *>(&copy);
-	size = sizeof(Client);
-	for (int i = 0; i < size; i++)
-		reinterpret_cast<char *>(this)[i] = reinterpret_cast<char *>(copyPtr)[i];
+	for (size_t i = 0; i < sizeof(char) * INET6_ADDRSTRLEN; i++)
+		this->_ip[i] = copy._ip[i];
+	for (size_t i = 0; i < sizeof(char) * NI_MAXHOST; i++)
+		this->_name[i] = copy._name[i];
+	
+	this->_channels = copy._channels;
+	this->_index = copy._index;
+	this->_operator = copy._operator;
+	this->_authenticated = copy._authenticated;
+	this->_identity = copy._identity;
+	this->_buffer = copy._buffer;
+	this->_nickname = copy._nickname;
+	this->_username = copy._username;
+	this->_realname = copy._realname;
 	return *this;
 }
 
@@ -69,7 +90,7 @@ void	Client::disconnect()
 	close(pollfd.fd);
 	bzero(&pollfd, sizeof(pollfd));
 	printConnectionStatus('-', *this);
-	bzero(this, sizeof(*this));
+	*this = Client();
 }
 
 void	Client::sendMessage(string_t content)
@@ -117,21 +138,12 @@ void	Client::setIdentity()
 			ip = ip.substr(7);
 		oss << ip;
 	}
-	this->_pingTime = std::time(0);
-	this->_pinged = true;
 	this->_identity = oss.str();
 }
 
 void	Client::setOperator(bool isOp)
 {
 	this->_operator = isOp;
-}
-
-void	Client::setPingContent(string_t content)
-{
-	this->_pingContent = content;
-	this->_pingTime = std::time(0);
-	this->_pinged = true;
 }
 
 /* GETTERS ******************************************************************* */
@@ -154,16 +166,6 @@ string_t	Client::getName() const
 string_t	Client::getIdentity() const
 {
 	return this->_identity;
-}
-
-std::time_t Client::getPingTime() const
-{
-	return this->_pingTime;
-}
-
-bool	Client::isPinged() const
-{
-	return this->_pinged;
 }
 
 bool	Client::isOperator() const
@@ -202,11 +204,6 @@ string_t	Client::getFullname() const
 	if (this->_identity.length() > 0)
 		fullName += "@" + this->_identity;
 	return fullName;
-}
-
-string_t	Client::getPingContent() const
-{
-	return this->_pingContent;
 }
 
 string_t	Client::getBuffer() const

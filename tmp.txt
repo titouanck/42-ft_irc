@@ -1,0 +1,26 @@
+EINTR
+==89== 
+==89== HEAP SUMMARY:
+==89==     in use at exit: 13 bytes in 1 blocks
+==89==   total heap usage: 8 allocs, 7 frees, 74,119 bytes allocated
+==89== 
+==89== 13 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==89==    at 0x48E9C58: operator new(unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so)
+==89==    by 0x4A8AF1B: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/libstdc++.so.6.0.32)
+==89==    by 0x4A8B2D3: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::operator=(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/libstdc++.so.6.0.32)
+==89==    by 0x10D5DF: Client::setIdentity() (Client.cpp:122)
+==89==    by 0x119F9F: acceptConn(Client&, int) (handleNewConnection.cpp:46)
+==89==    by 0x11A0D7: handleNewConnection(Client*) (handleNewConnection.cpp:58)
+==89==    by 0x10B947: routine() (routine.cpp:138)
+==89==    by 0x10C343: irc_serv(unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (main.cpp:71)
+==89==    by 0x10BFC7: main (main.cpp:46)
+==89== 
+==89== LEAK SUMMARY:
+==89==    definitely lost: 13 bytes in 1 blocks
+==89==    indirectly lost: 0 bytes in 0 blocks
+==89==      possibly lost: 0 bytes in 0 blocks
+==89==    still reachable: 0 bytes in 0 blocks
+==89==         suppressed: 0 bytes in 0 blocks
+==89== 
+==89== For lists of detected and suppressed errors, rerun with: -s
+==89== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

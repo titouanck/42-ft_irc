@@ -1,0 +1,70 @@
+==689== Memcheck, a memory error detector
+==689== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==689== Using Valgrind-3.22.0-bd4db67b1d-20231031 and LibVEX; rerun with -h for copyright info
+==689== Command: ./ircserv pwd
+==689== Parent PID: 7
+==689== 
+--689-- 
+--689-- Valgrind options:
+--689--    --leak-check=full
+--689--    --show-leak-kinds=all
+--689--    --track-origins=yes
+--689--    --verbose
+--689--    --log-file=srcs/valgrind-out.txt
+--689-- Contents of /proc/version:
+--689--   Linux version 6.4.16-linuxkit (root@buildkitsandbox) (gcc (Alpine 12.2.1_git20220924-r10) 12.2.1 20220924, GNU ld (GNU Binutils) 2.40) #1 SMP PREEMPT Thu Nov 16 10:49:20 UTC 2023
+--689-- 
+--689-- Arch and hwcaps: ARM64, LittleEndian, v8-fhm-dpbcvadp-sha3-rdm-atomics-fp16-vfp16
+--689-- Page sizes: currently 4096, max supported 65536
+--689-- Valgrind library directory: /usr/libexec/valgrind
+--689-- Reading syms from /app/ircserv
+--689-- Reading syms from /lib/ld-musl-aarch64.so.1
+--689-- Reading syms from /usr/libexec/valgrind/memcheck-arm64-linux
+--689--    object doesn't have a dynamic symbol table
+--689-- Scheduler: using generic scheduler lock implementation.
+--689-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==689== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-689-by-???-on-8978b8e82c80
+==689== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-689-by-???-on-8978b8e82c80
+==689== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-689-by-???-on-8978b8e82c80
+==689== 
+==689== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==689== don't want to do, unless you know exactly what you're doing,
+==689== or are doing some strange experiment):
+==689==   /usr/libexec/valgrind/../../bin/vgdb --pid=689 ...command...
+==689== 
+==689== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==689==   /path/to/gdb ./ircserv
+==689== and then give GDB the following command
+==689==   target remote | /usr/libexec/valgrind/../../bin/vgdb --pid=689
+==689== --pid is optional if only one valgrind process is running
+==689== 
+--689-- Reading syms from /usr/libexec/valgrind/vgpreload_core-arm64-linux.so
+--689-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so
+--689-- REDIR: 0x4013df0 (libc.musl-aarch64.so.1:memset) redirected to 0x48f3e2c (memset)
+--689-- REDIR: 0x405e8d0 (libc.musl-aarch64.so.1:strlen) redirected to 0x48f0e90 (strlen)
+--689-- REDIR: 0x4013c60 (libc.musl-aarch64.so.1:memcpy) redirected to 0x48f22a0 (memcpy)
+--689-- REDIR: 0x405e600 (libc.musl-aarch64.so.1:strcpy) redirected to 0x48f0f54 (strcpy)
+--689-- REDIR: 0x405e504 (libc.musl-aarch64.so.1:strchr) redirected to 0x48f0ab4 (strchr)
+--689-- REDIR: 0x405ea34 (libc.musl-aarch64.so.1:strncmp) redirected to 0x48f141c (strncmp)
+--689-- REDIR: 0x405eaf8 (libc.musl-aarch64.so.1:strnlen) redirected to 0x48f0e48 (strnlen)
+--689-- REDIR: 0x405ec0c (libc.musl-aarch64.so.1:strspn) redirected to 0x48f4f60 (strspn)
+--689-- REDIR: 0x405e624 (libc.musl-aarch64.so.1:strcspn) redirected to 0x48f4ec0 (strcspn)
+--689-- Reading syms from /usr/lib/libstdc++.so.6.0.32
+--689-- REDIR: 0x405eb60 (libc.musl-aarch64.so.1:strrchr) redirected to 0x48f099c (strrchr)
+--689-- Reading syms from /usr/lib/libgcc_s.so.1
+--689-- REDIR: 0x4028bac (libc.musl-aarch64.so.1:malloc) redirected to 0x48e94f0 (malloc)
+--689-- REDIR: 0x405e110 (libc.musl-aarch64.so.1:memmove) redirected to 0x48f3ed0 (memmove)
+--689-- REDIR: 0x405e5d8 (libc.musl-aarch64.so.1:strcmp) redirected to 0x48f1bc8 (strcmp)
+--689-- REDIR: 0x405e530 (libc.musl-aarch64.so.1:strchrnul) redirected to 0x48f46dc (strchrnul)
+--689-- REDIR: 0x405dcac (libc.musl-aarch64.so.1:memcmp) redirected to 0x48f3618 (memcmp)
+--689-- REDIR: 0x49d94f0 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x48e9bd0 (operator new(unsigned long))
+--689-- REDIR: 0x49d72e0 (libstdc++.so.6:operator delete(void*)) redirected to 0x48ec744 (operator delete(void*))
+--689-- REDIR: 0x4028ac0 (libc.musl-aarch64.so.1:free) redirected to 0x48ebfe4 (free)
+==689== 
+==689== HEAP SUMMARY:
+==689==     in use at exit: 0 bytes in 0 blocks
+==689==   total heap usage: 3 allocs, 3 frees, 74,004 bytes allocated
+==689== 
+==689== All heap blocks were freed -- no leaks are possible
+==689== 
+==689== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

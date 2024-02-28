@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:18:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 23:19:13 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:59:00 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,5 @@ bool	Client::PASS(string_t passphrase)
 		return false;
 	}
 	this->_authenticated = true;
-	this->_pinged = false;
 	return true;
 }

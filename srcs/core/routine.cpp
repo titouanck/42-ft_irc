@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 23:38:04 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:04:56 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ Message	parseInput(string_t line)
 		line.erase(0, 1);
 	if (line.empty())
 		return ((Message){"", ""});
-	bzero(&message, sizeof(message));
+	message.command.clear();
+	message.content.clear();
 	pos = line.find_first_of(" \t");
 	if (pos != string_t::npos)
 	{
@@ -93,26 +94,7 @@ void	readSocket(Client &client)
 		return (client.disconnect());
 	buffer[bytesRead] = '\0';
 
-	// if (client.getNickname().empty())
-	// 	std::cout << "(" << RED << "CLIENT " << client.getIndex() << NC ") " << MAGENTA << buffer << NC;
-	// else
-	// 	std::cout << "(" << RED << client.getNickname() << NC ") " << MAGENTA << buffer << NC;
-	// if (!endsWith(buffer, "\n"))
-	// 	std::cout << '\n';
-	// clientInfo = client.getUsername();
-	// if (clientInfo.length() > 0)
-	// 	std::cout << " username: " << clientInfo << '\n';
-	// clientInfo = client.getRealname();
-	// if (clientInfo.length() > 0)
-	// 	std::cout << " realname: " << clientInfo << '\n';
-	// clientInfo = client.getIdentity();
-	// if (clientInfo.compare(client.getName()) == 0)
-	// 	std::cout << " host: " << clientInfo << " [" << client.getIp() << "]" << '\n';
-	// else
-	// 	std::cout << " host: " << clientInfo << '\n';
 	handleClientInput(client, buffer);
-	// if (client.getIp().length() != 0)
-	// 	std::cout << "----------------------------------------" << '\n';
 }
 
 void	routine()
@@ -124,7 +106,8 @@ void	routine()
 		pollResult = poll(g_pollfds, MAX_CLIENTS + 1, -1);
         if (pollResult == -1)
 		{
-			printError("poll");
+			if (errno != EINTR)
+				printError("poll");
 			break ;
 		}
 		for (int i = 0; i <= MAX_CLIENTS; ++i)
@@ -137,6 +120,11 @@ void	routine()
 					readSocket(g_clients[i]);
 			}
 		}
+	}
+	for (size_t i = 1; i < MAX_CLIENTS + 1; i++)
+	{
+		if (g_clients[i].getIp().empty() == false)
+			g_clients[i].disconnect();
 	}
 }
 

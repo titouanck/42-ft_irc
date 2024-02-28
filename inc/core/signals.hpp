@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PONG.cpp                                           :+:      :+:    :+:   */
+/*   signals.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 01:27:37 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/27 23:37:43 by tchevrie         ###   ########.fr       */
+/*   Created: 2024/02/28 00:02:15 by tchevrie          #+#    #+#             */
+/*   Updated: 2024/02/28 00:03:28 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "classes/Client.hpp"
+#ifndef SIGNALS_HPP
+	#define SIGNALS_HPP
 
 /* ************************************************************************** */
 
-void	Client::PONG(string_t content)
-{
-	if (content.length() >= 1 && content[0] == ':')
-		content.erase(0, 1);
-	if (content.compare(this->_pingContent) == 0)
-	{
-		this->_pinged = false;
-		this->_pingContent.clear();
-	}
-}
+int signalsHandler();
+
+/* ************************************************************************** */
+
+#endif
