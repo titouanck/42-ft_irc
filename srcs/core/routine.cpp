@@ -6,7 +6,7 @@
 /*   By: tchevrie <tchevrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:15:52 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 02:04:56 by tchevrie         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:18:44 by tchevrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,10 @@ void	readSocket(Client &client)
 	string_t	clientInfo;
 
 	index = client.getIndex();
-	bytesRead = read(g_pollfds[index].fd, buffer, sizeof(buffer));
+	bytesRead = recv(g_pollfds[index].fd, buffer, sizeof(buffer), 0);
 	if (bytesRead <= 0)
 		return (client.disconnect());
 	buffer[bytesRead] = '\0';
-
 	handleClientInput(client, buffer);
 }
 
