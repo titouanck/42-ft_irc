@@ -6,7 +6,7 @@
 /*   By: titouanck <chevrier.titouan@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 01:28:03 by titouanck         #+#    #+#             */
-/*   Updated: 2024/02/28 12:29:34 by titouanck        ###   ########.fr       */
+/*   Updated: 2024/02/28 14:47:23 by titouanck        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static string_t	joinBurst(Client *client, string_t channelName, string_t userLis
 	g_channels[channelName].sendMessage(NULL, formatIrcMessage(client->getFullname(), "JOIN", "#" + channelName, ""));
 	str += formatIrcMessage(client->getFullname(), "JOIN", "#" + channelName, "");
 	if (modeList.length() > 0)
-		str += formatIrcMessage(g_servername, "MODE", nickname + " #" + channelName + " +" + modeList, "");
+		str += formatIrcMessage(g_servername, "MODE", "#" + channelName + " +" + modeList, "");
 	if (channelTopic.length() > 0)
 	{
 		str += formatIrcMessage(g_servername, RPL_TOPIC, nickname + " #" + channelName, channelTopic);
